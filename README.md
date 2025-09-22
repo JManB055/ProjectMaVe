@@ -1,4 +1,5 @@
 # Project MaVe
 
 ## Maintainers
-Haoran Yue
+Haoran
+Alex
