@@ -2,3 +2,5 @@
 
 ## Maintainers
 Aiden Carrera
+Haoran
+Alex

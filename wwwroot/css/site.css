@@ -20,3 +20,57 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.archivo-black-regular {
+    font-family: "Archivo Black", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+.urbanist-bold {
+    font-family: "Urbanist", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+}
+
+
+.urbanist-medium {
+    font-family: "Urbanist", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.bg-yellow {
+    background-color: #eae164;
+}
+
+.bg-light-orange {
+    background-color: #fffcf6;
+}
+
+.bg-blue {
+    background-color: #3c6ca8;
+}
+
+.bg-black {
+    background-color: #000000;
+}
+
+.text-yellow {
+    color: #eae164;
+}
+
+.text-light-orange {
+    color: #fffcf6;
+}
+
+.text-blue {
+    color: #3c6ca8;
+}
+
+.text-black {
+    color: #000000;
+}
