@@ -2,5 +2,6 @@
 
 ## Maintainers
 Aiden Carrera
-Haoran
-Alex
+Haoran Yue
+Alex Seda
+Joshua Wyckoff
