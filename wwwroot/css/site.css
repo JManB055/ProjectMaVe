@@ -15,6 +15,7 @@ html {
 }
 
 body {
+  padding-top: 50px; /* Adjust based on navbar height */
   margin-bottom: 60px;
 }
 
