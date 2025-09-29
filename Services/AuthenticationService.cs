@@ -24,9 +24,4 @@ public class AuthenticationService : IAuthenticationService
 		
         return currentUser;
     }
-
-    public string GetUserName(int id)
-    {
-        return "Admin";
-    }
 }
