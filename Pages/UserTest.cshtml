@@ -1,10 +1,12 @@
 ﻿@page
-@model IndexModel
+@using ProjectMaVe.Interfaces
+@model UserTestModel
+@inject IAuthenticationService authnService
 @{
     ViewData["Title"] = "Home page";
 }
 
 <div class="text-center">
-    <h1 class="display-4 archivo-black-regular text-blue">FitSync</h1>
+    <h1 class="display-4 archivo-black-regular text-blue">@authnService.GetUserName(0)</h1>
     <p></p>
 </div>

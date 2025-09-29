@@ -1,4 +1,6 @@
+using ProjectMaVe.Interfaces;
 using ProjectMaVe.Middleware;
+using ProjectMaVe.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 
 builder.Services.AddTransient<AuthenticationMiddleware>();
+
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 var app = builder.Build();
 
