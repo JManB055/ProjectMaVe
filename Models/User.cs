@@ -11,7 +11,7 @@ public class User
     //overloaded constructor
     public User(Guid guid, string hash, string salt, string fname, string lname, string email)
     {
-        Guid = guid;
+        UserID = guid;
         PassHash = hash;
         PassSalt = salt;
         FirstName = fname;
@@ -25,10 +25,10 @@ public class User
 
     public string PassSalt { get; set; }
 
-    public string? FirstName { get; set; }
+    public string FirstName { get; set; }
 
     public string? LastName { get; set; }
 
-    public string? Email { get; set; }
+    public string Email { get; set; }
 
 }
