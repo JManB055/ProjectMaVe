@@ -1,7 +1,15 @@
+using ProjectMaVe.Interfaces;
+using ProjectMaVe.Middleware;
+using ProjectMaVe.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddTransient<AuthenticationMiddleware>();
+
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 var app = builder.Build();
 
@@ -18,7 +26,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
+app.UseMaVeAuthentication();
 
 app.MapRazorPages();
 
