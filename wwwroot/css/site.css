@@ -90,3 +90,21 @@ body {
 .navbar-brand {
     color: #fffcf6 !important; /* brand light orange, force override Bootstrap */
 }
+
+.btn-signin {
+    background-color: #eae164; /* brand yellow */
+    color: #3c6ca8;
+    font-weight: 700;
+    font-family: "Urbanist", sans-serif;
+    border: none;
+    border-radius: 50px;        /* makes it oval */
+    padding: 0.5rem 2rem;
+    text-transform: uppercase;
+    white-space: nowrap;       /* prevent wrapping */
+}
+
+.btn-signin:hover {
+    background-color: #d4cd50;  /* slightly darker yellow on hover */
+    color: #3c6ca8;
+    text-decoration: none;
+}
