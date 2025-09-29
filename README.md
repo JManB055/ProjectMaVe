@@ -5,3 +5,4 @@
 - Haoran Yue
 - Alex Seda
 - Joshua Wyckoff
+- Tyler Clayton
