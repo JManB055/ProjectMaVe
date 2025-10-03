@@ -30,3 +30,5 @@ public class UserStore : IUserStore
         throw new NotImplementedException();
     }
 }
+
+// Probably add async to everything for convenience and best practice
