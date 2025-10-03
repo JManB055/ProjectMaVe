@@ -46,18 +46,18 @@ public class AuthenticationService : IAuthenticationService
         return currentUser;
     }
 
-    public Task<(Int32, Token)?> SignInAsync(string email, string password)
+    public async Task<(Int32, Token)?> SignInAsync(string email, string password)
     {
         UserInfo? user = _userStore.GetUserByEmail(email);
 
-        if (user == null) return Task.FromResult<(Int32, Token)?>(null);
+        if (user == null) return null;
 
         HMACSHA512 hashFn = new HMACSHA512(user.PassSalt);
         byte[] passHash = hashFn.ComputeHash(Encoding.ASCII.GetBytes(password));
 
-        if (passHash != user.PassHash) return Task.FromResult<(Int32, Token)?>(null);
+        if (passHash != user.PassHash) return null;
 
-        return Task.FromResult<(Int32, Token)?>((user.UserID, GetAuthToken(user.UserID)));
+        return (user.UserID, GetAuthToken(user.UserID));
     }
 
     public (Int32, Token)? SignIn(string email, string password)
@@ -67,9 +67,13 @@ public class AuthenticationService : IAuthenticationService
         return task.IsCompletedSuccessfully ? task.Result : null;
     }
 
-    public bool Register(UserInfo userInfo)
+    public async Task<bool> RegisterAsync(UserInfo userInfo)
 	{
-        throw new NotImplementedException();
+        UserInfo? user = await _userStore.GetUserAsync(userInfo.UserID);
+
+        if (user != null) return false;
+
+        return await _userStore.CreateUserAsync(out userInfo);
     }
 
     public void SetPassword(string password)

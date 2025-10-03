@@ -15,7 +15,6 @@ public class UserStore : IUserStore
         throw new NotImplementedException();
     }
 
-
     public Task<UserInfo?> GetUserAsync(int uid)
     {
         throw new NotImplementedException();

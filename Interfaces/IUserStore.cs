@@ -4,7 +4,7 @@ namespace ProjectMaVe.Interfaces;
 
 public interface IUserStore
 {
-    Task<bool> CreateUserAsync(UserInfo userInfo);
+    Task<bool> CreateUserAsync(out UserInfo userInfo);
 
     Task<bool> DeleteUserAsync(int uid, UserInfo userInfo);
     Task<UserInfo?> GetUserAsync(int uid);
