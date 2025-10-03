@@ -17,6 +17,7 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddTransient<AuthenticationMiddleware>();
 
+builder.Services.AddScoped<IUserStore, UserStore>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 var app = builder.Build();
