@@ -5,7 +5,7 @@ namespace ProjectMaVe.Services;
 
 public class UserStore : IUserStore
 {
-    public Task<bool> CreateUserAsync(out UserInfo userInfo)
+    public async Task<bool> CreateUserAsync(UserInfo userInfo)
     {
         throw new NotImplementedException();
     }
