@@ -73,11 +73,25 @@ public class AuthenticationService : IAuthenticationService
 
         if (user != null) return false;
 
-        return await _userStore.CreateUserAsync(out userInfo);
+        return await _userStore.CreateUserAsync(userInfo);
     }
 
-    public void SetPassword(string password)
+    public async Task<bool> SetPassword(Int32 uid, string password)
     {
-        throw new NotImplementedException();
+        byte[] passSalt = new byte[64];
+        RandomNumberGenerator.Fill(passSalt);
+
+        UserInfo? user = await _userStore.GetUserAsync(uid);
+        if (user == null) return false;
+
+
+        HMACSHA512 hashFn = new HMACSHA512(passSalt);
+        byte[] passHash = hashFn.ComputeHash(Encoding.ASCII.GetBytes(password));
+
+
+        user.PassSalt = passSalt;
+        user.PassHash = passHash;
+
+        return await _userStore.UpdateUserAsync(uid, user);
     }
 }
