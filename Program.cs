@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+using ProjectMaVe.Data;
 using ProjectMaVe.Interfaces;
 using ProjectMaVe.Middleware;
 using ProjectMaVe.Services;
@@ -11,6 +13,15 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     options.ExpireTimeSpan = TimeSpan.FromMinutes(30); //Sets the Expiration Time for the cookie
     options.SlidingExpiration = true; //each time you make an authentication request, it resets the time.
 });
+
+// Connect database service
+builder.Services.AddDbContext<DbContext>(options =>
+    options.UseMySQL(
+        builder.Configuration.GetConnectionString("DefaultConnection"),  // This gets the environment variable with db info and passes it in
+        new MySqlServerVersion(new Version(10, 5, 27))  // MariaDB Version on server
+        )
+); 
+
 
 // Add services to the container.
 builder.Services.AddRazorPages();
