@@ -46,7 +46,7 @@ public class UserStore : IUserStore
         var existingUser = await _db.Users.FindAsync(uid);  // Lookup user in db
         if(existingUser == null) return false;              // If not found, return false
 
-        existingUser.Name = userInfo.Name;
+        existingUser.FirstName = userInfo.FirstName;
         existingUser.Email = userInfo.Email;
         // Copy other properties if needed
 
