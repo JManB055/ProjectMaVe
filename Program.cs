@@ -15,11 +15,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 });
 
 // Connect database service
-builder.Services.AddDbContext<DbContext>(options =>
-    options.UseMySQL(
-        builder.Configuration.GetConnectionString("DefaultConnection"),  // This gets the environment variable with db info and passes it in
-        new MySqlServerVersion(new Version(10, 5, 27))  // MariaDB Version on server
-        )
+var connectionString = builder.Configuration.GetConnectionString("MaVe");
+builder.Services.AddDbContext<DBContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
 ); 
 
 
@@ -30,6 +28,7 @@ builder.Services.AddTransient<AuthenticationMiddleware>();
 
 builder.Services.AddScoped<IUserStore, UserStore>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+//builder.Services.AddScoped<DBContext, DbContext>();
 
 var app = builder.Build();
 

@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace ProjectMaVe.Models;
 
 /**
@@ -8,8 +10,10 @@ namespace ProjectMaVe.Models;
  *   In other API, especially when interact with DB, a user is often identified by their id
  * </remarks>
  */
-public sealed class UserInfo
+public class UserInfo
 {
+    private UserInfo() { }
+
     public UserInfo(Int32 guid, byte[] hash, byte[] salt, string fname, string lname, string email)
     {
         UserID = guid;
@@ -20,16 +24,22 @@ public sealed class UserInfo
         Email = email;
     }
 
-    public Int32 UserID { get; set; }
+    [Column("user_id")]
+    public Int32 UserID { get; set; } = 0;
 
-    public byte[] PassHash { get; set; }
+    [Column("password_hash")]
+    public byte[] PassHash { get; set; } = new byte[32];
 
-    public byte[] PassSalt { get; set; }
+    [Column("password_salt")]
+    public byte[] PassSalt { get; set; } = new byte[32];
 
-    public string FirstName { get; set; }
+    [Column("first_name")]
+    public string FirstName { get; set; } = "";
 
+    [Column("last_name")]
     public string? LastName { get; set; }
 
-    public string Email { get; set; }
+    [Column("email")]
+    public string Email { get; set; } = "";
 
 }

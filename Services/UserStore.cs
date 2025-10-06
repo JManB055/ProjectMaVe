@@ -1,7 +1,6 @@
 ﻿using ProjectMaVe.Interfaces;
 using ProjectMaVe.Models;
 using ProjectMaVe.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace ProjectMaVe.Services;
 
@@ -9,7 +8,7 @@ public class UserStore : IUserStore
 {
     private readonly DBContext _db;
 
-    public userStore(DBContext dbContext)
+    public UserStore(DBContext dbContext)
     {
         _db = dbContext;
     }
@@ -36,9 +35,9 @@ public class UserStore : IUserStore
         return await _db.Users.FindAsync(uid);              // Return the user with that uid
     }
 
-    public async UserInfo? GetUserByEmail(string email)
+    public UserInfo? GetUserByEmail(string email)
     {
-        return await _db.Users.FirstOrDefault(u => u.email == email);
+        return _db.Users.FirstOrDefault(u => u.Email == email);
     }
 
     public async Task<bool> UpdateUserAsync(int uid, UserInfo userInfo)

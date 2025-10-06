@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProjectMaVe.Data;
 using ProjectMaVe.Models;
+using System.Reflection.Metadata;
 
 namespace ProjectMaVe.Data
 {
@@ -9,7 +10,13 @@ namespace ProjectMaVe.Data
     {
         public DBContext(DbContextOptions<DBContext> options) : base(options) { }
 
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserInfo>()
+                .HasNoKey()
+                .Property(b => b.UserID)
+                .IsRequired();
+        }
 
         public DbSet<UserInfo> Users { get; set; }
 
