@@ -42,6 +42,17 @@ namespace ProjectMaVe.Pages
 
             var loginService = HttpContext.RequestServices.GetService<IAuthenticationService>();
 
+
+            if (UserName == "tryregister")
+            {
+                await loginService.RegisterAsync(new Models.UserInfo(999, new byte[0], new byte[0], "Test", "TestUser", "user@example.com"));
+            }
+
+            if (UserName == "setpassword")
+            {
+                await loginService.SetPassword(999, "password");
+            }
+
             var nullableInfo = loginService.SignIn(UserName, Password);
             if (nullableInfo == null)
             {

@@ -55,7 +55,7 @@ public class AuthenticationService : IAuthenticationService
         HMACSHA512 hashFn = new HMACSHA512(user.PassSalt);
         byte[] passHash = hashFn.ComputeHash(Encoding.ASCII.GetBytes(password));
 
-        if (passHash != user.PassHash) return null;
+        if (!passHash.SequenceEqual(user.PassHash)) return null;
 
         return (user.UserID, GetAuthToken(user.UserID));
     }
