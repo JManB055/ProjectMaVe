@@ -14,9 +14,8 @@ html {
   }
 }
 
-body {
-  padding-top: 50px; /* Adjust based on navbar height */
-  margin-bottom: 60px;
+main {
+  padding-top: 50px; /* matches your navbar height */
 }
 
 .full-bleed {
@@ -116,4 +115,35 @@ body {
     background-color: #d4cd50;  /* slightly darker yellow on hover */
     color: #3c6ca8;
     text-decoration: none;
+}
+
+/* -------------------------
+  Login Page
+------------------------- */
+
+.login-card {
+    max-width: 450px;
+    width: 100%;
+}
+
+.btn-signin-primary {
+    background-color: #3c6ca8; /* brand blue */
+    color: #fffcf6;            /* light orange/white text */
+    font-weight: 700;
+    font-family: "Urbanist", sans-serif;
+    border: none;
+    border-radius: 0.5rem;     /* slightly rounded corners */
+    padding: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-signin-primary:hover {
+    background-color: #2f5688;  /* slightly darker blue on hover */
+    color: #fffcf6;
+}
+
+.btn-signin-primary:focus {
+    background-color: #2f5688;
+    color: #fffcf6;
 }
