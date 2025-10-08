@@ -31,10 +31,9 @@ public class AuthenticationService : IAuthenticationService
 
     public Token GetAuthToken(Int32 uid)
     {
-        Token? token = _userTokenTable[uid];
-        if (token != null) return token;
-        token = GenerateRandomToken();
-        _userTokenTable[uid] = token;
+        if (_userTokenTable.ContainsKey(uid)) return _userTokenTable[uid];
+        Token token = GenerateRandomToken();
+        _userTokenTable.Add(uid, token);
         return token;
     }
 
