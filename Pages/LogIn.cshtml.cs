@@ -1,9 +1,6 @@
-using ProjectMaVe.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
-using System.Security.Cryptography;
 using ProjectMaVe.Interfaces;
 
 namespace ProjectMaVe.Pages
@@ -41,17 +38,6 @@ namespace ProjectMaVe.Pages
             }
 
             var loginService = HttpContext.RequestServices.GetService<IAuthenticationService>();
-
-
-            if (UserName == "tryregister")
-            {
-                await loginService.RegisterAsync(new Models.UserInfo(999, new byte[0], new byte[0], "Test", "TestUser", "user@example.com"));
-            }
-
-            if (UserName == "setpassword")
-            {
-                await loginService.SetPassword(999, "password");
-            }
 
             var nullableInfo = loginService.SignIn(UserName, Password);
             if (nullableInfo == null)
