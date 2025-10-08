@@ -1,15 +1,15 @@
 namespace ProjectMaVe.Models;
 
 
-public class Exercise
+public class Workout
 {
     //default constructor
-    public Exercise()
+    public Workout()
     {
     }
 
     //overloaded constructor
-    public Exercise(Int32 guid, Int32 uuid, string date)
+    public Workout(Int32 guid, Int32 uuid, string date)
     {
         WorkoutID = guid;
         UserID = uuid;

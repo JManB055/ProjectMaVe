@@ -1,13 +1,9 @@
-<<<<<<< Updated upstream
-﻿
 using Microsoft.AspNetCore.Authorization;
+
 
 namespace ProjectMaVe.Middleware;
 
 public class AuthenticationMiddleware : IMiddleware
-=======
-﻿namespace ProjectMaVe.Middleware
->>>>>>> Stashed changes
 {
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {

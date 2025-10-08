@@ -20,5 +20,5 @@ public interface IAuthenticationService
     (Int32 uid, Token token)? SignIn(string email, string password);
 
     string GetAuthToken(Int32 uid);
-    void SetPassword(string password);
+    Task<bool> SetPassword(Int32 uid, string password);
 }
