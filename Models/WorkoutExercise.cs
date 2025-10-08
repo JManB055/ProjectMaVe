@@ -22,16 +22,22 @@ public class WorkoutExercise
         Weight = weight;
     }
 
-    public Int32 WorkoutExerciseID { get; set; }
+    [Column("workout_exercise_id")]
+    public Int32 WorkoutExerciseID { get; set; } = 0;
 
-    public Int32 WorkoutID { get; set; }
+    [Column("workout_id")]
+    public Int32 WorkoutID { get; set; } = 0;
 
-    public Int32 ExerciseID { get; set; }
+    [Column("exercise_id")]
+    public Int32 ExerciseID { get; set; } = 0;
 
-    public float Sets { get; set; }
+    [Column("sets")]
+    public float Sets { get; set; } = 0;
 
-    public float Reps { get; set; }
+    [Column("reps")]
+    public float Reps { get; set; } = 0;
 
-    public float Weight { get; set; }
+    [Column("weight")]
+    public float Weight { get; set; } = 0;
 
 }
