@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "User Login";
 }
+
 <div class="login-page bg-light-orange d-flex align-items-center justify-content-center min-vh-100">
     <div class="card login-card shadow-lg border-0 p-4 rounded-4">
         <div class="text-center mb-4">
@@ -15,19 +16,30 @@
             <div asp-validation-summary="ModelOnly" class="text-danger text-center mb-3"></div>
 
             <div class="mb-3">
-                <label asp-for="UserName" class="form-label urbanist-bold text-blue">Username</label>
-                <input asp-for="UserName" type="text" class="form-control form-control-lg rounded-3" placeholder="Enter your username" />
+                <input asp-for="UserName"
+                    type="text"
+                    class="form-control form-control-lg rounded-3"
+                    placeholder="Username" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
 
-            <div class="mb-3">
-                <label asp-for="Password" class="form-label urbanist-bold text-blue">Password</label>
-                <input asp-for="Password" type="password" class="form-control form-control-lg rounded-3" placeholder="Enter your password" />
+            <div class="mb-2">
+                <input asp-for="Password"
+                    type="password"
+                    class="form-control form-control-lg rounded-3"
+                    placeholder="Password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 
+            <div class="text-end mb-3">
+                <a asp-page="/ForgotPassword" class="urbanist-medium text-blue text-decoration-none">Forgot Password?</a>
+            </div>
+
             <div class="d-grid mt-4">
-                <input asp-page-handler="LogIn" type="submit" value="Sign In" class="btn btn-signin-primary btn-lg" />
+                <input asp-page-handler="LogIn"
+                    type="submit"
+                    value="Sign In"
+                    class="btn btn-signin-primary btn-lg" />
             </div>
 
             <div class="text-center mt-3">
