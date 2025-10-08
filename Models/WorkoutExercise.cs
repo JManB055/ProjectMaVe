@@ -1,0 +1,37 @@
+using Microsoft.EntityFrameworkCore;
+using ProjectMaVe.Models;
+
+namespace ProjectMaVe.Models;
+
+
+public class WorkoutExercise
+{
+    //default constructor
+    public WorkoutExercise()
+    {
+    }
+
+    //overloaded constructor
+    public WorkoutExercise(Int32 guid, Int32 wuid, Int32 euid, float sets, float reps, float weight)
+    {
+        WorkoutExerciseID = guid;
+        WorkoutID = wuid;
+        ExerciseID = euid;
+        Sets = sets;
+        Reps = reps;
+        Weight = weight;
+    }
+
+    public Int32 WorkoutExerciseID { get; set; }
+
+    public Int32 WorkoutID { get; set; }
+
+    public Int32 ExerciseID { get; set; }
+
+    public float Sets { get; set; }
+
+    public float Reps { get; set; }
+
+    public float Weight { get; set; }
+
+}

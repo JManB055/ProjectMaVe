@@ -1,11 +1,10 @@
 using ProjectMaVe.Data;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using ProjectMaVe.Interfaces;
 
 namespace ProjectMaVe.Pages
 {
@@ -25,38 +24,35 @@ namespace ProjectMaVe.Pages
         public void OnGet()
         {
         }
-        
+
         public async Task<IActionResult> OnPostLogIn()
         {
             if (UserName == null)
             {
                 Message = "The User Name field is empty.";
-                ModelState.AddModelError(String.Empty, "Invalid login attemt.");
+                ModelState.AddModelError(String.Empty, "Invalid login attempt.");
                 return Page();
             }
             if (Password == null)
             {
                 Message = "The Password field is empty.";
-                ModelState.AddModelError(String.Empty, "Invalid login attemt.");
+                ModelState.AddModelError(String.Empty, "Invalid login attempt.");
                 return Page();
             }
 
-            //Create a claim to identify the user
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, UserName),
-                //new Claim("UserID", user.UserID.ToString()) //this is a custom claim
-            };
+            var loginService = HttpContext.RequestServices.GetService<IAuthenticationService>();
 
-            //Create our authenticated cookie for our logged in user
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var authProperties = new AuthenticationProperties
+            var nullableInfo = loginService.SignIn(UserName, Password);
+            if (nullableInfo == null)
             {
-                IsPersistent = true, //This keeps user logged in after browser closes
-                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(1), //For testing purposes
-            };
+                Message = "Login Failed.";
+                ModelState.AddModelError(String.Empty, "Invalid login attempt.");
+                return Page();
+            }
+            var info = ((int uid, string token))nullableInfo;
+            Response.Cookies.Append(Constants.COOKIE_TOKEN_FIELD, info.token);
+            Response.Cookies.Append(Constants.COOKIE_ID_FIELD, Convert.ToString(info.uid));
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
             return RedirectToPage("/Index");
         }
     }
