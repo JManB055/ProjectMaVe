@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ProjectMaVe.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectMaVe.Models;
 
