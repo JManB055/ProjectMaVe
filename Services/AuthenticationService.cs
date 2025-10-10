@@ -66,10 +66,14 @@ public class AuthenticationService : IAuthenticationService
         return task.IsCompletedSuccessfully ? task.Result : null;
     }
 
+    /**
+     * <remarks>
+     *   For registration, UserID is unknown 
+     * </remarks>
+     */
     public async Task<bool> RegisterAsync(UserInfo userInfo)
 	{
-        UserInfo? user = await _userStore.GetUserAsync(userInfo.UserID);
-
+        UserInfo? user = _userStore.GetUserByEmail(userInfo.Email);
         if (user != null) return false;
 
         return await _userStore.CreateUserAsync(userInfo);

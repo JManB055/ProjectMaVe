@@ -14,6 +14,7 @@ namespace ProjectMaVe.Data
         {
             modelBuilder.Entity<UserInfo>()
                 .Property(b => b.UserID)
+                .ValueGeneratedOnAdd()
                 .IsRequired();
         }
 
