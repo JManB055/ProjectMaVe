@@ -37,6 +37,21 @@ html {
 }
 
 /* -------------------------
+    Background Gradients
+------------------------- */
+.bg-gradient-blue-orange {
+  background: linear-gradient(
+    to bottom,
+    var(--color-blue) 0%,
+    #3780d4 70%,
+    #448cd9 100%
+  );
+}
+
+
+
+
+/* -------------------------
     Utilities
 ------------------------- */
 .full-bleed {
