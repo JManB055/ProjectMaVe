@@ -69,12 +69,12 @@ main {
 
 .bg-yellow { background-color: #eae164; }
 .bg-light-orange { background-color: #fffcf6; }
-.bg-blue { background-color: #3c6ca8; }
+.bg-blue { background-color: #3571bc; }
 .bg-black { background-color: #000000; }
 
 .text-yellow { color: #eae164; }
 .text-light-orange { color: #fffcf6; }
-.text-blue { color: #3c6ca8; }
+.text-blue { color: #3571bc; }
 .text-black { color: #000000; }
 
 /* -------------------------
@@ -101,7 +101,7 @@ main {
 
 .btn-signin {
     background-color: #eae164; /* brand yellow */
-    color: #3c6ca8;
+    color: #3571bc;
     font-weight: 700;
     font-family: "Urbanist", sans-serif;
     border: none;
@@ -113,7 +113,7 @@ main {
 
 .btn-signin:hover {
     background-color: #d4cd50;  /* slightly darker yellow on hover */
-    color: #3c6ca8;
+    color: #3571bc;
     text-decoration: none;
 }
 
@@ -127,7 +127,7 @@ main {
 }
 
 .btn-signin-primary {
-    background-color: #3c6ca8; /* brand blue */
+    background-color: #3571bc; /* brand blue */
     color: #fffcf6;            /* light orange/white text */
     font-weight: 700;
     font-family: "Urbanist", sans-serif;
