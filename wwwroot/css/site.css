@@ -1,9 +1,24 @@
 /* -------------------------
-  HTML & Body
+    FitSync Brand Color Variables
 ------------------------- */
+:root {
+  --color-yellow: #eae164;
+  --color-light-orange: #fffcf6;
+  --color-blue: #3571bc;
+  --color-black: #000000;
 
-body, html {
-    overflow-x: hidden; /* This hides content that overflows horizontally */
+  --color-yellow-hover: #d4cd50;
+  --color-blue-hover: #2f5688;
+
+  --focus-outline-inner: white;
+  --focus-outline-outer: #258cfb;
+}
+
+/* -------------------------
+    HTML & Body
+------------------------- */
+html, body {
+  overflow-x: hidden;
 }
 
 html {
@@ -18,10 +33,13 @@ html {
   }
 }
 
+/* -------------------------
+    Utilities
+------------------------- */
 .full-bleed {
   box-sizing: border-box;
-  width: 100vw;                             /* span viewport width */
-  margin-left: calc(50% - 50vw);            /* center while breaking out */
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   position: relative;
 }
@@ -39,134 +57,132 @@ html {
 }
 
 /* -------------------------
-  Focus Styles
+    Focus Styles
 ------------------------- */
-
 .btn:focus,
 .btn:active:focus,
 .btn-link.nav-link:focus,
 .form-control:focus,
 .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white,
-              0 0 0 0.25rem #258cfb;
+  box-shadow:
+    0 0 0 0.1rem var(--focus-outline-inner),
+    0 0 0 0.25rem var(--focus-outline-outer);
 }
 
 /* -------------------------
-  Typography
+    Typography
 ------------------------- */
-
 .archivo-black-regular {
-    font-family: "Archivo Black", sans-serif;
-    font-weight: 400;
-    font-style: normal;
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .urbanist-bold {
-    font-family: "Urbanist", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 700;
-    font-style: normal;
+  font-family: "Urbanist", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
 }
 
 .urbanist-medium {
-    font-family: "Urbanist", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 500;
-    font-style: normal;
+  font-family: "Urbanist", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
 }
 
 /* -------------------------
-  Brand Colors
+    Brand Color Helpers
 ------------------------- */
+.bg-yellow { background-color: var(--color-yellow); }
+.bg-light-orange { background-color: var(--color-light-orange); }
+.bg-blue { background-color: var(--color-blue); }
+.bg-black { background-color: var(--color-black); }
 
-.bg-yellow { background-color: #eae164; }
-.bg-light-orange { background-color: #fffcf6; }
-.bg-blue { background-color: #3571bc; }
-.bg-black { background-color: #000000; }
-
-.text-yellow { color: #eae164; }
-.text-light-orange { color: #fffcf6; }
-.text-blue { color: #3571bc; }
-.text-black { color: #000000; }
+.text-yellow { color: var(--color-yellow); }
+.text-light-orange { color: var(--color-light-orange); }
+.text-blue { color: var(--color-blue); }
+.text-black { color: var(--color-black); }
 
 /* -------------------------
   Navigation
 ------------------------- */
-
-.nav-link {
-    font-weight: 800;
-    font-family: "Urbanist", sans-serif;
-    color: #eae164 !important; /* brand light orange, force override Bootstrap */
-}
-
-.navbar-nav {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    width: 100%;
-    letter-spacing: 1px; 
-}
-
 .navbar {
   background: rgba(53, 113, 188, 0.8);
   backdrop-filter: blur(8px);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: background 0.3s ease, box-shadow 0.3s ease;
 }
+
 .navbar.scrolled {
   background: rgba(53, 113, 188, 0.95);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
+.navbar-nav {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+  letter-spacing: 1px;
+}
+
+.nav-link {
+  font-family: "Urbanist", sans-serif;
+  font-weight: 800;
+  color: var(--color-yellow) !important;
+}
+
 .navbar-brand {
-    color: #fffcf6 !important; /* brand light orange, force override Bootstrap */
-}
-
-.btn-signin {
-    background-color: #eae164; /* brand yellow */
-    color: #3571bc;
-    font-weight: 700;
-    font-family: "Urbanist", sans-serif;
-    border: none;
-    border-radius: 50px;        /* makes it oval */
-    padding: 0.5rem 2rem;
-    text-transform: uppercase;
-    white-space: nowrap;       /* prevent wrapping */
-}
-
-.btn-signin:hover {
-    background-color: #d4cd50;  /* slightly darker yellow on hover */
-    color: #3571bc;
-    text-decoration: none;
+  color: var(--color-light-orange) !important;
 }
 
 /* -------------------------
-  Login Page
+    Buttons
 ------------------------- */
+.btn-signin {
+  background-color: var(--color-yellow);
+  color: var(--color-blue);
+  font-family: "Urbanist", sans-serif;
+  font-weight: 700;
+  border: none;
+  border-radius: 50px;
+  padding: 0.5rem 2rem;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
 
-.login-card {
-    max-width: 450px;
-    width: 100%;
+.btn-signin:hover {
+  background-color: var(--color-yellow-hover);
+  color: var(--color-blue);
+  text-decoration: none;
 }
 
 .btn-signin-primary {
-    background-color: #3571bc; /* brand blue */
-    color: #fffcf6;            /* light orange/white text */
-    font-weight: 700;
-    font-family: "Urbanist", sans-serif;
-    border: none;
-    border-radius: 0.5rem;     /* slightly rounded corners */
-    padding: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+  background-color: var(--color-blue);
+  color: var(--color-light-orange);
+  font-family: "Urbanist", sans-serif;
+  font-weight: 700;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: background-color 0.2s ease;
 }
 
-.btn-signin-primary:hover {
-    background-color: #2f5688;  /* slightly darker blue on hover */
-    color: #fffcf6;
-}
-
+.btn-signin-primary:hover,
 .btn-signin-primary:focus {
-    background-color: #2f5688;
-    color: #fffcf6;
+  background-color: var(--color-blue-hover);
+  color: var(--color-light-orange);
+}
+
+/* -------------------------
+    Login Card
+------------------------- */
+.login-card {
+  max-width: 450px;
+  width: 100%;
 }
