@@ -2,13 +2,13 @@
     FitSync Brand Color Variables
 ------------------------- */
 :root {
-  --color-yellow: #eae164;
+  --color-yellow: #fff671;
   --color-light-orange: #fffcf6;
   --color-blue: #3571bc;
   --color-black: #000000;
 
-  --color-yellow-hover: #d4cd50;
-  --color-blue-hover: #2f5688;
+  --color-yellow-hover: #e0d95f;
+  --color-blue-hover: #3765a0;
 
   --focus-outline-inner: white;
   --focus-outline-outer: #258cfb;
