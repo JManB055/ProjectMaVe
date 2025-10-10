@@ -12,6 +12,9 @@
 
   --focus-outline-inner: white;
   --focus-outline-outer: #258cfb;
+  
+  --navbar-bg-scrolled: rgba(53, 113, 188, 0.95);
+  --breakpoint-md: 768px;
 }
 
 /* -------------------------
@@ -45,14 +48,14 @@ html {
 }
 
 .py-6 {
-  padding-top: 6rem !important;
-  padding-bottom: 6rem !important;
+  padding-top: 6rem;
+  padding-bottom: 6rem;
 }
 
 @media (max-width: 768px) {
   .py-6 {
-    padding-top: 4rem !important;
-    padding-bottom: 4rem !important;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
   }
 }
 
@@ -63,7 +66,9 @@ html {
 .btn:active:focus,
 .btn-link.nav-link:focus,
 .form-control:focus,
-.form-check-input:focus {
+.form-check-input:focus,
+.btn-signin:focus,
+.btn-signin-primary:focus {
   box-shadow:
     0 0 0 0.1rem var(--focus-outline-inner),
     0 0 0 0.25rem var(--focus-outline-outer);
@@ -108,9 +113,12 @@ html {
 /* -------------------------
   Navigation
 ------------------------- */
+.navbar {
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
 
 .navbar.scrolled {
-  background: rgba(53, 113, 188, 0.95);
+  background: var(--navbar-bg-scrolled);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
@@ -122,10 +130,28 @@ html {
   letter-spacing: 1px;
 }
 
+@media (max-width: 768px) {
+  .navbar-nav {
+    gap: 1rem;
+  }
+}
+
 .nav-link {
   font-family: "Urbanist", sans-serif;
   font-weight: 800;
   color: var(--color-yellow) !important;
+  transition: opacity 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  color: var(--color-yellow) !important;
+  opacity: 0.85;
+}
+
+.nav-link:active {
+  color: var(--color-yellow) !important;
+  opacity: 0.7;
 }
 
 .navbar-brand {
@@ -133,19 +159,39 @@ html {
 }
 
 /* -------------------------
-    Buttons
+    Buttons - Shared Styles
+------------------------- */
+.btn-signin,
+.btn-signin-primary {
+  font-family: "Urbanist", sans-serif;
+  font-weight: 700;
+  border: none;
+  text-transform: uppercase;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  cursor: pointer;
+}
+
+.btn-signin:active,
+.btn-signin-primary:active {
+  transform: scale(0.98);
+}
+
+.btn-signin:disabled,
+.btn-signin-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* -------------------------
+    Button - Sign In (Yellow)
 ------------------------- */
 .btn-signin {
   background-color: var(--color-yellow);
   color: var(--color-blue);
-  font-family: "Urbanist", sans-serif;
-  font-weight: 700;
-  border: none;
   border-radius: 50px;
   padding: 0.5rem 2rem;
-  text-transform: uppercase;
   white-space: nowrap;
-  transition: background-color 0.2s ease;
 }
 
 .btn-signin:hover {
@@ -154,17 +200,15 @@ html {
   text-decoration: none;
 }
 
+/* -------------------------
+    Button - Primary (Blue)
+------------------------- */
 .btn-signin-primary {
   background-color: var(--color-blue);
   color: var(--color-light-orange);
-  font-family: "Urbanist", sans-serif;
-  font-weight: 700;
-  border: none;
   border-radius: 0.5rem;
-  padding: 12px;
-  text-transform: uppercase;
+  padding: 0.75rem;
   letter-spacing: 0.5px;
-  transition: background-color 0.2s ease;
 }
 
 .btn-signin-primary:hover,
@@ -179,4 +223,17 @@ html {
 .login-card {
   max-width: 450px;
   width: 100%;
+}
+
+/* -------------------------
+    Accessibility - Reduced Motion
+------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

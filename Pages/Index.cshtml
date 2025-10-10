@@ -4,79 +4,102 @@
     ViewData["Title"] = "Home page";
 }
 
-<header class="bg-blue text-light-orange mb-5 full-bleed">
+<header class="bg-blue text-light-orange mb-4 full-bleed">
     <div class="container text-center py-6">
         <h1 class="display-2 archivo-black-regular text-yellow mb-3">FitSync</h1>
-        <h2 class="urbanist-bold text-light-orange mb-4">
+        <p class="h2 urbanist-bold text-light-orange mb-4">
             Personalized Workouts. Simplified Tracking. Real Results.
-        </h2>
+        </p>
         
-        <p class="lead urbanist-medium mx-auto" style="max-width: 800px;">
+        <p class="lead urbanist-medium mx-auto mb-4" style="max-width: 800px;">
             Take control of your fitness journey with FitSync. Our platform adapts to your goals, your schedule, and your progress, providing personalized workouts that evolve with you. Track your achievements, visualize your growth, and stay motivated every step of the way. Whether you're just starting out or pushing toward new personal bests, FitSync makes reaching your fitness potential simple, efficient, and enjoyable.
         </p>
 
-        <a asp-page="/NewUser" class="btn btn-signin mt-4 btn-lg">Start Your Free Plan</a>
+        <a asp-page="/NewUser" class="btn btn-signin mt-3 btn-lg" role="button">Start Your Free Plan</a>
     </div>
 </header>
 
 <main>
     <!-- Image + Text Section -->
-    <div class="container my-5">
-        <div class="row align-items-center">
+    <section class="container my-5 py-4">
+        <div class="row align-items-center g-4">
             <!-- Image column -->
-            <div class="col-md-6 mb-4 mb-md-0">
-                <img src="~/images/fitness.jpg" alt="FitSync Preview" class="img-fluid rounded shadow">
+            <div class="col-md-6">
+                <img src="~/images/fitness.jpg" 
+                     alt="Group of three working out together" 
+                     class="img-fluid rounded shadow-lg">
             </div>
 
             <!-- Text column -->
             <div class="col-md-5 offset-md-1">
-                <h3 class="urbanist-bold text-blue mb-3">All Your Training, All in One Place</h3>
-                <p class="urbanist-medium">
+                <h2 class="urbanist-bold text-blue mb-3">All Your Training, All in One Place</h2>
+                <p class="urbanist-medium mb-0">
                     No matter where you are in your fitness journey, FitSync is the best way to push yourself and reach new goals. Designed for beginners and seasoned athletes alike, FitSync helps you stay on track with personalized workouts, detailed progress tracking, and easy-to-use tools to optimize every session.
                 </p>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="container my-5">
-        <h3 class="text-center urbanist-bold text-blue mb-5">Why Choose FitSync?</h3>
+    <!-- Features Section -->
+    <section class="container my-5">
+        <h2 class="text-center urbanist-bold text-blue mb-5">Why Choose FitSync?</h2>
 
-        <div class="row text-center">
+        <div class="row text-center g-4">
             
-            <div class="col-md-4 mb-4">
-                <i class="fas fa-robot fa-3x mb-3"></i>
-                <h4 class="urbanist-bold text-blue">AI-Powered Workout Planning</h4>
-                <p class="urbanist-medium">
-                    Get a custom routine generated specifically for your body, goals, and history.
-                </p>
+            <div class="col-md-4">
+                <div class="feature-card h-100">
+                    <div class="text-blue mb-3" aria-hidden="true">
+                        <i class="fas fa-robot fa-3x"></i>
+                    </div>
+                    <h3 class="h4 urbanist-bold text-blue mb-3">AI-Powered Workout Planning</h3>
+                    <p class="urbanist-medium mb-0">
+                        Get a custom routine generated specifically for your body, goals, and history.
+                    </p>
+                </div>
             </div>
 
-            <div class="col-md-4 mb-4">
-                <i class="fas fa-hand-pointer fa-3x mb-3"></i>
-                <h4 class="urbanist-bold text-blue">Easy, Flexible Tracking</h4>
-                <p class="urbanist-medium">
-                    Track your progress effortlessly. Manually enter workouts or integrate with a common fitness API like Fitbit.
-                </p>
+            <div class="col-md-4">
+                <div class="feature-card h-100">
+                    <div class="text-blue mb-3" aria-hidden="true">
+                        <i class="fas fa-hand-pointer fa-3x"></i>
+                    </div>
+                    <h3 class="h4 urbanist-bold text-blue mb-3">Easy, Flexible Tracking</h3>
+                    <p class="urbanist-medium mb-0">
+                        Track your progress effortlessly. Manually enter workouts or integrate with fitness APIs like Fitbit.
+                    </p>
+                </div>
             </div>
 
-            <div class="col-md-4 mb-4">
-                <i class="fas fa-chart-line fa-3x mb-3"></i>
-                <h4 class="urbanist-bold text-blue">Visualize Your Progress</h4>
-                <p class="urbanist-medium">
-                    View detailed performance graphs and statistics including progress over time to stay motivated.
-                </p>
+            <div class="col-md-4">
+                <div class="feature-card h-100">
+                    <div class="text-blue mb-3" aria-hidden="true">
+                        <i class="fas fa-chart-line fa-3x"></i>
+                    </div>
+                    <h3 class="h4 urbanist-bold text-blue mb-3">Visualize Your Progress</h3>
+                    <p class="urbanist-medium mb-0">
+                        View detailed performance graphs and statistics to track progress over time and stay motivated.
+                    </p>
+                </div>
             </div>
         </div>
+    </section>
         
+    <!-- CTA Section -->
+    <section class="container my-5 mb-5 pb-5">
         <hr class="my-5">
         
-        <div class="text-center mt-5">
-            <h4 class="urbanist-bold text-blue">Already have an account?</h4>
-            <a asp-page="/LogIn" class="btn btn-outline-primary btn-signin mt-2">Log In Now</a>
+        <div class="text-center">
+            <h2 class="h4 urbanist-bold text-blue mb-3">Already have an account?</h2>
+            <a asp-page="/LogIn" class="btn btn-signin btn-lg px-5" role="button">Log In Now</a>
         </div>
+    </section>
 
-    </div>
 </main>
+
 @section Scripts {
-    <script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script> 
+    <!-- FontAwesome CDN - Free version -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" 
+          crossorigin="anonymous" 
+          referrerpolicy="no-referrer" />
 }
