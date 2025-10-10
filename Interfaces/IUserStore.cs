@@ -8,6 +8,7 @@ public interface IUserStore
     Task<bool> CreateUserAsync(UserInfo userInfo);
 
     Task<bool> DeleteUserAsync(int uid, UserInfo userInfo);
+    
     Task<UserInfo?> GetUserAsync(int uid);
 
     UserInfo? GetUserByEmail(string email);
