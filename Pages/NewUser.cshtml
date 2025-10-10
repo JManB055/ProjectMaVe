@@ -3,3 +3,98 @@
 @{
     ViewData["Title"] = "New User";
 }
+
+@*UserID = guid;
+        PassHash = hash;
+        PassSalt = salt;
+        FirstName = fname;
+        LastName = lname;
+        Email = email;*@
+
+<h1 class="accout-text">New User</h1>
+
+<div class="container">
+    <form method="post">
+        @* Username text entry *@
+        <div class="row mb-3">
+            <div class="offset-sm-2 col-sm-2 mylabels">
+                <label>Username</label>
+            </div>
+            <div class="col-sm-4">
+                @* Give user a text box *@
+                <input asp-for="UserName" type="text" class="w-100" />
+            </div>
+            <div class="col-sm-4">
+            </div>
+        </div>
+
+
+        @* Password text entry *@
+        <div class="row mb-3">
+            <div class="offset-sm-2 col-sm-2 mylabels">
+                <label>Password</label>
+            </div>
+            <div class="col-sm-4">
+                @* Give user a text box *@
+                <input asp-for="Password" type="password" class="w-100" />
+            </div>
+            <div class="col-sm-4">
+            </div>
+        </div>
+
+        @* First Name text entry *@
+        <div class="row mb-3">
+            <div class="offset-sm-2 col-sm-2 mylabels">
+                <label>First Name</label>
+            </div>
+            <div class="col-sm-4">
+                @* Give user a text box *@
+                <input asp-for="FirstName" type="text" class="w-100" />
+            </div>
+            <div class="col-sm-4">
+            </div>
+        </div>
+
+        @* Last Name text entry *@
+        <div class="row mb-3">
+            <div class="offset-sm-2 col-sm-2 mylabels">
+                <label>Last Name</label>
+            </div>
+            <div class="col-sm-4">
+                @* Give user a text box *@
+                <input asp-for="LastName" type="text" class="w-100" />
+            </div>
+            <div class="col-sm-4">
+            </div>
+        </div>
+
+        @* Email text entry *@
+        <div class="row mb-3">
+            <div class="offset-sm-2 col-sm-2 mylabels">
+                <label>Email</label>
+            </div>
+            <div class="col-sm-4">
+                @* Give user a text box *@
+                <input asp-for="Email" type="text" class="w-100" />
+            </div>
+            <div class="col-sm-4">
+            </div>
+        </div>
+
+        @* Create Account button *@
+        <div class="row mb-3">
+            <div class="col-sm-3 offset-sm-4">
+                <input asp-page-handler="NewUser" type="submit" value="Create Account" class="mt-4 btn btn-dark" />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col-sm-9 offset-sm-3">
+                @* Add a label element to show any messages on the page to the user *@
+                @* This is the only time you are allowed to use inline styling *@
+                <label>@Model.Message</label>
+            </div>
+        </div>
+
+    </form>
+</div>
