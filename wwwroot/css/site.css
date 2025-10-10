@@ -108,12 +108,6 @@ html {
 /* -------------------------
   Navigation
 ------------------------- */
-.navbar {
-  background: rgba(53, 113, 188, 0.8);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: background 0.3s ease, box-shadow 0.3s ease;
-}
 
 .navbar.scrolled {
   background: rgba(53, 113, 188, 0.95);
