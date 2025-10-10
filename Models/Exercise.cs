@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace ProjectMaVe.Models;
 
 
@@ -16,10 +18,13 @@ public class Exercise
         MuscleGroup = mgroup;
     }
 
-    public Int32 ExerciseID { get; set; }
+    [Column("exercise_id")]
+    public Int32 ExerciseID { get; set; } = 0;
 
-    public string Name { get; set; }
+    [Column("name")]
+    public string Name { get; set; } = "";
 
-    public string? MuscleGroup { get; set; }
+    [Column("muscle_group")]
+    public string? MuscleGroup { get; set; } = "";
 
 }
