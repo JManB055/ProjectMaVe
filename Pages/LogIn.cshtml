@@ -13,6 +13,14 @@
             <h1 class="archivo-black-regular text-blue mb-2">FitSync</h1>
             <p class="urbanist-bold text-blue mb-0">Welcome Back</p>
         </header>
+        
+        <!-- Feedback Message -->
+        @if (!string.IsNullOrEmpty(Model.Message))
+        {
+            <div class="alert alert-danger text-center urbanist-medium mb-3 rounded-3" role="alert">
+                @Model.Message
+            </div>
+        }
 
         <!-- Login Form -->
         <form method="post" novalidate aria-label="Login form">
