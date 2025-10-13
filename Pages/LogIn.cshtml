@@ -14,7 +14,9 @@
             <p class="urbanist-bold text-blue mb-0">Welcome Back</p>
         </header>
         
-        <!-- Feedback Message -->
+        @* ===============================
+            Feedback Message
+           =============================== *@
         @if (!string.IsNullOrEmpty(Model.Message))
         {
             <div class="alert alert-danger text-center urbanist-medium mb-3 rounded-3" role="alert">
@@ -22,13 +24,15 @@
             </div>
         }
 
-        <!-- Login Form -->
+        @* ===============================
+            Login Form
+           =============================== *@
         <form method="post" novalidate aria-label="Login form">
 
-            <!-- Validation Summary -->
+            @* --- Validation Summary --- *@
             <div asp-validation-summary="ModelOnly" class="text-danger text-center mb-3" role="alert"></div>
 
-            <!-- Username Field -->
+            @* --- Username Field --- *@
             <div class="mb-3">
                 <label asp-for="UserName" class="visually-hidden">Username</label>
                 <input asp-for="UserName"
@@ -45,7 +49,7 @@
                     role="alert"></span>
             </div>
 
-            <!-- Password Field -->
+            @* --- Password Field --- *@
             <div class="mb-2">
                 <label asp-for="Password" class="visually-hidden">Password</label>
                 <input asp-for="Password"
@@ -62,7 +66,7 @@
                     role="alert"></span>
             </div>
 
-            <!-- Forgot Password Link -->
+            @* --- Forgot Password Link --- *@
             <div class="text-end mb-3">
                 <a asp-page="/ForgotPassword" 
                     class="urbanist-medium text-blue text-decoration-none"
@@ -71,7 +75,7 @@
                 </a>
             </div>
 
-            <!-- Submit Button -->
+            @* --- Submit Button --- *@
             <div class="d-grid mt-4">
                 <input asp-page-handler="LogIn"
                     type="submit"
@@ -80,7 +84,7 @@
                     aria-label="Sign in to your account" />
             </div>
 
-            <!-- Sign Up Link -->
+            @* --- Sign-Up Redirect Link --- *@
             <div class="text-center mt-3">
                 <span class="urbanist-medium">Don't have an account? </span>
                 <a asp-page="/NewUser" 
