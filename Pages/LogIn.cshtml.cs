@@ -50,7 +50,7 @@ namespace ProjectMaVe.Pages
             Response.Cookies.Append(Constants.COOKIE_TOKEN_FIELD, info.token);
             Response.Cookies.Append(Constants.COOKIE_ID_FIELD, Convert.ToString(info.uid));
 
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Dashboard");
         }
     }
 }
