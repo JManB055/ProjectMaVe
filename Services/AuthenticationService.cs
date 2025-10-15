@@ -31,10 +31,9 @@ public class AuthenticationService : IAuthenticationService
 
     public Token GetAuthToken(Int32 uid)
     {
-        Token? token = _userTokenTable[uid];
-        if (token != null) return token;
-        token = GenerateRandomToken();
-        _userTokenTable[uid] = token;
+        if (_userTokenTable.ContainsKey(uid)) return _userTokenTable[uid];
+        Token token = GenerateRandomToken();
+        _userTokenTable.Add(uid, token);
         return token;
     }
 
@@ -55,7 +54,7 @@ public class AuthenticationService : IAuthenticationService
         HMACSHA512 hashFn = new HMACSHA512(user.PassSalt);
         byte[] passHash = hashFn.ComputeHash(Encoding.ASCII.GetBytes(password));
 
-        if (passHash != user.PassHash) return null;
+        if (!passHash.SequenceEqual(user.PassHash)) return null;
 
         return (user.UserID, GetAuthToken(user.UserID));
     }
@@ -67,10 +66,14 @@ public class AuthenticationService : IAuthenticationService
         return task.IsCompletedSuccessfully ? task.Result : null;
     }
 
+    /**
+     * <remarks>
+     *   For registration, UserID is unknown 
+     * </remarks>
+     */
     public async Task<bool> RegisterAsync(UserInfo userInfo)
 	{
-        UserInfo? user = await _userStore.GetUserAsync(userInfo.UserID);
-
+        UserInfo? user = _userStore.GetUserByEmail(userInfo.Email);
         if (user != null) return false;
 
         return await _userStore.CreateUserAsync(userInfo);
