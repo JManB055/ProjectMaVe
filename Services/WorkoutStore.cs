@@ -13,6 +13,7 @@ public class WorkoutStore : IWorkoutStore
         _db = dbContext;
     }
 
+// Possibly have this function return the db id for the created row?    
     public async Task<bool> CreateWorkoutAsync(Workout workout)
     {
         await _db.workouts.AddAsync(workout);                 // Tells EF to stage this workout for insertion
@@ -21,7 +22,7 @@ public class WorkoutStore : IWorkoutStore
         // This function returns true if the number of affected rows is more than 0 (which means that it succeeded)
     }
 
-    public async Task<bool> DeleteWorkoutAsync(int workout_id, Workout workout)
+    public async Task<bool> DeleteWorkoutAsync(int workout_id)
     {
         var currentWorkout = await _db.workouts.FindAsync(workout_id);          // Lookup workout in db
         if(currentWorkout ==null) return false;                       // If not found, return false
@@ -41,6 +42,7 @@ public class WorkoutStore : IWorkoutStore
         if(existingWorkout == null) return false;              // If not found, return false
 
         existingWorkout.WorkoutDate = workout.WorkoutDate;
+	// Add other fields?
 
         _db.workouts.Update(existingWorkout);                     // Stage changes
         return await _db.SaveChangesAsync() > 0;            // Same save changes as the first function
