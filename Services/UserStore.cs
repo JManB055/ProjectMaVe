@@ -46,8 +46,8 @@ public class UserStore : IUserStore
         if(existingUser == null) return false;              // If not found, return false
 
         existingUser.FirstName = userInfo.FirstName;
+        existingUser.LastName = userInfo.LastName;
         existingUser.Email = userInfo.Email;
-        // Copy other properties if needed
 
         _db.Users.Update(existingUser);                     // Stage changes
         return await _db.SaveChangesAsync() > 0;            // Same save changes as the first function
