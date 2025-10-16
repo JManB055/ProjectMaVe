@@ -39,7 +39,7 @@ public class WorkoutExerciseStore : IWorkoutExerciseStore
         // This function returns true if the number of affected rows is more than 0 (which means that it succeeded)
     }
 
-    public async Task<bool> DeleteWorkoutExerciseAsync(int workout_exercise_id, WorkoutExercise workoutExercise)
+    public async Task<bool> DeleteWorkoutExerciseAsync(int workout_exercise_id)
     {
         var currentWorkout = await _db.workout_exercises.FindAsync(workout_exercise_id);          // Lookup workout in db
         if(currentWorkout ==null) return false;                       // If not found, return false
@@ -59,6 +59,7 @@ public class WorkoutExerciseStore : IWorkoutExerciseStore
         if(existingWorkout == null) return false;              // If not found, return false
 
         existingWorkout.WorkoutDate = workout.WorkoutDate;
+	// Also add any other fields that need to be copied
 
         _db.workout_exercises.Update(existingWorkout);                     // Stage changes
         return await _db.SaveChangesAsync() > 0;            // Same save changes as the first function
