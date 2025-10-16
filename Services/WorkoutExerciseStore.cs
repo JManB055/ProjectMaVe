@@ -31,7 +31,8 @@ public class WorkoutExerciseStore : IWorkoutExerciseStore
         _db = dbContext;
     }
 
-    public async Task<bool> CreateWorkoutExerciseAsync(WorkoutExercise workoutExercise)
+    // Possibly return the id for the created workout exercise???
+    public async Task<bool> CreateWorkoutExerciseAsync(WorkoutExercise workoutExercise) // The passed workoutExercise needs to have the ids for the workout and the user already in it. These will need to be retrieved and set when making the local object 
     {
         await _db.workout_exercises.AddAsync(workoutExercise);                 // Tells EF to stage this workout for insertion
         return await _db.SaveChangesAsync() > 0;    
