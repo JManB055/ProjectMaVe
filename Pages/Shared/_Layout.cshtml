@@ -1,4 +1,24 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Mvc.Razor
+
+@functions {
+    // Helper to add page-specific body classes
+    public string RenderBodyClass()
+    {
+        // Get the current page path
+        var pagePath = Context.Request.Path.Value?.ToLower() ?? "";
+
+        // Add vertical centering class only for login/new user pages
+        if (pagePath.Contains("/newuser") || pagePath.Contains("/login"))
+        {
+            return "align-items-center centered-page";
+        }
+
+        return "";
+    }
+}
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -19,6 +39,7 @@
     @RenderSection("Styles", required: false)
 </head>
 <body class="d-flex flex-column min-vh-100">
+
     <!-- Navigation -->
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-blue border-bottom box-shadow fixed-top" aria-label="Main navigation">
@@ -58,18 +79,20 @@
     </header>
 
     <!-- Main Content -->
-    <div class="container flex-grow-1">
-        <main role="main" class="pb-3">
+    <div class="flex-grow-1 d-flex justify-content-center @RenderBodyClass()" style="padding-bottom:1rem;">
+        <main role="main" class="w-100">
             @RenderBody()
         </main>
     </div>
 
+    <!-- Footer -->
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; @DateTime.Now.Year - ProjectMaVe - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
