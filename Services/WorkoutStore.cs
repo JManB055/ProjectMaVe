@@ -26,8 +26,25 @@ public class WorkoutStore : IWorkoutStore
     {
         var currentWorkout = await _db.workouts.FindAsync(workout_id);          // Lookup workout in db
         if(currentWorkout ==null) return false;                       // If not found, return false
+	
+	
+	// Cascade delete all workout_exercises associated with this workout by sending a raw SQL query
+	
+        using var connection = _db.Database.GetDbConnection(); 	// Open a raw SQL connection from the DBContext
+        await connection.OpenAsync();				// Wait for the connection to open?
+        
+        using var command = connection.CreateCommand();		// Create new command
+    
+        command.CommandText = "DELETE FROM workout_exercises WHERE workout_id = @WorkoutId";	// Set command text
+        var workoutParam = command.CreateParameter();						// Create parameter for variable to prevent SQL injection
+        workoutParam.ParameterName = "@WorkoutId";
+        workoutParam.Value = workout_id;
+        command.Parameters.Add(workoutParam);
+    
+        await command.ExecuteNonQueryAsync();			// Send the command to the db
+	
 
-        _db.workouts.Remove(currentWorkout);                             // If it is found, remove it
+        _db.workouts.Remove(currentWorkout);                // Delete workout
         return await _db.SaveChangesAsync() > 0;            // Same save changes as the previous function
     }
 
