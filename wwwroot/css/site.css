@@ -1,3 +1,7 @@
+/* ===============================
+    Site Layout & Global Utilities
+=============================== */
+
 /* -------------------------
     HTML & Body
 ------------------------- */
@@ -60,8 +64,8 @@ html {
 .btn-link.nav-link:focus,
 .form-control:focus,
 .form-check-input:focus,
-.btn-signin:focus,
-.btn-signin-primary:focus {
+.btn-yellow:focus,
+.btn-blue:focus {
   box-shadow:
     0 0 0 0.1rem var(--focus-outline-inner),
     0 0 0 0.25rem var(--focus-outline-outer);
@@ -118,8 +122,8 @@ html {
 /* -------------------------
     Buttons
 ------------------------- */
-.btn-signin,
-.btn-signin-primary {
+.btn-yellow,
+.btn-blue {
   font-family: "Urbanist", sans-serif;
   font-weight: 700;
   border: none;
@@ -128,20 +132,20 @@ html {
   cursor: pointer;
 }
 
-.btn-signin:active,
-.btn-signin-primary:active {
+.btn-yellow:active,
+.btn-blue:active {
   transform: scale(0.98);
 }
 
-.btn-signin:disabled,
-.btn-signin-primary:disabled {
+.btn-yellow:disabled,
+.btn-blue:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
 }
 
-/* Button - Yellow */
-.btn-signin {
+/* Yellow Button */
+.btn-yellow {
   background-color: var(--color-yellow);
   color: var(--color-blue);
   border-radius: 50px;
@@ -149,14 +153,14 @@ html {
   white-space: nowrap;
 }
 
-.btn-signin:hover {
+.btn-yellow:hover {
   background-color: var(--color-yellow-hover);
   color: var(--color-blue);
   text-decoration: none;
 }
 
-/* Button - Blue */
-.btn-signin-primary {
+/* Blue Button */
+.btn-blue {
   background-color: var(--color-blue);
   color: var(--color-light-orange);
   border-radius: 0.5rem;
@@ -164,8 +168,8 @@ html {
   letter-spacing: 0.5px;
 }
 
-.btn-signin-primary:hover,
-.btn-signin-primary:focus {
+.btn-blue:hover,
+.btn-blue:focus {
   background-color: var(--color-blue-hover);
   color: var(--color-light-orange);
 }
