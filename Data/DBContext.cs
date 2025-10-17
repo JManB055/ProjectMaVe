@@ -13,8 +13,8 @@ namespace ProjectMaVe.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserInfo>()
-                .HasNoKey()
                 .Property(b => b.UserID)
+                .ValueGeneratedOnAdd()
                 .IsRequired();
         }
 

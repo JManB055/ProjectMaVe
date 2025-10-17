@@ -1,9 +1,6 @@
-using ProjectMaVe.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
-using System.Security.Cryptography;
 using ProjectMaVe.Interfaces;
 
 namespace ProjectMaVe.Pages

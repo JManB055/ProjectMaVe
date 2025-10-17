@@ -90,26 +90,29 @@ namespace ProjectMaVe.Pages
             
             CreatePasswordHash(Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            UserInfo user = new UserInfo(1, passwordHash, passwordSalt, FirstName, LastName, Email);
-            var nullableInfo = loginService.RegisterAsync(user);
-            if (nullableInfo == null)
+            UserInfo user = new UserInfo(0, passwordHash, passwordSalt, FirstName, LastName, Email);
+            bool success = await loginService.RegisterAsync(user);
+
+            if (success == false)
             {
                 Message = "Login Failed.";
                 ModelState.AddModelError(String.Empty, "Invalid login attempt.");
                 return Page();
             }
-            
+
+            await loginService.SetPassword(user.UserID, Password);
 
             return RedirectToPage("/LogIn");
         }
 
         public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
-            //We will use existing classes to hash and salt.
-            using (var hmac = new HMACSHA512())
+            passwordSalt = new byte[64];
+            RandomNumberGenerator.Fill(passwordSalt);
+
+            using (var hmac = new HMACSHA512(passwordSalt))
             {
-                passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                passwordHash = hmac.ComputeHash(System.Text.Encoding.ASCII.GetBytes(password));
             }
         }
     }
