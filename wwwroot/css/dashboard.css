@@ -1,0 +1,231 @@
+/* ======================================
+    DASHBOARD PAGE STYLES
+    (Specific to Dashboard.cshtml)
+   ====================================== */
+
+/* -------------------------
+    Layout
+------------------------- */
+.dashboard-page {
+  padding-top: 4rem;
+}
+
+.dashboard-header {
+  padding: 2rem 0 1rem;
+}
+
+/* -------------------------
+    Widget Grid
+------------------------- */
+.widget-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding-bottom: 3rem;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .widget-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .widget-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* -------------------------
+    Widget Card
+------------------------- */
+.widget-card {
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.widget-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Dragging states */
+.widget-card.dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+  transform: scale(0.95);
+  z-index: 1000;
+}
+
+.widget-card.drag-over {
+  border: 2px dashed var(--color-blue);
+  background: rgba(20, 120, 241, 0.05);
+}
+
+/* Size Variants */
+.size-1x1,
+.size-1x2,
+.size-2x1,
+.size-2x2 {
+  min-height: 200px;
+}
+
+.size-1x1 { grid-column: span 1; grid-row: span 1; }
+.size-1x2 { grid-column: span 2; grid-row: span 1; }
+.size-2x1 { grid-column: span 1; grid-row: span 2; min-height: 420px; }
+.size-2x2 { grid-column: span 2; grid-row: span 2; min-height: 420px; }
+
+@media (max-width: 767px) {
+  .size-1x2,
+  .size-2x1,
+  .size-2x2 {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+}
+
+/* -------------------------
+    Widget Header
+------------------------- */
+.widget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background: linear-gradient(to bottom, rgba(20, 120, 241, 0.02), transparent);
+}
+
+.widget-title {
+  font-size: 1.1rem;
+  color: var(--color-blue);
+  margin: 0;
+  flex: 1;
+}
+
+.widget-drag-handle {
+  background: none;
+  border: none;
+  color: #ccc;
+  cursor: grab;
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+.widget-card:hover .widget-drag-handle,
+.edit-mode .widget-drag-handle {
+  opacity: 1;
+  color: var(--color-blue);
+}
+
+.widget-drag-handle:hover {
+  color: var(--color-blue);
+}
+
+.widget-drag-handle:active {
+  cursor: grabbing;
+}
+
+/* -------------------------
+    Widget Content
+------------------------- */
+.widget-content {
+  flex: 1;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+}
+
+/* Placeholder visuals */
+.placeholder-content {
+  text-align: center;
+  color: #999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.placeholder-content i {
+  opacity: 0.3;
+}
+
+.placeholder-content p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* -------------------------
+    Edit Mode Banner
+------------------------- */
+.edit-mode-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to right, var(--color-blue), #3780d4);
+  color: var(--color-light-orange);
+  padding: 1rem;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.edit-mode-banner p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+/* Drag Visuals */
+.drag-ghost {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.8;
+  transform: rotate(3deg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.drop-indicator {
+  position: absolute;
+  background: var(--color-blue);
+  opacity: 0.3;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .widget-card,
+  .widget-drag-handle,
+  .edit-mode-banner {
+    transition: none;
+    animation: none;
+  }
+
+  .widget-card.dragging {
+    transform: none;
+  }
+}
