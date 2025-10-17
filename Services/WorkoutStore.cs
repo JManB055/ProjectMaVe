@@ -42,7 +42,6 @@ public class WorkoutStore : IWorkoutStore
         if(existingWorkout == null) return false;              // If not found, return false
 
         existingWorkout.WorkoutDate = workout.WorkoutDate;
-	// Add other fields?
 
         _db.workouts.Update(existingWorkout);                     // Stage changes
         return await _db.SaveChangesAsync() > 0;            // Same save changes as the first function
