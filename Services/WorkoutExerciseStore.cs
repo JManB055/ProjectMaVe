@@ -49,7 +49,7 @@ public class WorkoutExerciseStore : IWorkoutExerciseStore
         return await _db.SaveChangesAsync() > 0;            // Same save changes as the previous function
     }
 
-    public async Task<WorkoutInfo?> GetWorkoutExerciseAsync(int workout_id)
+    public async Task<WorkoutExerciseInfo?> GetWorkoutExerciseAsync(int workout_exercise_id)
     {
         return await _db.workout_exercises.FindAsync(workout_id);              // Return the workout with that uid
     }
