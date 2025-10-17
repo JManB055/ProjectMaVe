@@ -59,8 +59,9 @@ public class WorkoutExerciseStore : IWorkoutExerciseStore
         var existingWorkout = await _db.workout_exercises.FindAsync(workout_id);  // Lookup workout in db
         if(existingWorkout == null) return false;              // If not found, return false
 
-        existingWorkout.WorkoutDate = workout.WorkoutDate;
-	// Also add any other fields that need to be copied
+	existingWorkout.sets = workout.sets;
+	existingWorkout.reps = workout.reps;
+	existingWorkout.weight = workout.weight;
 
         _db.workout_exercises.Update(existingWorkout);                     // Stage changes
         return await _db.SaveChangesAsync() > 0;            // Same save changes as the first function
