@@ -1,58 +1,101 @@
 ﻿@page
 @model ProjectMaVe.Pages.LoginModel
 @{
-    ViewData["Title"] = "User LogIn";
+    ViewData["Title"] = "User Login";
 }
 
-<h1 class="accout-text">LogIn</h1>
+<!-- Login Page Container -->
+<div class="login-page bg-light-orange d-flex align-items-center justify-content-center min-vh-100">
+    <div class="card login-card shadow-lg border-0 p-4 rounded-4">
+        
+        <!-- Header -->
+        <header class="text-center mb-4">
+            <h1 class="archivo-black-regular text-blue mb-2">FitSync</h1>
+            <p class="urbanist-bold text-blue mb-0">Welcome Back</p>
+        </header>
+        
+        @* ===============================
+            Feedback Message
+           =============================== *@
+        @if (!string.IsNullOrEmpty(Model.Message))
+        {
+            <div class="alert alert-danger text-center urbanist-medium mb-3 rounded-3" role="alert">
+                @Model.Message
+            </div>
+        }
 
-<div class="container">
-    <form method="post">
-        @* Username text entry *@
-        <div class="row mb-3">
-            <div class="offset-sm-2 col-sm-2 mylabels">
-                <label>Username</label>
-            </div>
-            <div class="col-sm-4">
-                @* Give user a text box *@
-                <input asp-for="UserName" type="text" class="w-100" />
-            </div>
-            <div class="col-sm-4">
+        @* ===============================
+            Login Form
+           =============================== *@
+        <form method="post" novalidate aria-label="Login form">
 
-            </div>
-        </div>
+            @* --- Validation Summary --- *@
+            <div asp-validation-summary="ModelOnly" class="text-danger text-center mb-3" role="alert"></div>
 
+            @* --- Username Field --- *@
+            <div class="mb-3">
+                <label asp-for="UserName" class="visually-hidden">Username</label>
+                <input asp-for="UserName"
+                    type="text"
+                    class="form-control form-control-lg rounded-3"
+                    placeholder="Username"
+                    autocomplete="username"
+                    required
+                    aria-required="true"
+                    aria-describedby="username-error" />
+                <span asp-validation-for="UserName" 
+                    id="username-error" 
+                    class="text-danger d-block mt-1" 
+                    role="alert"></span>
+            </div>
 
-        @* Password text entry *@
-        <div class="row mb-3">
-            <div class="offset-sm-2 col-sm-2 mylabels">
-                <label>Password</label>
+            @* --- Password Field --- *@
+            <div class="mb-2">
+                <label asp-for="Password" class="visually-hidden">Password</label>
+                <input asp-for="Password"
+                    type="password"
+                    class="form-control form-control-lg rounded-3"
+                    placeholder="Password"
+                    autocomplete="current-password"
+                    required
+                    aria-required="true"
+                    aria-describedby="password-error" />
+                <span asp-validation-for="Password" 
+                    id="password-error" 
+                    class="text-danger d-block mt-1" 
+                    role="alert"></span>
             </div>
-            <div class="col-sm-4">
-                @* Give user a text box *@
-                <input asp-for="Password" type="password" class="w-100" />
-            </div>
-            <div class="col-sm-4">
-            </div>
-        </div>
 
-        @* LogIn button *@
-        <div class="row mb-3">
-            <div class="col-sm-3 offset-sm-4">
-                <input asp-page-handler="LogIn" type="submit" value="Login" class="mt-4 btn btn-dark" />
+            @* --- Forgot Password Link --- *@
+            <div class="text-end mb-3">
+                <a asp-page="/ForgotPassword" 
+                    class="urbanist-medium text-blue text-decoration-none"
+                    tabindex="0">
+                    Forgot Password?
+                </a>
             </div>
-            <div class="col-sm-4 fw-bold">
-                <a asp-page="/NewUser">Create an account</a>
-            </div>
-        </div>
 
-        <div class="row mb-3">
-            <div class="col-sm-9 offset-sm-3">
-                @* Add a label element to show any messages on the page to the user *@
-                @* This is the only time you are allowed to use inline styling *@
-                <label>@Model.Message</label>
+            @* --- Submit Button --- *@
+            <div class="d-grid mt-4">
+                <input asp-page-handler="LogIn"
+                    type="submit"
+                    value="Sign In"
+                    class="btn btn-signin-primary btn-lg"
+                    aria-label="Sign in to your account" />
             </div>
-        </div>
 
-    </form>
+            @* --- Sign-Up Redirect Link --- *@
+            <div class="text-center mt-3">
+                <span class="urbanist-medium">Don't have an account? </span>
+                <a asp-page="/NewUser" 
+                    class="urbanist-medium text-blue text-decoration-none">
+                    Create one
+                </a>
+            </div>
+        </form>
+    </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
