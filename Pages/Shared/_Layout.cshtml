@@ -1,23 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Razor
 
-@functions {
-    // Helper to add page-specific body classes
-    public string RenderBodyClass()
-    {
-        // Get the current page path
-        var pagePath = Context.Request.Path.Value?.ToLower() ?? "";
-
-        // Add vertical centering class only for login/new user pages
-        if (pagePath.Contains("/newuser") || pagePath.Contains("/login"))
-        {
-            return "align-items-center centered-page";
-        }
-
-        return "";
-    }
-}
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,6 +12,13 @@
     <link rel="stylesheet" href="~/css/brand.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProjectMaVe.styles.css" asp-append-version="true" />
+
+    <!-- Font Awesome (load early to prevent icon flash) -->
+    <link rel="stylesheet" 
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" 
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -79,7 +68,7 @@
     </header>
 
     <!-- Main Content -->
-    <div class="flex-grow-1 d-flex justify-content-center @RenderBodyClass()" style="padding-bottom:1rem;">
+    <div class="flex-grow-1" style="padding-bottom:1rem;">
         <main role="main" class="w-100">
             @RenderBody()
         </main>
@@ -88,7 +77,7 @@
     <!-- Footer -->
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; @DateTime.Now.Year - ProjectMaVe - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; @DateTime.Now.Year - FitSync - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
 

@@ -1,0 +1,56 @@
+/* ===============================
+    New User Page Styles
+   =============================== */
+
+/* Page Container */
+.register-page {
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 1rem;
+    width: 100%;
+}
+
+/* Responsive: adjust padding on mobile */
+@media (max-width: 768px) {
+    .register-page {
+        padding: 1.5rem 1rem;
+    }
+}
+
+/* Registration Card */
+.register-card {
+    width: 100%;
+    max-width: 450px; /* same as login page */
+    padding: 2rem 1.75rem; /* slightly less padding */
+    line-height: 1.3; /* tighter spacing */
+}
+
+/* Responsive: tighten padding on smaller screens */
+@media (max-width: 576px) {
+    .register-card {
+        padding: 1.75rem 1.25rem;
+        max-width: 90%;
+    }
+}
+
+/* Form Spacing */
+.register-card .form-group {
+    margin-bottom: 0.75rem;
+}
+
+.register-card input,
+.register-card select,
+.register-card textarea {
+    font-size: 0.95rem;
+    padding: 0.5rem 0.75rem;
+}
+
+/* Headings */
+.register-card h1,
+.register-card h2,
+.register-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}

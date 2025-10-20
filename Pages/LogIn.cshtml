@@ -5,7 +5,7 @@
 }
 
 <!-- Login Page Container -->
-<div class="login-page bg-light-orange d-flex align-items-center justify-content-center w-100">
+<div class="login-page bg-light-orange">
     <div class="card login-card shadow-lg border-0 p-4 rounded-4">
         
         <!-- Header -->
@@ -34,11 +34,11 @@
 
             @* --- Username Field --- *@
             <div class="mb-3">
-                <label asp-for="UserName" class="visually-hidden">Username</label>
+                <label asp-for="UserName" class="form-label urbanist-medium text-blue mb-1">Username</label>
                 <input asp-for="UserName"
                     type="text"
                     class="form-control form-control-lg rounded-3"
-                    placeholder="Username"
+                    placeholder="Enter your username"
                     autocomplete="username"
                     required
                     aria-required="true"
@@ -51,11 +51,11 @@
 
             @* --- Password Field --- *@
             <div class="mb-2">
-                <label asp-for="Password" class="visually-hidden">Password</label>
+                <label asp-for="Password" class="form-label urbanist-medium text-blue mb-1">Password</label>
                 <input asp-for="Password"
                     type="password"
                     class="form-control form-control-lg rounded-3"
-                    placeholder="Password"
+                    placeholder="Enter your password"
                     autocomplete="current-password"
                     required
                     aria-required="true"
@@ -67,7 +67,7 @@
             </div>
 
             @* --- Forgot Password Link --- *@
-            <div class="text-end mb-3">
+            <div class="text-end mb-2">
                 <a asp-page="/ForgotPassword" 
                     class="urbanist-medium text-blue text-decoration-none"
                     tabindex="0">
@@ -98,4 +98,8 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
 }
