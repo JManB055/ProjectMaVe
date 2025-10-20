@@ -4,12 +4,21 @@
 
 /* Page Container */
 .register-page {
-    min-height: 100dvh;
+    min-height: 100dvh; /* full viewport height */
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 2.5rem 1rem;
     width: 100%;
+    box-sizing: border-box;
+
+    /* Allow vertical scroll only if content overflows */
+    overflow-y: auto;
+}
+
+.register-page h1.fit-sync {
+    font-size: 2rem;
+    margin-bottom: 0.5rem; /* smaller spacing below header */
 }
 
 /* Responsive: adjust padding on mobile */
@@ -23,8 +32,8 @@
 .register-card {
     width: 100%;
     max-width: 450px; /* same as login page */
-    padding: 2rem 1.75rem; /* slightly less padding */
-    line-height: 1.3; /* tighter spacing */
+    padding: 2rem 1.75rem;
+    line-height: 1.3;
 }
 
 /* Responsive: tighten padding on smaller screens */
@@ -35,22 +44,38 @@
     }
 }
 
-/* Form Spacing */
-.register-card .form-group {
-    margin-bottom: 0.75rem;
+/* Form Spacing - tighten vertical gaps */
+.register-card .form-group,
+.register-card .mb-2,
+.register-card .mb-3 {
+    margin-bottom: 0.5rem; /* reduce spacing */
 }
 
+.register-card label {
+    margin-bottom: 0.25rem; /* tighter label spacing */
+}
+
+/* Inputs and Selects - keep size unchanged */
 .register-card input,
 .register-card select,
 .register-card textarea {
     font-size: 0.95rem;
     padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    height: auto;
 }
 
-/* Headings */
+/* Adjust Create Account button */
+.register-card .btn {
+    font-size: 1rem; /* slightly smaller than before */
+    padding: 0.7rem 1rem; /* slightly smaller padding */
+    height: auto;
+}
+
+/* Headings - tighten spacing slightly */
 .register-card h1,
 .register-card h2,
 .register-card h3 {
     font-size: 1.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem; /* slightly smaller than before */
 }

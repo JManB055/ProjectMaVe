@@ -2,15 +2,29 @@
     Login Page Styles
    =============================== */
 
-/* Page Container */
+/* Force the page to take full viewport and prevent scrolling */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; /* prevent scrolling */
+}
+
+/* Login Page Container */
 .login-page {
-    min-height: 100dvh;
+    min-height: 100dvh; /* full viewport */
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
     width: 100%;
     padding: 2.5rem 1rem;
+    box-sizing: border-box;
+}
+
+.login-page h1.fit-sync {
+    font-size: 2.0rem;
+    margin-bottom: 0.5rem;
 }
 
 /* Responsive: adjust padding on mobile */
@@ -38,15 +52,15 @@
 
 /* Form Spacing */
 .login-card .form-group {
-    margin-bottom: 1rem; /* slightly more spacing */
+    margin-bottom: 1rem;
 }
 
 /* Inputs and Selects */
 .login-card input,
 .login-card select,
 .login-card textarea {
-    font-size: 1.1rem; /* larger text */
-    padding: 0.75rem 1rem; /* bigger clickable area, text stays centered */
+    font-size: 1.1rem;
+    padding: 0.75rem 1rem;
     border-radius: 0.5rem;
     height: auto; /* ensure it grows with padding */
 }
@@ -54,7 +68,7 @@
 /* Buttons */
 .login-card .btn {
     font-size: 1.1rem;
-    padding: 0.75rem 1rem; /* larger button with centered text */
+    padding: 0.75rem 1rem;
     height: auto;
 }
 
@@ -62,6 +76,6 @@
 .login-card h1,
 .login-card h2,
 .login-card h3 {
-    font-size: 1.75rem; /* slightly bigger headings */
+    font-size: 1.75rem;
     margin-bottom: 1.25rem;
 }
