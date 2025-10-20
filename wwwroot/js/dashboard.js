@@ -3,13 +3,10 @@
  * ----------------
  * Handles edit mode, drag-and-drop widget rearrangement,
  * and persistence of widget layout order in a Razor Pages environment.
- * 
- * Designed for static Razor pages with client-side interactivity.
  */
 
 class DashboardManager {
     constructor() {
-        // State variables
         this.editMode = false;
         this.draggedElement = null;
         this.isDragging = false;
@@ -19,18 +16,12 @@ class DashboardManager {
         this.init();
     }
 
-    /**
-     * Initialize dashboard: cache DOM elements, set up event listeners, load state.
-     */
     init() {
         this.cacheElements();
         this.attachEventListeners();
         this.loadWidgetOrder();
     }
 
-    /**
-     * Cache key DOM elements for performance.
-     */
     cacheElements() {
         this.editBtn = document.getElementById("editLayoutBtn");
         this.doneBtn = document.getElementById("doneEditingBtn");
@@ -39,55 +30,45 @@ class DashboardManager {
         this.widgetGrid = document.getElementById("widgetGrid");
     }
 
-    /**
-     * Returns a NodeList of all widget cards.
-     */
     get widgetCards() {
         return document.querySelectorAll(".widget-card");
     }
 
-    /**
-     * Attach top-level event listeners for edit mode and drag/touch operations.
-     */
     attachEventListeners() {
         this.editBtn?.addEventListener("click", () => this.enableEditMode());
         this.doneBtn?.addEventListener("click", () => this.disableEditMode());
         this.addWidgetBtn?.addEventListener("click", () => alert("Add Widget coming soon!"));
 
+        // Attach drag/touch listeners once per handle
+        this.widgetCards.forEach(widget => {
+            const handle = widget.querySelector(".widget-drag-handle");
+            handle?.addEventListener("mousedown", (e) => {
+                if (!this.editMode) return;
+                this.handleDragStart(e, widget);
+            });
+            handle?.addEventListener("touchstart", (e) => {
+                if (!this.editMode) return;
+                this.handleTouchStart(e, widget);
+            }, { passive: false });
+        });
+
         // Global drag/touch listeners
-        document.addEventListener("mousemove", (e) => this.handleDragMove(e));
+        document.addEventListener("mousemove", (e) => { if (this.isDragging) this.handleDragMove(e); });
         document.addEventListener("mouseup", () => this.handleDragEnd());
-        document.addEventListener("touchmove", (e) => this.handleTouchMove(e), { passive: false });
+        document.addEventListener("touchmove", (e) => { if (this.isDragging) this.handleTouchMove(e); }, { passive: false });
         document.addEventListener("touchend", () => this.handleTouchEnd());
     }
 
-    /**
-     * Enables layout editing mode.
-     */
     enableEditMode() {
         this.editMode = true;
         document.body.classList.add("edit-mode");
         if (this.editBanner) this.editBanner.style.display = "block";
-
-        this.widgetCards.forEach(widget => {
-            widget.style.cursor = "grab";
-            const handle = widget.querySelector(".widget-drag-handle");
-
-            // Attach per-widget listeners
-            handle?.addEventListener("mousedown", (e) => this.handleDragStart(e, widget));
-            handle?.addEventListener("touchstart", (e) => this.handleTouchStart(e, widget), { passive: false });
-        });
     }
 
-    /**
-     * Disables layout editing mode and saves the widget order.
-     */
     disableEditMode() {
         this.editMode = false;
         document.body.classList.remove("edit-mode");
         if (this.editBanner) this.editBanner.style.display = "none";
-
-        this.widgetCards.forEach(widget => widget.style.cursor = "default");
         this.saveWidgetOrder();
     }
 
@@ -96,18 +77,14 @@ class DashboardManager {
     // --------------------------
 
     handleDragStart(e, widget) {
-        if (!this.editMode) return;
         e.preventDefault();
-
         this.isDragging = true;
         this.draggedElement = widget;
         widget.classList.add("dragging");
     }
 
     handleDragMove(e) {
-        if (!this.isDragging || !this.draggedElement) return;
         e.preventDefault();
-
         const after = this.getDragAfterElement(this.widgetGrid, e.clientY);
         if (!after) this.widgetGrid.appendChild(this.draggedElement);
         else this.widgetGrid.insertBefore(this.draggedElement, after);
@@ -125,9 +102,7 @@ class DashboardManager {
     // --------------------------
 
     handleTouchStart(e, widget) {
-        if (!this.editMode) return;
         e.preventDefault();
-
         const touch = e.touches[0];
         this.touchStartPos = { x: touch.clientX, y: touch.clientY };
         this.isDragging = true;
@@ -136,9 +111,7 @@ class DashboardManager {
     }
 
     handleTouchMove(e) {
-        if (!this.isDragging || !this.draggedElement) return;
         e.preventDefault();
-
         const touch = e.touches[0];
         const after = this.getDragAfterElement(this.widgetGrid, touch.clientY);
         if (!after) this.widgetGrid.appendChild(this.draggedElement);
@@ -156,12 +129,6 @@ class DashboardManager {
     // HELPER METHODS
     // --------------------------
 
-    /**
-     * Determines the element that the dragged widget should be inserted before.
-     * @param {HTMLElement} container - Parent container of widgets
-     * @param {number} y - Current Y coordinate of cursor/touch
-     * @returns {HTMLElement|null} - The widget after which the dragged one should be placed
-     */
     getDragAfterElement(container, y) {
         const cards = [...container.querySelectorAll(".widget-card:not(.dragging)")];
         let closest = { offset: Number.NEGATIVE_INFINITY, element: null };
@@ -176,20 +143,20 @@ class DashboardManager {
         return closest.element;
     }
 
-    /**
-     * Saves the current widget order (by dataset IDs) in memory or to persistence later.
-     */
     saveWidgetOrder() {
         this.widgetOrder = [...this.widgetGrid.querySelectorAll(".widget-card")].map(w => w.dataset.widgetId);
+        localStorage.setItem("widgetOrder", JSON.stringify(this.widgetOrder));
         console.log("Widget order saved:", this.widgetOrder);
     }
 
-    /**
-     * Loads the saved widget order (placeholder for future persistence integration).
-     */
     loadWidgetOrder() {
+        const order = JSON.parse(localStorage.getItem("widgetOrder") || "[]");
+        if (!order.length) return;
+        order.forEach(id => {
+            const el = this.widgetGrid.querySelector(`.widget-card[data-widget-id="${id}"]`);
+            if (el) this.widgetGrid.appendChild(el);
+        });
         console.log("Widget order loaded");
-        // TODO: Retrieve saved layout from backend/localStorage and reorder DOM.
     }
 }
 

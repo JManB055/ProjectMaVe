@@ -1,10 +1,10 @@
 /* ======================================
-    DASHBOARD PAGE STYLES
-    (Specific to Dashboard.cshtml)
+   DASHBOARD PAGE STYLES
+   (Specific to Dashboard.cshtml)
    ====================================== */
 
 /* -------------------------
-    Layout
+   Layout
 ------------------------- */
 .dashboard-page {
   padding-top: 4rem;
@@ -15,7 +15,7 @@
 }
 
 /* -------------------------
-    Widget Grid
+   Widget Grid
 ------------------------- */
 .widget-grid {
   display: grid;
@@ -38,7 +38,7 @@
 }
 
 /* -------------------------
-    Widget Card
+   Widget Card
 ------------------------- */
 .widget-card {
   background: white;
@@ -91,7 +91,7 @@
 }
 
 /* -------------------------
-    Widget Header
+   Widget Header
 ------------------------- */
 .widget-header {
   display: flex;
@@ -109,6 +109,9 @@
   flex: 1;
 }
 
+/* -------------------------
+   Drag Handle
+------------------------- */
 .widget-drag-handle {
   background: none;
   border: none;
@@ -117,17 +120,20 @@
   padding: 0.5rem;
   font-size: 1.2rem;
   opacity: 0;
+  pointer-events: none; /* prevent interaction when hidden */
   transition: all 0.2s ease;
 }
 
-.widget-card:hover .widget-drag-handle,
+/* Only show drag handle in edit mode */
 .edit-mode .widget-drag-handle {
   opacity: 1;
   color: var(--color-blue);
+  pointer-events: auto; /* allow interaction in edit mode */
 }
 
-.widget-drag-handle:hover {
-  color: var(--color-blue);
+.widget-drag-handle:focus {
+  outline: 2px dashed var(--color-blue);
+  outline-offset: 2px;
 }
 
 .widget-drag-handle:active {
@@ -135,7 +141,7 @@
 }
 
 /* -------------------------
-    Widget Content
+   Widget Content
 ------------------------- */
 .widget-content {
   flex: 1;
@@ -168,7 +174,7 @@
 }
 
 /* -------------------------
-    Edit Mode Banner
+   Edit Mode Banner
 ------------------------- */
 .edit-mode-banner {
   position: fixed;
@@ -196,7 +202,9 @@
   gap: 0.5rem;
 }
 
-/* Drag Visuals */
+/* -------------------------
+   Drag Visuals
+------------------------- */
 .drag-ghost {
   position: fixed;
   pointer-events: none;
@@ -216,7 +224,9 @@
   z-index: 999;
 }
 
-/* Reduced Motion */
+/* -------------------------
+   Accessibility & Reduced Motion
+------------------------- */
 @media (prefers-reduced-motion: reduce) {
   .widget-card,
   .widget-drag-handle,
@@ -228,4 +238,12 @@
   .widget-card.dragging {
     transform: none;
   }
+}
+
+/* -------------------------
+   Misc
+------------------------- */
+.widget-card:focus-within {
+  outline: 2px dashed var(--color-blue);
+  outline-offset: 2px;
 }
