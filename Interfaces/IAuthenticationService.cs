@@ -21,4 +21,5 @@ public interface IAuthenticationService
 
     string GetAuthToken(Int32 uid);
     Task<bool> SetPassword(Int32 uid, string password);
+    Task<bool> RegisterAsync(UserInfo userInfo);
 }

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectMaVe.Models;
@@ -24,6 +25,7 @@ public class UserInfo
         Email = email;
     }
 
+    [Key]
     [Column("user_id")]
     public Int32 UserID { get; set; } = 0;
 
