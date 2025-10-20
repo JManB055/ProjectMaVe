@@ -11,90 +11,135 @@
         LastName = lname;
         Email = email;*@
 
-<h1 class="accout-text">New User</h1>
+<!-- New User Page Container -->
+<div class="login-page bg-light-orange d-flex align-items-center justify-content-center min-vh-100 py-4">
+    <div class="card login-card shadow-lg border-0 p-4 rounded-4" style="max-width: 450px;">
+        
+        <!-- Header -->
+        <header class="text-center mb-3">
+            <h1 class="h2 archivo-black-regular text-blue mb-1">FitSync</h1>
+            <p class="urbanist-bold text-blue mb-0">Create Your Account</p>
+        </header>
 
-<div class="container">
-    <form method="post">
-        @* Username text entry *@
-        <div class="row mb-3">
-            <div class="offset-sm-2 col-sm-2 mylabels">
-                <label>Username</label>
-            </div>
-            <div class="col-sm-4">
-                @* Give user a text box *@
-                <input asp-for="UserName" type="text" class="w-100" />
-            </div>
-            <div class="col-sm-4">
-            </div>
-        </div>
+        @* ===============================
+            Registration Form
+           =============================== *@
+        <form method="post" novalidate aria-label="Registration form">
 
+            @* --- Username Field --- *@
+            <div class="mb-2">
+                <label asp-for="UserName" class="form-label urbanist-medium text-blue mb-1">Username</label>
+                <input asp-for="UserName"
+                    type="text"
+                    class="form-control rounded-3"
+                    placeholder="Choose a username"
+                    autocomplete="username"
+                    required
+                    aria-required="true"
+                    aria-describedby="username-error" />
+                <span asp-validation-for="UserName" 
+                    id="username-error" 
+                    class="text-danger d-block mt-1 small" 
+                    role="alert"></span>
+            </div>
 
-        @* Password text entry *@
-        <div class="row mb-3">
-            <div class="offset-sm-2 col-sm-2 mylabels">
-                <label>Password</label>
+            @* --- Password Field --- *@
+            <div class="mb-2">
+                <label asp-for="Password" class="form-label urbanist-medium text-blue mb-1">Password</label>
+                <input asp-for="Password"
+                    type="password"
+                    class="form-control rounded-3"
+                    placeholder="Create a password"
+                    autocomplete="new-password"
+                    required
+                    aria-required="true"
+                    aria-describedby="password-error" />
+                <span asp-validation-for="Password" 
+                    id="password-error" 
+                    class="text-danger d-block mt-1 small" 
+                    role="alert"></span>
             </div>
-            <div class="col-sm-4">
-                @* Give user a text box *@
-                <input asp-for="Password" type="password" class="w-100" />
-            </div>
-            <div class="col-sm-4">
-            </div>
-        </div>
 
-        @* First Name text entry *@
-        <div class="row mb-3">
-            <div class="offset-sm-2 col-sm-2 mylabels">
-                <label>First Name</label>
+            @* --- First Name Field --- *@
+            <div class="mb-2">
+                <label asp-for="FirstName" class="form-label urbanist-medium text-blue mb-1">First Name</label>
+                <input asp-for="FirstName"
+                    type="text"
+                    class="form-control rounded-3"
+                    placeholder="Enter your first name"
+                    autocomplete="given-name"
+                    required
+                    aria-required="true"
+                    aria-describedby="firstname-error" />
+                <span asp-validation-for="FirstName" 
+                    id="firstname-error" 
+                    class="text-danger d-block mt-1 small" 
+                    role="alert"></span>
             </div>
-            <div class="col-sm-4">
-                @* Give user a text box *@
-                <input asp-for="FirstName" type="text" class="w-100" />
-            </div>
-            <div class="col-sm-4">
-            </div>
-        </div>
 
-        @* Last Name text entry *@
-        <div class="row mb-3">
-            <div class="offset-sm-2 col-sm-2 mylabels">
-                <label>Last Name</label>
+            @* --- Last Name Field --- *@
+            <div class="mb-2">
+                <label asp-for="LastName" class="form-label urbanist-medium text-blue mb-1">Last Name</label>
+                <input asp-for="LastName"
+                    type="text"
+                    class="form-control rounded-3"
+                    placeholder="Enter your last name"
+                    autocomplete="family-name"
+                    required
+                    aria-required="true"
+                    aria-describedby="lastname-error" />
+                <span asp-validation-for="LastName" 
+                    id="lastname-error" 
+                    class="text-danger d-block mt-1 small" 
+                    role="alert"></span>
             </div>
-            <div class="col-sm-4">
-                @* Give user a text box *@
-                <input asp-for="LastName" type="text" class="w-100" />
-            </div>
-            <div class="col-sm-4">
-            </div>
-        </div>
 
-        @* Email text entry *@
-        <div class="row mb-3">
-            <div class="offset-sm-2 col-sm-2 mylabels">
-                <label>Email</label>
+            @* --- Email Field --- *@
+            <div class="mb-2">
+                <label asp-for="Email" class="form-label urbanist-medium text-blue mb-1">Email</label>
+                <input asp-for="Email"
+                    type="email"
+                    class="form-control rounded-3"
+                    placeholder="Enter your email"
+                    autocomplete="email"
+                    required
+                    aria-required="true"
+                    aria-describedby="email-error" />
+                <span asp-validation-for="Email" 
+                    id="email-error" 
+                    class="text-danger d-block mt-1 small" 
+                    role="alert"></span>
             </div>
-            <div class="col-sm-4">
-                @* Give user a text box *@
-                <input asp-for="Email" type="text" class="w-100" />
-            </div>
-            <div class="col-sm-4">
-            </div>
-        </div>
 
-        @* Create Account button *@
-        <div class="row mb-3">
-            <div class="col-sm-3 offset-sm-4">
-                <input asp-page-handler="NewUser" type="submit" value="Create Account" class="mt-4 btn btn-dark" />
+            @* --- Submit Button --- *@
+            <div class="d-grid mt-3">
+                <input asp-page-handler="NewUser"
+                    type="submit"
+                    value="Create Account"
+                    class="btn btn-signin-primary"
+                    aria-label="Create your FitSync account" />
             </div>
-        </div>
 
-        <div class="row mb-3">
-            <div class="col-sm-9 offset-sm-3">
-                @* Add a label element to show any messages on the page to the user *@
-                @* This is the only time you are allowed to use inline styling *@
-                <label>@Model.Message</label>
+            @* --- Feedback Message --- *@
+            @if (!string.IsNullOrEmpty(Model.Message))
+            {
+                <div class="alert alert-info text-center mt-2 mb-0 py-2" role="alert">
+                    <label class="mb-0 small">@Model.Message</label>
+                </div>
+            }
+
+            @* --- Login Redirect Link --- *@
+            <div class="text-center mt-2">
+                <span class="urbanist-medium small">Already have an account? </span>
+                <a asp-page="/LogIn" 
+                    class="urbanist-medium text-blue text-decoration-none small">
+                    Sign In
+                </a>
             </div>
-        </div>
-
-    </form>
+        </form>
+    </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
