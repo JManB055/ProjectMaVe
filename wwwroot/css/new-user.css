@@ -1,81 +1,104 @@
 /* ===============================
-    New User Page Styles
-   =============================== */
+   New User Page Styles
+=============================== */
 
-/* Page Container */
-.register-page {
-    min-height: 100dvh; /* full viewport height */
+/* Ensure full viewport height for parent */
+html, body {
+    height: 100%;
+}
+
+/* Make main take full viewport and allow padding like login */
+main.register-main {
     display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* align to top instead of center */
     align-items: center;
-    justify-content: center;
-    padding: 2.5rem 1rem;
-    width: 100%;
+    min-height: 100vh;
+    padding-top: 5rem;
+    /* increase top space above card */
+    padding-bottom: 2rem;
     box-sizing: border-box;
-
-    /* Allow vertical scroll only if content overflows */
-    overflow-y: auto;
-}
-
-.register-page h1.fit-sync {
-    font-size: 2rem;
-    margin-bottom: 0.5rem; /* smaller spacing below header */
-}
-
-/* Responsive: adjust padding on mobile */
-@media (max-width: 768px) {
-    .register-page {
-        padding: 1.5rem 1rem;
-    }
-}
-
-/* Registration Card */
-.register-card {
     width: 100%;
-    max-width: 450px; /* same as login page */
-    padding: 2rem 1.75rem;
-    line-height: 1.3;
 }
 
-/* Responsive: tighten padding on smaller screens */
-@media (max-width: 576px) {
-    .register-card {
-        padding: 1.75rem 1.25rem;
-        max-width: 90%;
+/* Register page container */
+.register-page {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    /* align card to top, leaving padding above */
+    padding: 0 1rem;
+    box-sizing: border-box;
+}
+
+/* Optional: allow scroll if viewport is small */
+@media (max-height: 700px) {
+    main.register-main {
+        justify-content: flex-start;
+        padding-top: 2rem;
+        overflow-y: auto;
     }
 }
 
-/* Form Spacing - tighten vertical gaps */
-.register-card .form-group,
+.register-card {
+    width: clamp(320px, 32vw, 450px);
+    /* slightly larger max width */
+    padding: clamp(2.5rem, 5vh, 3rem);
+    /* more top padding like login page */
+    border-radius: 1.25rem;
+    line-height: 1.4;
+    background: #fff;
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(0.5rem);
+    /* optional visual adjustment */
+}
+
+/* Header spacing */
+.register-card h1.fit-sync {
+    font-size: clamp(1.5rem, 2vw, 2rem);
+    margin-bottom: 0.6rem;
+    /* match login header spacing */
+}
+
+/* Tighten vertical spacing for inputs & fields */
 .register-card .mb-2,
 .register-card .mb-3 {
-    margin-bottom: 0.5rem; /* reduce spacing */
+    margin-bottom: 0.6rem;
 }
 
-.register-card label {
-    margin-bottom: 0.25rem; /* tighter label spacing */
-}
-
-/* Inputs and Selects - keep size unchanged */
+/* Inputs */
 .register-card input,
 .register-card select,
 .register-card textarea {
-    font-size: 0.95rem;
+    width: 100%;
+    font-size: clamp(0.85rem, 0.95rem + 0.2vw, 1rem);
     padding: 0.5rem 0.75rem;
+    /* smaller height */
     border-radius: 0.5rem;
-    height: auto;
+    margin-bottom: 0.4rem;
+    /* slightly tighter vertical spacing */
+    box-sizing: border-box;
 }
 
-/* Adjust Create Account button */
+/* Adjust form field containers */
+.register-card .mb-2,
+.register-card .mb-3 {
+    margin-bottom: 0.5rem;
+}
+
+/* Keep buttons same size and padding */
 .register-card .btn {
-    font-size: 1rem; /* slightly smaller than before */
-    padding: 0.7rem 1rem; /* slightly smaller padding */
-    height: auto;
+    font-size: clamp(0.9rem, 1vw, 1rem);
+    padding: 0.75rem 1rem;
 }
 
-/* Headings - tighten spacing slightly */
-.register-card h1,
-.register-card h2,
-.register-card h3 {
-    font-size: 1.5rem;
-    margin-bottom: 0.75rem; /* slightly smaller than before */
+/* Small screens adjustments */
+@media (max-height: 700px) {
+    .register-page {
+        align-items: flex-start;
+        overflow-y: auto;
+        padding-top: 2rem;
+    }
 }

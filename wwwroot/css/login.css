@@ -1,81 +1,67 @@
 /* ===============================
-    Login Page Styles
-   =============================== */
+   Login Page Styles
+=============================== */
 
-/* Force the page to take full viewport and prevent scrolling */
-html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    overflow: hidden; /* prevent scrolling */
-}
-
-/* Login Page Container */
+/* Full viewport flex container to center card */
 .login-page {
-    min-height: 100dvh; /* full viewport */
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
-    width: 100%;
-    padding: 2.5rem 1rem;
+    /* vertical centering */
+    align-items: center;
+    /* horizontal centering */
+    min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
+    padding: 2rem 1rem;
     box-sizing: border-box;
-}
-
-.login-page h1.fit-sync {
-    font-size: 2.0rem;
-    margin-bottom: 0.5rem;
-}
-
-/* Responsive: adjust padding on mobile */
-@media (max-width: 768px) {
-    .login-page {
-        padding: 2rem 1rem;
-    }
+    width: 100%;
 }
 
 /* Login Card */
 .login-card {
+    max-width: 450px;
     width: 100%;
-    max-width: 450px; /* matches new-user page width */
-    padding: 3rem 2.5rem; /* slightly bigger card padding */
-    line-height: 1.8;
+    padding: 2.5rem 2rem;
+    line-height: 1.6;
+    box-sizing: border-box;
 }
 
-/* Responsive: tighten padding on smaller screens */
-@media (max-width: 576px) {
-    .login-card {
-        padding: 2.5rem 1.5rem;
-        max-width: 90%;
-    }
+/* Headings inside card */
+.login-card h1.fit-sync {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
 }
 
-/* Form Spacing */
-.login-card .form-group {
-    margin-bottom: 1rem;
-}
-
-/* Inputs and Selects */
+/* Inputs, selects, textareas, and buttons inside card */
 .login-card input,
 .login-card select,
-.login-card textarea {
-    font-size: 1.1rem;
-    padding: 0.75rem 1rem;
-    border-radius: 0.5rem;
-    height: auto; /* ensure it grows with padding */
-}
-
-/* Buttons */
+.login-card textarea,
 .login-card .btn {
     font-size: 1.1rem;
     padding: 0.75rem 1rem;
+    border-radius: 1.25rem;
     height: auto;
+    box-sizing: border-box;
 }
 
-/* Headings */
-.login-card h1,
-.login-card h2,
-.login-card h3 {
-    font-size: 1.75rem;
-    margin-bottom: 1.25rem;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .login-page {
+        padding: 1.5rem 1rem;
+    }
+
+    .login-card {
+        padding: 2rem 1.5rem;
+        max-width: 90%;
+    }
+
+    .login-card h1.fit-sync {
+        font-size: 1.75rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .login-card h1.fit-sync {
+        font-size: 1.5rem;
+    }
 }

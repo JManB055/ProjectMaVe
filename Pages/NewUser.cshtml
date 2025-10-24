@@ -4,139 +4,140 @@
     ViewData["Title"] = "New User";
 }
 
-<!-- Registration Page Container -->
-<div class="register-page bg-light-orange">
-    <div class="card register-card shadow-lg border-0 p-4 rounded-4">
+<main class="d-flex flex-column align-items-center w-100 flex-grow-1">
+    <div class="register-page bg-light-orange w-100 d-flex justify-content-center" style="padding-top: 5rem; padding-bottom: 5rem;">
+        <div class="card register-card shadow-lg border-0 p-4 rounded-4">
 
-        <!-- Header -->
-        <header class="text-center mb-4">
-            <h1 class="archivo-black-regular text-blue mb-2 fit-sync">FitSync</h1>
-            <p class="urbanist-bold text-blue mb-0">Create Your Account</p>
-        </header>
+            <!-- Header -->
+            <header class="text-center mb-4">
+                <h1 class="archivo-black-regular text-blue mb-2 fit-sync">FitSync</h1>
+                <p class="urbanist-bold text-blue mb-0">Create Your Account</p>
+            </header>
 
-        @* ===============================
-            Feedback Message
-           =============================== *@
-        @if (!string.IsNullOrEmpty(Model.Message))
-        {
-            <div class="alert alert-info text-center urbanist-medium mb-3 rounded-3 py-2" role="alert">
-                <label class="mb-0 small">@Model.Message</label>
-            </div>
-        }
+            @* ===============================
+                Feedback Message
+               =============================== *@
+            @if (!string.IsNullOrEmpty(Model.Message))
+            {
+                <div class="alert alert-info text-center urbanist-medium mb-3 rounded-3 py-2" role="alert">
+                    <label class="mb-0 small">@Model.Message</label>
+                </div>
+            }
 
-        @* ===============================
-            Registration Form
-           =============================== *@
-        <form method="post" novalidate aria-label="Registration form">
+            @* ===============================
+                Registration Form
+               =============================== *@
+            <form method="post" novalidate aria-label="Registration form">
 
-            @* --- Validation Summary --- *@
-            <div asp-validation-summary="ModelOnly" class="text-danger text-center mb-3" role="alert"></div>
+                @* --- Validation Summary --- *@
+                <div asp-validation-summary="ModelOnly" class="text-danger text-center mb-3" role="alert"></div>
 
-            @* --- Username Field --- *@
-            <div class="mb-2">
-                <label asp-for="UserName" class="form-label urbanist-medium text-blue mb-1">Username</label>
-                <input asp-for="UserName"
-                    type="text"
-                    class="form-control form-control-lg rounded-3"
-                    placeholder="Choose a username"
-                    autocomplete="username"
-                    required
-                    aria-required="true"
-                    aria-describedby="username-error" />
-                <span asp-validation-for="UserName" 
-                    id="username-error" 
-                    class="text-danger d-block mt-1 small" 
-                    role="alert"></span>
-            </div>
+                @* --- Username Field --- *@
+                <div class="mb-2">
+                    <label asp-for="UserName" class="form-label urbanist-medium text-blue mb-1">Username</label>
+                    <input asp-for="UserName"
+                        type="text"
+                        class="form-control form-control-lg rounded-3"
+                        placeholder="Choose a username"
+                        autocomplete="username new-password"
+                        required
+                        aria-required="true"
+                        aria-describedby="username-error" />
+                    <span asp-validation-for="UserName" 
+                        id="username-error" 
+                        class="text-danger d-block mt-1 small" 
+                        role="alert"></span>
+                </div>
 
-            @* --- Password Field --- *@
-            <div class="mb-2">
-                <label asp-for="Password" class="form-label urbanist-medium text-blue mb-1">Password</label>
-                <input asp-for="Password"
-                    type="password"
-                    class="form-control form-control-lg rounded-3"
-                    placeholder="Create a password"
-                    autocomplete="new-password"
-                    required
-                    aria-required="true"
-                    aria-describedby="password-error" />
-                <span asp-validation-for="Password" 
-                    id="password-error" 
-                    class="text-danger d-block mt-1 small" 
-                    role="alert"></span>
-            </div>
+                @* --- Password Field --- *@
+                <div class="mb-2">
+                    <label asp-for="Password" class="form-label urbanist-medium text-blue mb-1">Password</label>
+                    <input asp-for="Password"
+                        type="password"
+                        class="form-control form-control-lg rounded-3"
+                        placeholder="Create a password"
+                        autocomplete="new-password"
+                        required
+                        aria-required="true"
+                        aria-describedby="password-error" />
+                    <span asp-validation-for="Password" 
+                        id="password-error" 
+                        class="text-danger d-block mt-1 small" 
+                        role="alert"></span>
+                </div>
 
-            @* --- First Name Field --- *@
-            <div class="mb-2">
-                <label asp-for="FirstName" class="form-label urbanist-medium text-blue mb-1">First Name</label>
-                <input asp-for="FirstName"
-                    type="text"
-                    class="form-control form-control-lg rounded-3"
-                    placeholder="Enter your first name"
-                    autocomplete="given-name"
-                    required
-                    aria-required="true"
-                    aria-describedby="firstname-error" />
-                <span asp-validation-for="FirstName" 
-                    id="firstname-error" 
-                    class="text-danger d-block mt-1 small" 
-                    role="alert"></span>
-            </div>
+                @* --- First Name Field --- *@
+                <div class="mb-2">
+                    <label asp-for="FirstName" class="form-label urbanist-medium text-blue mb-1">First Name</label>
+                    <input asp-for="FirstName"
+                        type="text"
+                        class="form-control form-control-lg rounded-3"
+                        placeholder="Enter your first name"
+                        autocomplete="given-name"
+                        required
+                        aria-required="true"
+                        aria-describedby="firstname-error" />
+                    <span asp-validation-for="FirstName" 
+                        id="firstname-error" 
+                        class="text-danger d-block mt-1 small" 
+                        role="alert"></span>
+                </div>
 
-            @* --- Last Name Field --- *@
-            <div class="mb-2">
-                <label asp-for="LastName" class="form-label urbanist-medium text-blue mb-1">Last Name</label>
-                <input asp-for="LastName"
-                    type="text"
-                    class="form-control form-control-lg rounded-3"
-                    placeholder="Enter your last name"
-                    autocomplete="family-name"
-                    required
-                    aria-required="true"
-                    aria-describedby="lastname-error" />
-                <span asp-validation-for="LastName" 
-                    id="lastname-error" 
-                    class="text-danger d-block mt-1 small" 
-                    role="alert"></span>
-            </div>
+                @* --- Last Name Field --- *@
+                <div class="mb-2">
+                    <label asp-for="LastName" class="form-label urbanist-medium text-blue mb-1">Last Name</label>
+                    <input asp-for="LastName"
+                        type="text"
+                        class="form-control form-control-lg rounded-3"
+                        placeholder="Enter your last name"
+                        autocomplete="family-name"
+                        required
+                        aria-required="true"
+                        aria-describedby="lastname-error" />
+                    <span asp-validation-for="LastName" 
+                        id="lastname-error" 
+                        class="text-danger d-block mt-1 small" 
+                        role="alert"></span>
+                </div>
 
-            @* --- Email Field --- *@
-            <div class="mb-3">
-                <label asp-for="Email" class="form-label urbanist-medium text-blue mb-1">Email</label>
-                <input asp-for="Email"
-                    type="email"
-                    class="form-control form-control-lg rounded-3"
-                    placeholder="Enter your email"
-                    autocomplete="email"
-                    required
-                    aria-required="true"
-                    aria-describedby="email-error" />
-                <span asp-validation-for="Email" 
-                    id="email-error" 
-                    class="text-danger d-block mt-1 small" 
-                    role="alert"></span>
-            </div>
+                @* --- Email Field --- *@
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label urbanist-medium text-blue mb-1">Email</label>
+                    <input asp-for="Email"
+                        type="email"
+                        class="form-control form-control-lg rounded-3"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                        required
+                        aria-required="true"
+                        aria-describedby="email-error" />
+                    <span asp-validation-for="Email" 
+                        id="email-error" 
+                        class="text-danger d-block mt-1 small" 
+                        role="alert"></span>
+                </div>
 
-            @* --- Submit Button --- *@
-            <div class="d-grid mt-3">
-                <input asp-page-handler="NewUser"
-                    type="submit"
-                    value="Create Account"
-                    class="btn btn-blue btn-lg"
-                    aria-label="Create your FitSync account" />
-            </div>
+                @* --- Submit Button --- *@
+                <div class="d-grid mt-3">
+                    <input asp-page-handler="NewUser"
+                        type="submit"
+                        value="Create Account"
+                        class="btn btn-blue btn-lg"
+                        aria-label="Create your FitSync account" />
+                </div>
 
-            @* --- Login Redirect Link --- *@
-            <div class="text-center mt-3">
-                <span class="urbanist-medium">Already have an account? </span>
-                <a asp-page="/LogIn" 
-                    class="urbanist-medium text-blue text-decoration-none">
-                    Sign In
-                </a>
-            </div>
-        </form>
+                @* --- Login Redirect Link --- *@
+                <div class="text-center mt-3">
+                    <span class="urbanist-medium">Already have an account? </span>
+                    <a asp-page="/LogIn" 
+                        class="urbanist-medium text-blue text-decoration-none">
+                        Sign In
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
+</main>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

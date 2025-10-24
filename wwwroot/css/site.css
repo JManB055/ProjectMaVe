@@ -1,123 +1,6 @@
 /* ===============================
-    Site Layout & Global Utilities
+    Site Shared Components & Utilities
 =============================== */
-
-/* -------------------------
-    HTML & Body
-------------------------- */
-html, body {
-  overflow-x: hidden;
-}
-
-html {
-  font-size: 14px;
-  position: relative;
-  min-height: 100%;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-/* -------------------------
-    Background Gradients
-------------------------- */
-.bg-gradient-blue-orange {
-  background: linear-gradient(
-    to bottom,
-    var(--color-blue) 0%,
-    #3780d4 70%,
-    #448cd9 100%
-  );
-}
-
-/* -------------------------
-    Utilities
-------------------------- */
-.full-bleed {
-  box-sizing: border-box;
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-  position: relative;
-}
-
-.py-6 {
-  padding-top: 6rem;
-  padding-bottom: 6rem;
-}
-
-@media (max-width: 768px) {
-  .py-6 {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
-  }
-}
-
-/* -------------------------
-    Focus Styles
-------------------------- */
-.btn:focus,
-.btn:active:focus,
-.btn-link.nav-link:focus,
-.form-control:focus,
-.form-check-input:focus,
-.btn-yellow:focus,
-.btn-blue:focus {
-  box-shadow:
-    0 0 0 0.1rem var(--focus-outline-inner),
-    0 0 0 0.25rem var(--focus-outline-outer);
-}
-
-/* -------------------------
-    Navigation
-------------------------- */
-.navbar {
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.navbar.scrolled {
-  background: var(--navbar-bg-scrolled);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-}
-
-.navbar-nav {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  width: 100%;
-  letter-spacing: 1px;
-}
-
-@media (max-width: 768px) {
-  .navbar-nav {
-    gap: 1rem;
-  }
-}
-
-.nav-link {
-  font-family: "Urbanist", sans-serif;
-  font-weight: 800;
-  color: var(--color-yellow) !important;
-  transition: opacity 0.2s ease;
-}
-
-.nav-link:hover,
-.nav-link:focus {
-  color: var(--color-yellow) !important;
-  opacity: 0.85;
-}
-
-.nav-link:active {
-  color: var(--color-yellow) !important;
-  opacity: 0.7;
-}
-
-.navbar-brand {
-  color: var(--color-light-orange) !important;
-}
 
 /* -------------------------
     Buttons
@@ -175,9 +58,93 @@ html {
 }
 
 /* -------------------------
-    Login Card
+    Navigation
 ------------------------- */
-.login-card {
+.navbar {
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.navbar.scrolled {
+  background: var(--navbar-bg-scrolled);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.navbar-nav {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  width: 100%;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+  .navbar-nav {
+    gap: 1rem;
+  }
+}
+
+.nav-link {
+  font-family: "Urbanist", sans-serif;
+  font-weight: 800;
+  color: var(--color-yellow) !important;
+  transition: opacity 0.2s ease;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  color: var(--color-yellow) !important;
+  opacity: 0.85;
+}
+
+.nav-link:active {
+  color: var(--color-yellow) !important;
+  opacity: 0.7;
+}
+
+.navbar-brand {
+  color: var(--color-light-orange) !important;
+}
+
+/* -------------------------
+    Background Gradients
+------------------------- */
+.bg-gradient-blue-orange {
+  background: linear-gradient(to bottom,
+      var(--color-blue) 0%,
+      #3780d4 70%,
+      #448cd9 100%);
+}
+
+/* -------------------------
+    Form Elements
+------------------------- */
+input,
+select,
+textarea {
+  font-size: 1.1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  height: auto;
+  /* grows with padding */
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus,
+.btn-yellow:focus,
+.btn-blue:focus {
+  box-shadow:
+    0 0 0 0.1rem var(--focus-outline-inner),
+    0 0 0 0.25rem var(--focus-outline-outer);
+}
+
+/* -------------------------
+    Cards
+------------------------- */
+.login-card,
+.register-card {
   max-width: 450px;
   width: 100%;
 }
@@ -186,11 +153,34 @@ html {
     Accessibility
 ------------------------- */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* -------------------------
+    Utility Padding Classes
+------------------------- */
+.py-6 {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+}
+
+@media (max-width: 768px) {
+  .py-6 {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .py-6 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
   }
 }

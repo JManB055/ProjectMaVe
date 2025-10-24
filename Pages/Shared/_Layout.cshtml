@@ -6,14 +6,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ProjectMaVe</title>
-    
+
     <!-- Stylesheets -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/brand.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProjectMaVe.styles.css" asp-append-version="true" />
 
-    <!-- Font Awesome (load early to prevent icon flash) -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" 
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" 
@@ -33,31 +33,18 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-blue border-bottom box-shadow fixed-top" aria-label="Main navigation">
             <div class="container">
-                <a class="navbar-brand urbanist-bold" asp-area="" asp-page="/Index" aria-label="FitSync home">
-                    FitSync
-                </a>
-                
-                <button class="navbar-toggler" 
-                        type="button" 
-                        data-bs-toggle="collapse" 
-                        data-bs-target="#navbarContent" 
-                        aria-controls="navbarContent"
-                        aria-expanded="false" 
-                        aria-label="Toggle navigation">
+                <a class="navbar-brand urbanist-bold" asp-area="" asp-page="/Index" aria-label="FitSync home">FitSync</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                        aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                
+
                 <div class="collapse navbar-collapse" id="navbarContent">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/Dashboard">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/Workouts">Workouts</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/AboutUs">About Us</a>
-                        </li>
+                    <ul class="navbar-nav flex-grow-1 justify-content-center gap-2 gap-md-4">
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-page="/Dashboard">Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-page="/Workouts">Workouts</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-area="" asp-page="/AboutUs">About Us</a></li>
                     </ul>
                     <div class="d-flex">
                         <a class="btn btn-yellow" asp-area="" asp-page="/LogIn" role="button">Sign In</a>
@@ -68,15 +55,13 @@
     </header>
 
     <!-- Main Content -->
-    <div class="flex-grow-1" style="padding-bottom:1rem;">
-        <main role="main" class="w-100">
-            @RenderBody()
-        </main>
-    </div>
+    <main class="flex-grow-1 d-flex flex-column" style="padding-top: var(--navbar-height); padding-bottom: var(--footer-height);">
+        @RenderBody()
+    </main>
 
     <!-- Footer -->
-    <footer class="border-top footer text-muted">
-        <div class="container">
+    <footer class="footer border-top text-muted mt-auto">
+        <div class="container text-center py-3">
             &copy; @DateTime.Now.Year - FitSync - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
     </footer>
