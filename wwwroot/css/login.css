@@ -1,53 +1,115 @@
 /* ===============================
    Login Page Styles
-=============================== */
+   =============================== */
 
-/* Full viewport flex container to center card */
-.login-page {
+/* ====================================
+   Variables (Page Specific)
+==================================== */
+:root {
+    /* Layout */
+    --login-min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
+    --login-padding-vertical: 5rem;
+    --login-padding-sides: 2rem;
+
+    /* Card */
+    --card-width-min: 320px;
+    --card-width-max: 450px;
+    --card-padding: clamp(2rem, 4vh, 2.5rem);
+    --card-radius: 1.25rem;
+    --card-line-height: 1.5;
+    --card-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+
+    /* Fonts */
+    --font-size-header: clamp(1.5rem, 2vw, 2rem);
+    --font-size-input: clamp(0.9rem, 1vw, 1.05rem);
+    --font-size-button: clamp(1rem, 1.25vw, 1.35rem);
+
+    /* Input/Button styling */
+    --input-padding: 0.75rem 1rem;
+    --button-padding: 0.75rem 0.9rem;
+    --input-radius: 1rem;
+    --button-radius: 0.5rem;
+}
+
+/* ====================================
+   Layout
+==================================== */
+main.login-main {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* vertical centering */
     align-items: center;
-    /* horizontal centering */
-    min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
-    padding: 2rem 1rem;
-    box-sizing: border-box;
+    min-height: var(--login-min-height);
     width: 100%;
+    padding: var(--login-padding-vertical) var(--login-padding-sides);
+    box-sizing: border-box;
+    overflow-y: auto;
 }
 
-/* Login Card */
+/* Page container */
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0 1rem;
+    box-sizing: border-box;
+}
+
+/* ====================================
+   Card
+==================================== */
 .login-card {
-    max-width: 450px;
-    width: 100%;
-    padding: 2.5rem 2rem;
-    line-height: 1.6;
+    width: clamp(var(--card-width-min), 32vw, var(--card-width-max));
+    padding: var(--card-padding);
+    border-radius: var(--card-radius);
+    line-height: var(--card-line-height);
+    box-shadow: var(--card-shadow);
     box-sizing: border-box;
 }
 
-/* Headings inside card */
+/* Header */
 .login-card h1.fit-sync {
-    font-size: 2rem;
+    font-size: var(--font-size-header);
     margin-bottom: 0.5rem;
     text-align: center;
 }
 
-/* Inputs, selects, textareas, and buttons inside card */
+/* ====================================
+   Form Elements
+==================================== */
 .login-card input,
 .login-card select,
-.login-card textarea,
-.login-card .btn {
-    font-size: 1.1rem;
-    padding: 0.75rem 1rem;
-    border-radius: 1.25rem;
-    height: auto;
+.login-card textarea {
+    width: 100%;
+    font-size: var(--font-size-input);
+    padding: var(--input-padding);
+    border-radius: var(--input-radius);
     box-sizing: border-box;
 }
 
-/* Responsive adjustments */
+/* Sign-in Button */
+.login-card .btn {
+    width: 100%;
+    font-size: var(--font-size-button);
+    padding: var(--button-padding);
+    border-radius: var(--button-radius);
+    font-weight: 600;
+    box-sizing: border-box;
+}
+
+/* Form spacing */
+.login-card .mb-2,
+.login-card .mb-3 {
+    margin-bottom: 0.6rem;
+}
+
+/* ====================================
+   Responsive Adjustments
+==================================== */
 @media (max-width: 768px) {
-    .login-page {
-        padding: 1.5rem 1rem;
+    main.login-main {
+        padding: 2rem 1rem;
     }
 
     .login-card {

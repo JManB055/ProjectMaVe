@@ -4,8 +4,8 @@
     ViewData["Title"] = "New User";
 }
 
-<main class="d-flex flex-column align-items-center w-100 flex-grow-1">
-    <div class="register-page bg-light-orange w-100 d-flex justify-content-center" style="padding-top: 5rem; padding-bottom: 5rem;">
+<main class="page-main register-main">
+    <div class="register-page bg-light-orange">
         <div class="card register-card shadow-lg border-0 p-4 rounded-4">
 
             <!-- Header -->
@@ -118,11 +118,11 @@
                 </div>
 
                 @* --- Submit Button --- *@
-                <div class="d-grid mt-3">
+                <div class="d-grid mt-4">
                     <input asp-page-handler="NewUser"
                         type="submit"
                         value="Create Account"
-                        class="btn btn-blue btn-lg"
+                        class="btn btn-blue"
                         aria-label="Create your FitSync account" />
                 </div>
 

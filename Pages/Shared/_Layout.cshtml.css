@@ -6,12 +6,32 @@
   /* default navbar height */
   --footer-height: 40px;
   /* default footer height */
+
+  /* Theme Colors */
   --primary-color: #1b6ec2;
   --primary-color-hover: #155799;
   --link-color: #0077cc;
   --link-color-hover: #005fa3;
   --footer-bg: #f8f9fa;
   --footer-text: #6c757d;
+}
+
+/* ===========================================
+   Global & Base Elements
+   =========================================== */
+html {
+  scrollbar-gutter: stable both-edges;
+  overflow-y: scroll !important;
+  /* force the scrollbar slot always */
+}
+
+body {
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+  background-color: #fff;
 }
 
 /* General link styles */
@@ -30,18 +50,6 @@ a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-word;
-}
-
-/* Primary button (Bootstrap override) */
-.btn-primary {
-  color: #fff;
-  background-color: var(--primary-color);
-  border-color: #1861ac;
-}
-
-.btn-primary:hover {
-  background-color: var(--primary-color-hover);
-  border-color: #124b85;
 }
 
 /* Active nav pills */
@@ -69,27 +77,8 @@ a.navbar-brand {
    Layout Structure
    =========================================== */
 
-/* Body flex layout */
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  margin: 0;
-  background-color: #fff;
-}
-
-main {
-  flex-grow: 1;
-  margin-top: var(--navbar-height);
-  padding-bottom: calc(var(--footer-height) + 1rem);
-  box-sizing: border-box;
-}
-
-/* Header */
+/* Fixed header at the top */
 header {
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   height: var(--navbar-height);
   z-index: 10;
@@ -100,7 +89,6 @@ header {
    =========================================== */
 .footer {
   height: var(--footer-height);
-  /* Use the variable directly */
   width: 100%;
   border-top: 1px solid #e5e5e5;
   background-color: var(--footer-bg);
@@ -111,14 +99,11 @@ header {
   text-align: center;
   box-sizing: border-box;
   padding: 0;
-  /* Remove extra padding */
   margin: 0;
-  /* Ensure no default margin */
 }
 
 .footer a {
   color: var(--link-color);
-  text-decoration: none;
 }
 
 .footer a:hover {
@@ -143,7 +128,7 @@ header {
     /* taller footer for mobile */
   }
 
-  main {
+  main.main-content {
     padding-bottom: calc(var(--footer-height) + 1rem);
   }
 }
