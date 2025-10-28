@@ -8,7 +8,7 @@
 :root {
     /* Layout */
     --register-min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
-    --register-padding-vertical: 4rem;
+    --register-padding-vertical: 6rem;
     --register-padding-sides: 2rem;
 
     /* Card */
@@ -58,7 +58,8 @@ main.register-main {
    Card
 ==================================== */
 .register-card {
-    width: clamp(var(--card-width-min), 32vw, var(--card-width-max));
+    width: 100%;
+    max-width: clamp(var(--card-width-min), 32vw, var(--card-width-max));
     padding: var(--card-padding);
     border-radius: var(--card-radius);
     box-shadow: var(--card-shadow);
