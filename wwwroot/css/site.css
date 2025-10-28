@@ -69,20 +69,6 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
-.navbar-nav {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  width: 100%;
-  letter-spacing: 1px;
-}
-
-@media (max-width: 768px) {
-  .navbar-nav {
-    gap: 1rem;
-  }
-}
-
 .nav-link {
   font-family: "Urbanist", sans-serif;
   font-weight: 800;
@@ -125,16 +111,13 @@ textarea {
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
   height: auto;
-  /* grows with padding */
 }
 
 .btn:focus,
 .btn:active:focus,
 .btn-link.nav-link:focus,
 .form-control:focus,
-.form-check-input:focus,
-.btn-yellow:focus,
-.btn-blue:focus {
+.form-check-input:focus {
   box-shadow:
     0 0 0 0.1rem var(--focus-outline-inner),
     0 0 0 0.25rem var(--focus-outline-outer);
@@ -167,8 +150,8 @@ textarea {
     Utility Padding Classes
 ------------------------- */
 .py-6 {
-  padding-top: 6rem;
-  padding-bottom: 6rem;
+  padding-top: clamp(3rem, 5vw, 6rem);
+  padding-bottom: clamp(3rem, 5vw, 6rem);
 }
 
 @media (max-width: 768px) {

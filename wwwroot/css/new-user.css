@@ -9,6 +9,7 @@
     /* Layout */
     --register-min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
     --register-padding-vertical: 4rem;
+    --register-padding-sides: 2rem;
 
     /* Card */
     --card-width-min: 320px;
@@ -38,17 +39,19 @@ main.register-main {
     justify-content: center;
     align-items: center;
     min-height: var(--register-min-height);
+    flex-grow: 1;
     width: 100%;
-    padding: var(--register-padding-vertical) 1.5rem;
-    box-sizing: border-box;
+    padding: var(--register-padding-vertical) var(--register-padding-sides);
+    overflow-y: auto;
 }
 
+/* Page container */
 .register-page {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-grow: 1;
     width: 100%;
+    flex-grow: 1;
 }
 
 /* ====================================
@@ -59,13 +62,12 @@ main.register-main {
     padding: var(--card-padding);
     border-radius: var(--card-radius);
     box-shadow: var(--card-shadow);
-    box-sizing: border-box;
 }
 
 /* Header */
 .register-card h1.fit-sync {
     font-size: var(--font-size-header);
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.5rem;
     text-align: center;
 }
 
@@ -78,7 +80,6 @@ main.register-main {
     padding: var(--input-padding);
     border-radius: var(--input-radius);
     margin-bottom: 0.4rem;
-    box-sizing: border-box;
 }
 
 /* Button */
@@ -88,7 +89,6 @@ main.register-main {
     padding: var(--button-padding);
     border-radius: var(--button-radius);
     font-weight: 600;
-    box-sizing: border-box;
 }
 
 /* Form spacing */
@@ -115,6 +115,5 @@ main.register-main {
     main.register-main {
         justify-content: flex-start;
         padding-top: 2rem;
-        overflow-y: auto;
     }
 }

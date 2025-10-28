@@ -40,9 +40,9 @@ main.login-main {
     justify-content: center;
     align-items: center;
     min-height: var(--login-min-height);
+    flex-grow: 1;
     width: 100%;
     padding: var(--login-padding-vertical) var(--login-padding-sides);
-    box-sizing: border-box;
     overflow-y: auto;
 }
 
@@ -53,7 +53,6 @@ main.login-main {
     align-items: center;
     width: 100%;
     padding: 0 1rem;
-    box-sizing: border-box;
 }
 
 /* ====================================
@@ -65,7 +64,6 @@ main.login-main {
     border-radius: var(--card-radius);
     line-height: var(--card-line-height);
     box-shadow: var(--card-shadow);
-    box-sizing: border-box;
 }
 
 /* Header */
@@ -85,7 +83,6 @@ main.login-main {
     font-size: var(--font-size-input);
     padding: var(--input-padding);
     border-radius: var(--input-radius);
-    box-sizing: border-box;
 }
 
 /* Sign-in Button */
@@ -95,7 +92,6 @@ main.login-main {
     padding: var(--button-padding);
     border-radius: var(--button-radius);
     font-weight: 600;
-    box-sizing: border-box;
 }
 
 /* Form spacing */

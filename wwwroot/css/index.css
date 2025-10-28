@@ -1,0 +1,103 @@
+/* ===============================
+   Landing Page Styles
+=============================== */
+
+/* ====================================
+   Hero Section
+==================================== */
+.hero {
+    display: flex;                  /* Flex layout for centering content */
+    flex-direction: column;         /* Stack elements vertically */
+    align-items: center;            /* Horizontal centering */
+    justify-content: center;        /* Vertical centering */
+    min-height: 50vh;              /* Full viewport height */
+    width: 100%;                    /* Full width */
+    text-align: center;             /* Center text inside hero */
+    padding-top: var(--main-padding-top);    /* Consistent spacing from layout */
+    padding-bottom: var(--main-padding-bottom);
+}
+
+/* Lead paragraph in hero */
+.hero .lead {
+    max-width: 800px;               /* Limit paragraph width for readability */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* ====================================
+   Image + Text Section
+==================================== */
+.image-text-section {
+    padding: 4rem 0;                /* Vertical spacing */
+}
+
+.image-text-section img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+/* ====================================
+   Features Section
+==================================== */
+.features-section {
+    padding: 4rem 0;                /* Vertical spacing */
+}
+
+.feature-card {
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+/* ====================================
+   Call-to-Action Section
+==================================== */
+.call-to-action {
+    padding: 4rem 0;                /* Vertical spacing */
+    text-align: center;
+}
+
+.call-to-action hr {
+    margin: 5rem 0;                 /* Space around horizontal line */
+}
+
+.call-to-action .btn {
+    padding: 0.75rem 2rem;          /* Ensure buttons are large enough */
+}
+
+/* ====================================
+   Responsive Adjustments
+==================================== */
+@media (max-width: 768px) {
+    .hero {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
+
+    .hero .lead {
+        max-width: 100%;
+    }
+
+    .feature-card {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero h1,
+    .hero p {
+        font-size: clamp(1rem, 3vw, 2rem);
+    }
+
+    .feature-card {
+        padding: 1rem;
+    }
+}
