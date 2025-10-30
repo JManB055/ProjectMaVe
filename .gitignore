@@ -364,7 +364,9 @@ FodyWeavers.xsd
 
 # Asp.Net secrets
 appsettings.Development.json
+.env
 
 # Docker stuff
 redeploy.sh
+test-deploy.sh
 projectmave.tar.gz
