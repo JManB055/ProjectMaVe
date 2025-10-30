@@ -368,5 +368,4 @@ appsettings.Development.json
 
 # Docker stuff
 redeploy.sh
-test-deploy.sh
 projectmave.tar.gz
