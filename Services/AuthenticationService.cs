@@ -11,8 +11,8 @@ public class AuthenticationService : IAuthenticationService
     private readonly IDictionary<Int32, Token> _userTokenTable;
     private readonly IUserStore _userStore;
 
-	public AuthenticationService(IUserStore userStore)
-	{
+    public AuthenticationService(IUserStore userStore)
+    {
         _userTokenTable = new Dictionary<Int32, Token>();
         _userStore = userStore;
     }
@@ -39,8 +39,8 @@ public class AuthenticationService : IAuthenticationService
 
     public UserInfo GetCurrentUser()
     {
-		//placeholder parameters
-		UserInfo currentUser = new UserInfo(0, Encoding.ASCII.GetBytes("hash"), Encoding.ASCII.GetBytes("salt"), "firstname", "lastname", "email");
+        //placeholder parameters
+        UserInfo currentUser = new UserInfo(0, Encoding.ASCII.GetBytes("hash"), Encoding.ASCII.GetBytes("salt"), "firstname", "lastname", "email");
 
         return currentUser;
     }
@@ -68,11 +68,11 @@ public class AuthenticationService : IAuthenticationService
 
     /**
      * <remarks>
-     *   For registration, UserID is unknown 
+     *   For registration, UserID is unknown
      * </remarks>
      */
     public async Task<bool> RegisterAsync(UserInfo userInfo)
-	{
+    {
         UserInfo? user = _userStore.GetUserByEmail(userInfo.Email);
         if (user != null) return false;
 

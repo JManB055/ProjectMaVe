@@ -10,7 +10,6 @@ namespace ProjectMaVe.Pages
 {
     public class NewUserModel : PageModel
     {
-
         /*
         UserID = guid;
         PassHash = hash;
@@ -87,12 +86,11 @@ namespace ProjectMaVe.Pages
             }
 
             var loginService = HttpContext.RequestServices.GetService<IAuthenticationService>();
-            
+
             CreatePasswordHash(Password, out byte[] passwordHash, out byte[] passwordSalt);
 
             UserInfo user = new UserInfo(0, passwordHash, passwordSalt, FirstName, LastName, Email);
             bool success = await loginService.RegisterAsync(user);
-
             if (success == false)
             {
                 Message = "Login Failed.";

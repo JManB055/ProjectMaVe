@@ -1,5 +1,13 @@
 ﻿@page
 @model ProjectMaVe.Pages.DashboardModel
+@inject ProjectMaVe.Interfaces.IAuthenticationService authnService
+@inject ProjectMaVe.Interfaces.IUserStore userStore;
 @{
+
     ViewData["Title"] = "Dashboard";
+
+    var user = await userStore.GetUserAsync(int.Parse((Request.Cookies[Constants.COOKIE_ID_FIELD] ?? "")));
 }
+
+<h3>Hello @(user.FirstName), @(user.LastName)</h3>
+<p>Your email is @(user.Email)</p>
