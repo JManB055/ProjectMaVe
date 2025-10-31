@@ -1,13 +1,167 @@
 ﻿@page
 @model ProjectMaVe.Pages.DashboardModel
-@inject ProjectMaVe.Interfaces.IAuthenticationService authnService
-@inject ProjectMaVe.Interfaces.IUserStore userStore;
 @{
-
     ViewData["Title"] = "Dashboard";
 
-    var user = await userStore.GetUserAsync(int.Parse((Request.Cookies[Constants.COOKIE_ID_FIELD] ?? "")));
+    // Placeholder user until backend implementation
+    var user = new {
+        FirstName = "John",
+        LastName = "Doe",
+        Email = "john.doe@example.com"
+    };
 }
 
-<h3>Hello @(user.FirstName), @(user.LastName)</h3>
-<p>Your email is @(user.Email)</p>
+@* ===============================
+    Dashboard Header
+    - Welcome message and quick actions
+   =============================== *@
+<div class="dashboard-page">
+<header class="dashboard-header mb-4">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h1 class="urbanist-bold text-blue mb-2">
+                    Welcome back, @(user.FirstName) @(user.LastName)
+                </h1>
+                <p class="urbanist-medium text-muted mb-0">
+                    Here's your fitness overview for today
+                </p>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <button class="btn btn-yellow me-2" id="editLayoutBtn">
+                    <i class="fas fa-edit me-2"></i>Edit Layout
+                </button>
+                <button class="btn btn-blue" id="addWidgetBtn">
+                    <i class="fas fa-plus me-2"></i>Add Widget
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+    @* ===============================
+        Widget Grid Container
+        - Responsive grid for draggable widgets
+       =============================== *@
+    <div class="widget-grid" id="widgetGrid">
+        
+        @* Example 2x2 Widget - Workout Summary *@
+        <div class="widget-card size-2x2" data-widget-id="1" draggable="false">
+            <div class="widget-header">
+                <h3 class="widget-title urbanist-bold">Workout Summary</h3>
+                <button class="widget-drag-handle" aria-label="Drag to reorder">
+                    <i class="fas fa-grip-vertical"></i>
+                </button>
+            </div>
+            <div class="widget-content">
+                <div class="placeholder-content">
+                    <i class="fas fa-dumbbell fa-3x text-blue mb-3"></i>
+                    <p class="urbanist-medium">Workout summary will appear here</p>
+                </div>
+            </div>
+        </div>
+
+        @* Example 1x1 Widget - Today's Goal *@
+        <div class="widget-card size-1x1" data-widget-id="2" draggable="false">
+            <div class="widget-header">
+                <h3 class="widget-title urbanist-bold">Today's Goal</h3>
+                <button class="widget-drag-handle" aria-label="Drag to reorder">
+                    <i class="fas fa-grip-vertical"></i>
+                </button>
+            </div>
+            <div class="widget-content">
+                <div class="placeholder-content">
+                    <i class="fas fa-bullseye fa-2x text-blue mb-2"></i>
+                    <p class="urbanist-medium small">Goal tracking</p>
+                </div>
+            </div>
+        </div>
+
+        @* Example 1x2 Widget - Progress Chart *@
+        <div class="widget-card size-1x2" data-widget-id="3" draggable="false">
+            <div class="widget-header">
+                <h3 class="widget-title urbanist-bold">Weekly Progress</h3>
+                <button class="widget-drag-handle" aria-label="Drag to reorder">
+                    <i class="fas fa-grip-vertical"></i>
+                </button>
+            </div>
+            <div class="widget-content">
+                <div class="placeholder-content">
+                    <i class="fas fa-chart-line fa-3x text-blue mb-3"></i>
+                    <p class="urbanist-medium">Progress chart will appear here</p>
+                </div>
+            </div>
+        </div>
+
+        @* Example 2x1 Widget - Quick Actions *@
+        <div class="widget-card size-2x1" data-widget-id="4" draggable="false">
+            <div class="widget-header">
+                <h3 class="widget-title urbanist-bold">Quick Actions</h3>
+                <button class="widget-drag-handle" aria-label="Drag to reorder">
+                    <i class="fas fa-grip-vertical"></i>
+                </button>
+            </div>
+            <div class="widget-content">
+                <div class="placeholder-content">
+                    <i class="fas fa-bolt fa-2x text-blue mb-2"></i>
+                    <p class="urbanist-medium">Quick action buttons</p>
+                </div>
+            </div>
+        </div>
+
+        @* Example 1x1 Widget - Streak *@
+        <div class="widget-card size-1x1" data-widget-id="5" draggable="false">
+            <div class="widget-header">
+                <h3 class="widget-title urbanist-bold">Streak</h3>
+                <button class="widget-drag-handle" aria-label="Drag to reorder">
+                    <i class="fas fa-grip-vertical"></i>
+                </button>
+            </div>
+            <div class="widget-content">
+                <div class="placeholder-content">
+                    <i class="fas fa-fire fa-2x text-blue mb-2"></i>
+                    <p class="urbanist-medium small">Day streak</p>
+                </div>
+            </div>
+        </div>
+
+        @* Example 1x1 Widget - Calories *@
+        <div class="widget-card size-1x1" data-widget-id="6" draggable="false">
+            <div class="widget-header">
+                <h3 class="widget-title urbanist-bold">Calories</h3>
+                <button class="widget-drag-handle" aria-label="Drag to reorder">
+                    <i class="fas fa-grip-vertical"></i>
+                </button>
+            </div>
+            <div class="widget-content">
+                <div class="placeholder-content">
+                    <i class="fas fa-burn fa-2x text-blue mb-2"></i>
+                    <p class="urbanist-medium small">Burned today</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    @* Edit Mode Overlay Instructions *@
+    <div class="edit-mode-banner" id="editModeBanner" style="display: none;">
+        <div class="container-fluid">
+            <p class="mb-0 urbanist-bold">
+                <i class="fas fa-info-circle me-2"></i>
+                Edit Mode: Drag widgets by their handle to reorder. Click "Done" when finished.
+                <button class="btn btn-yellow btn-sm ms-3" id="doneEditingBtn">Done</button>
+            </p>
+        </div>
+    </div>
+</main>
+</div>
+
+@section Scripts {
+    @* Dashboard JavaScript *@
+    <script src="~/js/dashboard.js" asp-append-version="true"></script>
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+}

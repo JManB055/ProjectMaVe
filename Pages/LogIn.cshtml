@@ -4,98 +4,102 @@
     ViewData["Title"] = "User Login";
 }
 
-<!-- Login Page Container -->
-<div class="login-page bg-light-orange d-flex align-items-center justify-content-center min-vh-100">
-    <div class="card login-card shadow-lg border-0 p-4 rounded-4">
-        
-        <!-- Header -->
-        <header class="text-center mb-4">
-            <h1 class="archivo-black-regular text-blue mb-2">FitSync</h1>
-            <p class="urbanist-bold text-blue mb-0">Welcome Back</p>
-        </header>
-        
-        @* ===============================
-            Feedback Message
-           =============================== *@
-        @if (!string.IsNullOrEmpty(Model.Message))
-        {
-            <div class="alert alert-danger text-center urbanist-medium mb-3 rounded-3" role="alert">
-                @Model.Message
-            </div>
-        }
+<main class="page-main login-main">
+    <div class="login-page bg-light-orange">
+        <div class="card login-card shadow-lg border-0 p-4 rounded-4">
 
-        @* ===============================
-            Login Form
-           =============================== *@
-        <form method="post" novalidate aria-label="Login form">
+            <!-- Header -->
+            <header class="text-center mb-4">
+                <h1 class="archivo-black-regular text-blue mb-2 fit-sync">FitSync</h1>
+                <p class="urbanist-bold text-blue mb-0">Welcome Back</p>
+            </header>
 
-            @* --- Validation Summary --- *@
-            <div asp-validation-summary="ModelOnly" class="text-danger text-center mb-3" role="alert"></div>
+            @* ===============================
+                Feedback Message
+               =============================== *@
+            @if (!string.IsNullOrEmpty(Model.Message))
+            {
+                <div class="alert alert-danger text-center urbanist-medium mb-3 rounded-3" role="alert">
+                    @Model.Message
+                </div>
+            }
 
-            @* --- Username Field --- *@
-            <div class="mb-3">
-                <label asp-for="UserName" class="visually-hidden">Username</label>
-                <input asp-for="UserName"
-                    type="text"
-                    class="form-control form-control-lg rounded-3"
-                    placeholder="Username"
-                    autocomplete="username"
-                    required
-                    aria-required="true"
-                    aria-describedby="username-error" />
-                <span asp-validation-for="UserName" 
-                    id="username-error" 
-                    class="text-danger d-block mt-1" 
-                    role="alert"></span>
-            </div>
+            @* ===============================
+                Login Form
+               =============================== *@
+            <form method="post" novalidate aria-label="Login form">
 
-            @* --- Password Field --- *@
-            <div class="mb-2">
-                <label asp-for="Password" class="visually-hidden">Password</label>
-                <input asp-for="Password"
-                    type="password"
-                    class="form-control form-control-lg rounded-3"
-                    placeholder="Password"
-                    autocomplete="current-password"
-                    required
-                    aria-required="true"
-                    aria-describedby="password-error" />
-                <span asp-validation-for="Password" 
-                    id="password-error" 
-                    class="text-danger d-block mt-1" 
-                    role="alert"></span>
-            </div>
+                @* --- Validation Summary --- *@
+                <div asp-validation-summary="ModelOnly" class="text-danger text-center mb-3" role="alert"></div>
 
-            @* --- Forgot Password Link --- *@
-            <div class="text-end mb-3">
-                <a asp-page="/ForgotPassword" 
-                    class="urbanist-medium text-blue text-decoration-none"
-                    tabindex="0">
-                    Forgot Password?
-                </a>
-            </div>
+                @* --- Username Field --- *@
+                <div class="mb-3">
+                    <label asp-for="UserName" class="form-label urbanist-medium text-blue mb-1">Username</label>
+                    <input asp-for="UserName"
+                        type="text"
+                        class="form-control form-control-lg rounded-3"
+                        placeholder="Enter your username"
+                        autocomplete="username"
+                        required
+                        aria-required="true"
+                        aria-describedby="username-error" />
+                    <span asp-validation-for="UserName"
+                        id="username-error"
+                        class="text-danger d-block mt-1 small"
+                        role="alert"></span>
+                </div>
 
-            @* --- Submit Button --- *@
-            <div class="d-grid mt-4">
-                <input asp-page-handler="LogIn"
-                    type="submit"
-                    value="Sign In"
-                    class="btn btn-signin-primary btn-lg"
-                    aria-label="Sign in to your account" />
-            </div>
+                @* --- Password Field --- *@
+                <div class="mb-2">
+                    <label asp-for="Password" class="form-label urbanist-medium text-blue mb-1">Password</label>
+                    <input asp-for="Password"
+                        type="password"
+                        class="form-control form-control-lg rounded-3"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                        aria-required="true"
+                        aria-describedby="password-error" />
+                    <span asp-validation-for="Password"
+                        id="password-error"
+                        class="text-danger d-block mt-1 small"
+                        role="alert"></span>
+                </div>
 
-            @* --- Sign-Up Redirect Link --- *@
-            <div class="text-center mt-3">
-                <span class="urbanist-medium">Don't have an account? </span>
-                <a asp-page="/NewUser" 
-                    class="urbanist-medium text-blue text-decoration-none">
-                    Create one
-                </a>
-            </div>
-        </form>
+                @* --- Forgot Password Link --- *@
+                <div class="text-end mb-2">
+                    <a asp-page="/ForgotPassword"
+                        class="urbanist-medium text-blue text-decoration-none"
+                        tabindex="0">
+                        Forgot Password?
+                    </a>
+                </div>
+
+                @* --- Submit Button --- *@
+                <div class="d-grid mt-4">
+                    <input asp-page-handler="LogIn"
+                        type="submit"
+                        value="Sign In"
+                        class="btn btn-blue"
+                        aria-label="Sign in to your account" />
+                </div>
+
+                @* --- Sign-Up Redirect Link --- *@
+                <div class="text-center mt-3">
+                    <span class="urbanist-medium">Don't have an account? </span>
+                    <a asp-page="/NewUser" class="urbanist-medium text-blue text-decoration-none">
+                        Create one
+                    </a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
+</main>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
 }
