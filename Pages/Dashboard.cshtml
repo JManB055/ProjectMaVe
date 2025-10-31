@@ -1,7 +1,12 @@
 ﻿@page
 @model ProjectMaVe.Pages.DashboardModel
+@inject ProjectMaVe.Interfaces.IAuthenticationService authnService
+@inject ProjectMaVe.Interfaces.IUserStore userStore;
 @{
+
     ViewData["Title"] = "Dashboard";
+
+    var user = await userStore.GetUserAsync(int.Parse((Request.Cookies[Constants.COOKIE_ID_FIELD] ?? "")));
 }
 
 @* ===============================
