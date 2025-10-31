@@ -140,15 +140,15 @@ FitSync is deployed on a VPS using Docker
 
 ---
 
-## Contributors
+## Development Team
 
 | Name | Role |
 |------|------|
-|Aiden Carrera | Maintainer |
-|Haoran Yue	| Maintainer |
-|Alex Seda | Maintainer |
-|Joshua Wyckoff	| Maintainer |
-|Tyler Clayton | Maintainer |
+|Aiden Carrera | Frontend |
+|Joshua Wyckoff	| Frontend |
+|Haoran Yue	| Backend |
+|Tyler Clayton | Backend |
+|Alex Seda | Database |
 
 ---
 
