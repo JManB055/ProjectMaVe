@@ -252,3 +252,32 @@ html {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* -----------------------
+    Widget Formatting
+------------------------- */
+
+.dashboard_background {
+    height: 1000px;
+    background: var(--color-blue);
+    border-radius: 1em;
+    position: relative;
+}
+
+.widget_card {
+    position: absolute;
+    background: var(--color-light-orange);
+    padding: 10px;
+    cursor: grab;
+    border-radius: 1em;
+}
+
+.widget_card.is-dragging {
+    cursor: grabbing;
+    opacity: 0.8;
+}
+
+.size-1x1 {
+    width: 250px;
+    height: 250px;
+}
