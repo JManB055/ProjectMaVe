@@ -33,6 +33,7 @@ It integrates **Google AI Studio** to help users generate personalized workouts 
 FitSync/
 │
 ├── appsettings.Development.json    # Local configuration (DB connection, logging)
+
 ├── appsettings.json                # Default configuration
 ├── bin/                            # Compiled binaries
 ├── Constants.cs                    # Global constants and configuration values
