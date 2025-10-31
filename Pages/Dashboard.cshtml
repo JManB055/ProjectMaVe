@@ -1,12 +1,14 @@
 ﻿@page
 @model ProjectMaVe.Pages.DashboardModel
-@inject ProjectMaVe.Interfaces.IAuthenticationService authnService
-@inject ProjectMaVe.Interfaces.IUserStore userStore;
 @{
-
     ViewData["Title"] = "Dashboard";
 
-    var user = await userStore.GetUserAsync(int.Parse((Request.Cookies[Constants.COOKIE_ID_FIELD] ?? "")));
+    // Placeholder user until backend implementation
+    var user = new {
+        FirstName = "John",
+        LastName = "Doe",
+        Email = "john.doe@example.com"
+    };
 }
 
 @* ===============================
@@ -18,8 +20,12 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-8">
-                <h1 class="urbanist-bold text-blue mb-2">Welcome back, {Username}</h1>
-                <p class="urbanist-medium text-muted mb-0">Here's your fitness overview for today</p>
+                <h1 class="urbanist-bold text-blue mb-2">
+                    Welcome back, @(user.FirstName) @(user.LastName)
+                </h1>
+                <p class="urbanist-medium text-muted mb-0">
+                    Here's your fitness overview for today
+                </p>
             </div>
             <div class="col-md-4 text-md-end mt-3 mt-md-0">
                 <button class="btn btn-yellow me-2" id="editLayoutBtn">
