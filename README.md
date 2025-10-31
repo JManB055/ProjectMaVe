@@ -30,26 +30,27 @@ It integrates **Google AI Studio** to help users generate personalized workouts 
 
 ## Project Structure
 
-.
-├── appsettings.Development.json # Local configuration (DB connection, logging)
-├── appsettings.json # Default configuration
-├── bin/ # Compiled binaries
-├── Constants.cs # Global constants and configuration values
-├── Data/ # Database context and seed logic
-├── Dockerfile # Container build instructions
-├── Interfaces/ # Service and repository interfaces
-├── Middleware/ # Custom ASP.NET middleware
-├── Models/ # Entity and view models
-├── obj/ # Build artifacts
-├── Pages/ # Razor pages (UI)
-├── Program.cs # Main entry point
-├── ProjectMaVe.csproj # Project file
-├── Properties/ # ASP.NET configuration
-├── redeploy.sh # Helper script for redeploying container
-├── Services/ # Business logic and service implementations
-├── test-deploy.sh # Local deploy script for testing
-├── Widgets/ # Reusable UI components
-├── wwwroot/ # Static web assets (CSS, JS, images)
+FitSync/
+│
+├── appsettings.Development.json    # Local configuration (DB connection, logging)
+├── appsettings.json                # Default configuration
+├── bin/                            # Compiled binaries
+├── Constants.cs                    # Global constants and configuration values
+├── Data/                           # Database context and seed logic
+├── Dockerfile                      # Container build instructions
+├── Interfaces/                     # Service and repository interfaces
+├── Middleware/                     # Custom ASP.NET middleware
+├── Models/                         # Entity and view models
+├── obj/                            # Build artifacts
+├── Pages/                          # Razor Pages (UI)
+├── Program.cs                      # Main entry point
+├── ProjectMaVe.csproj              # Project file
+├── Properties/                     # ASP.NET configuration
+├── redeploy.sh                     # Helper script for redeploying container
+├── Services/                       # Business logic and service implementations
+├── test-deploy.sh                  # Local deploy script for testing
+├── Widgets/                        # Reusable UI components
+└── wwwroot/                        # Static web assets (CSS, JS, images)
 
 ---
 
@@ -150,5 +151,5 @@ FitSync is deployed on a VPS using Docker
 
 ---
 
-"Train smarter, not harder -- with FitSync."
+"Train smarter, not harder - with FitSync."
 
