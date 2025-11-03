@@ -1,3 +1,5 @@
+//var container = document.querySelector('.dashboard_container');
+
 //Get all Widgets
 var widgets = document.querySelectorAll('.widget', {
     //Options
@@ -9,7 +11,8 @@ var draggies = []
 for (var i = 0; i < widgets.length; i++) {
     var draggableElem = widgets[i];
     var draggie = new Draggabilly(draggableElem, {
-        grid: [50, 50]
+        grid: [50, 50],
+        containment: ".dashboard_container"
     });
     draggies.push( draggie )
 }
