@@ -1,10 +1,11 @@
-﻿using System.Net.Http;
+﻿using ProjectMaVe.Interfaces;
+using ProjectMaVe.Models;
+using System.IO;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using ProjectMaVe.Interfaces;
-using ProjectMaVe.Models;
 
 namespace ProjectMaVe.APIs.Fitbit
 {
@@ -35,7 +36,7 @@ namespace ProjectMaVe.APIs.Fitbit
 
             var response = await client.PostAsync("https://api.fitbit.com/oauth2/token", content);
             var json = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<Token>(json); ; //deserialize into token model
+            return JsonSerializer.Deserialize<Token>(json) ?? throw new InvalidOperationException("Failed to deserialize token."); //deserialize into token model
         }
 
         public async Task<Token> RefreshTokenAsync(string token)
@@ -56,7 +57,7 @@ namespace ProjectMaVe.APIs.Fitbit
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<Token>(json); //deserialize into token model
+            return JsonSerializer.Deserialize<Token>(json) ?? throw new InvalidOperationException("Failed to deserialize token."); //deserialize into token model
         }
     }
 }

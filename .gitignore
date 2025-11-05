@@ -365,3 +365,4 @@ FodyWeavers.xsd
 # Asp.Net secrets
 appsettings.Development.json
 .env
+*.env
