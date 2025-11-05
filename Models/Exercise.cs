@@ -2,7 +2,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectMaVe.Models;
 
-
 public class Exercise
 {
     //default constructor

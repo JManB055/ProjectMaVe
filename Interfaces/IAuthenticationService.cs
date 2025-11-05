@@ -20,6 +20,7 @@ public interface IAuthenticationService
     (Int32 uid, Token token)? SignIn(string email, string password);
 
     string GetAuthToken(Int32 uid);
+    bool IsSignedIn(Int32 uid, Token token);
     Task<bool> SetPassword(Int32 uid, string password);
     Task<bool> RegisterAsync(UserInfo userInfo);
 }

@@ -45,6 +45,11 @@ public class AuthenticationService : IAuthenticationService
         return currentUser;
     }
 
+    public bool IsSignedIn(Int32 uid, Token token)
+    {
+        return _userTokenTable.ContainsKey(uid) && (_userTokenTable[uid] == token);
+    }
+
     public async Task<(Int32, Token)?> SignInAsync(string email, string password)
     {
         UserInfo? user = _userStore.GetUserByEmail(email);
