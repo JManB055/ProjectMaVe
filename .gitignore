@@ -364,5 +364,6 @@ FodyWeavers.xsd
 
 # Docker stuff
 redeploy.sh
+test-deploy.sh
 projectmave.tar.gz
 .env
