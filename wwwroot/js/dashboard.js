@@ -63,6 +63,9 @@ class DashboardManager {
         this.editMode = true;
         document.body.classList.add("edit-mode");
         if (this.editBanner) this.editBanner.style.display = "block";
+
+        // --- Minimal Addition ---
+        this.widgetCards.forEach(widget => widget.setAttribute("draggable", "true"));
     }
 
     disableEditMode() {
@@ -70,6 +73,9 @@ class DashboardManager {
         document.body.classList.remove("edit-mode");
         if (this.editBanner) this.editBanner.style.display = "none";
         this.saveWidgetOrder();
+
+        // --- Minimal Addition ---
+        this.widgetCards.forEach(widget => widget.removeAttribute("draggable"));
     }
 
     // --------------------------
