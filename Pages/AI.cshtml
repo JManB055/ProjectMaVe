@@ -1,0 +1,44 @@
+﻿@page
+@model ProjectMaVe.Pages.AITestModel
+@{
+    ViewData["Title"] = "AI Test";
+}
+
+<div class="login-page bg-light-orange d-flex align-items-center justify-content-center min-vh-100 py-4">
+    <div class="card login-card shadow-lg border-0 p-4 rounded-4" style="max-width: 450px;">
+        
+        <header class="text-center mb-3">
+            <h1 class="h2 archivo-black-regular text-blue mb-1">AI Test Console</h1>
+        </header>
+
+        <form method="post" novalidate aria-label="AI test form">
+            <div class="mb-2">
+                <label asp-for="Prompt" class="form-label urbanist-medium text-blue mb-1">Prompt</label>
+                <input asp-for="Prompt"
+                       type="text"
+                       class="form-control rounded-3"
+                       placeholder="Enter a test input"
+                       autocomplete="off"
+                       required
+                       aria-required="true"
+                       aria-describedby="input-error" />
+                <span asp-validation-for="Prompt" 
+                      id="input-error" 
+                      class="text-danger d-block mt-1 small" 
+                      role="alert"></span>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.Message))
+            {
+                <div class="alert alert-info text-center mt-2 mb-0 py-2" role="alert">
+                    <label class="mb-0 small">@Model.Message</label>
+                </div>
+            }
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
