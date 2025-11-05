@@ -1,18 +1,27 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ProjectMaVe.APIs.Google_AI;
+using ProjectMaVe.Interfaces;
 
 namespace ProjectMaVe.Pages
 {
     public class AITestModel : PageModel
     {
         [BindProperty]
-        public string Prompt { get; set; }
+        required public string Prompt { get; set; }
 
-        public string Message { get; set; }
+        required public string Message { get; set; }
 
-        public void OnPost()
+        private readonly IAIService _aiService;
+        public AITestModel(IAIService aiService)
         {
-            Message = $"Received input: {Prompt}";
+            _aiService = aiService;
+        }
+
+        public async Task OnPostAsync()
+        {
+
+            Message = await _aiService.CallAIAsync(Prompt);
         }
     }
 }

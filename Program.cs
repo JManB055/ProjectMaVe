@@ -4,8 +4,11 @@ using ProjectMaVe.Data;
 using ProjectMaVe.Interfaces;
 using ProjectMaVe.Middleware;
 using ProjectMaVe.Services;
+using ProjectMaVe.APIs.Google_AI;
 
 var builder = WebApplication.CreateBuilder(args);
+
+string googleApiKey = Environment.GetEnvironmentVariable("GOOGLE_API_KEY")!;
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
@@ -18,8 +21,10 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 var connectionString = builder.Configuration.GetConnectionString("MaVe");
 builder.Services.AddDbContext<DBContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
-); 
+);
 
+// connect API for Google AI
+builder.Services.AddScoped<IAIService>(_ => new AIService(googleApiKey));
 
 // Add services to the container.
 builder.Services.AddRazorPages();
