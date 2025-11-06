@@ -295,3 +295,7 @@ html {
     width: 550px;
     height: 550px;
 }
+
+.hidden {
+    display: none;
+}
