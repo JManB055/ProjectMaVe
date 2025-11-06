@@ -1,4 +1,8 @@
 /*
+* Note to Alex: There are two functions at the bottom for retrieving and saving data to the database. If you edit those, they should be called in the correct places.
+*/
+
+/*
 *   Initialize Global variables:
 *       'container' is the dashboard container for all the widgets; all widgets are rendered within this object.
 *       'editSaveBtn' is the button that changes the 'draggable' state.
@@ -176,4 +180,6 @@ function getWidgets() {
 // TODO: Write function to save widgets to the database (Alex, write save code here to simply save the entire widgets array to database)
 function saveWidgets() {
 
+    //widgetsInDatabase = widgets
+    // Note, the length of the array might change (widgets can be added and deleted, so saving to the database should account for this. We don't want garbage to reappear)
 }
