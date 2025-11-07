@@ -32,36 +32,53 @@
         <section id="addWorkoutSection" class="workout-section mb-5">
             <div class="card shadow-sm border-0 rounded-4">
                 <div class="card-header bg-blue text-light-orange urbanist-bold">
-                    <i class="fas fa-dumbbell me-2"></i>Add Workout
+                    <i class="fas fa-dumbbell me-2"></i>Log Workout
                 </div>
                 <div class="card-body bg-light-orange">
                     <form id="workoutForm">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label class="form-label urbanist-medium text-blue">Workout Type</label>
-                                <input type="text" class="form-control rounded-3"
-                                        placeholder="e.g. Cardio, Strength, Yoga" required />
-                            </div>
+                        <!-- Workout Date -->
+                        <div class="row g-3 mb-4">
                             <div class="col-md-3">
-                                <label class="form-label urbanist-medium text-blue">Duration (minutes)</label>
-                                <input type="number" class="form-control rounded-3" min="1" required />
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label urbanist-medium text-blue">Intensity</label>
-                                <select class="form-select rounded-3">
-                                    <option>Low</option>
-                                    <option>Moderate</option>
-                                    <option>High</option>
-                                </select>
-                            </div>
-                            <div class="col-12">
-                                <label class="form-label urbanist-medium text-blue">Notes</label>
-                                <textarea class="form-control rounded-3" rows="3" placeholder="Optional notes..."></textarea>
+                                <label class="form-label urbanist-medium text-blue">Workout Date</label>
+                                <input type="date" class="form-control rounded-3" id="workoutDate" required />
                             </div>
                         </div>
-                        <div class="text-end mt-3">
+
+                        <!-- Exercises Section -->
+                        <div class="workout-exercises-section">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="urbanist-bold text-blue mb-0">
+                                    <i class="fas fa-list me-2"></i>Exercises
+                                </h5>
+                                <button type="button" class="btn btn-sm btn-yellow" id="addExerciseBtn">
+                                    <i class="fas fa-plus me-2"></i>Add Exercise
+                                </button>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table align-middle mb-0" id="exerciseTable">
+                                    <thead class="urbanist-bold text-blue small">
+                                        <tr>
+                                            <th style="width: 20%;">Exercise</th>
+                                            <th style="width: 15%;">Muscle Group</th>
+                                            <th style="width: 12%;">Sets</th>
+                                            <th style="width: 12%;">Reps</th>
+                                            <th style="width: 15%;">Weight (kg)</th>
+                                            <th style="width: 13%;">Duration (min)</th>
+                                            <th style="width: 13%;">Distance (km)</th>
+                                            <th style="width: 5%;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="exerciseTableBody" class="urbanist-medium text-black">
+                                        <!-- Filled dynamically by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="text-end mt-4">
                             <button type="submit" class="btn btn-blue">
-                                <i class="fas fa-check me-2"></i>Submit
+                                <i class="fas fa-save me-2"></i>Save Workout
                             </button>
                         </div>
                     </form>
@@ -73,7 +90,7 @@
         <section id="aiPlannerSection" class="workout-section mb-5" style="display:none;">
             <div class="card shadow-sm border-0 rounded-4">
                 <div class="card-header bg-blue text-light-orange urbanist-bold">
-                    <i class="fas fa-robot me-2"></i>Plan Workout with AI
+                    <i class="fas fa-robot me-2"></i>AI Workout Planner
                 </div>
                 <div class="card-body bg-light-orange">
                     <form id="aiForm">
@@ -81,7 +98,7 @@
                             <div class="col-md-6">
                                 <label class="form-label urbanist-medium text-blue">Fitness Goal</label>
                                 <input type="text" class="form-control rounded-3"
-                                        placeholder="e.g. Build muscle, lose weight" required />
+                                       placeholder="e.g. Build muscle, lose weight" required />
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label urbanist-medium text-blue">Workout Frequency</label>
@@ -95,7 +112,7 @@
                             <div class="col-12">
                                 <label class="form-label urbanist-medium text-blue">Preferred Activities</label>
                                 <textarea class="form-control rounded-3" rows="2"
-                                        placeholder="e.g. Running, Weights, Cycling"></textarea>
+                                          placeholder="e.g. Running, Weights, Cycling"></textarea>
                             </div>
                         </div>
                         <div class="text-end mt-3">
@@ -127,10 +144,8 @@
                             <thead class="urbanist-bold text-blue small">
                                 <tr>
                                     <th>Date</th>
-                                    <th>Type</th>
-                                    <th>Duration</th>
-                                    <th>Intensity</th>
-                                    <th>Notes</th>
+                                    <th>Total Exercises</th>
+                                    <th>Exercise Details</th>
                                 </tr>
                             </thead>
                             <tbody id="workoutTableBody" class="urbanist-medium text-black">
