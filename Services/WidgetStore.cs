@@ -41,16 +41,22 @@ public class WidgetStore : IWidgetStore
         var existingWidget = await _db.Widgets.FindAsync(widget_id);  // Lookup widget in db
         if(existingWidget == null) return false;              // If not found, return false
 
-        // UPDATE TO BE WIDGET FIELDS
-        /*
-        existingWidget.Sets = widget.Sets;
-        existingWidget.Reps = widget.Reps;
-        existingWidget.Weight = widget.Weight;
-        */
+        existingWidget.x = widget.x;
+        existingWidget.y = widget.y;
+        existingWidget.w = widget.w;
+        existingWidget.h = widget.h;
+        existingWidget.type = widget.type;
 
         _db.Widgets.Update(existingWidget);                     // Stage changes
         return await _db.SaveChangesAsync() > 0;            // Same save changes as the first function
     }
 
-    // make function to get all widgets associated with user
+    // Get all widgets associated with user
+    public async Task<List<Widget>> GetWidgetsByUserAsync(int user_id)
+    {
+        return await _db.Widgets
+            .Where(w => w.userID == user_id)
+            .ToListAsync();
+    }
+
 }

@@ -12,4 +12,6 @@ public interface IWidgetStore
     Task<Widget?> GetWidgetAsync(int widget_id);
 
     Task<bool> UpdateWidgetAsync(int widget_id, Widget widget);
+
+    Task<List<Widget>> GetWidgetsByUserAsync(int user_id);
 }

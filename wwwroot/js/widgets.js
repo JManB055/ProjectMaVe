@@ -173,7 +173,7 @@ function toggleDraggble() {
 
 // TODO: Write function to get the widgets. It doesn't need return, just set existing 'widgets' array to data from database.
 function getWidgets() {
-
+    // var widgetService = Httpcontext.RequestServices.GetService<IWidgetService>();
     //widgets = widgetsFromDatabase
 }
 

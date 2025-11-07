@@ -25,5 +25,7 @@ namespace ProjectMaVe.Data
         public DbSet<Exercise> Exercises { get; set; }
 
         public DbSet<WorkoutExercise> WorkoutExercises { get; set; }
+
+        public DbSet<Widget> Widgets { get; set; }
     }
 }
