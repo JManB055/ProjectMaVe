@@ -1,6 +1,7 @@
 using ProjectMaVe.Interfaces;
 using ProjectMaVe.Models;
 using ProjectMaVe.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProjectMaVe.Services;
 
