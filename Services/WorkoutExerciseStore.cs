@@ -62,6 +62,9 @@ public class WorkoutExerciseStore : IWorkoutExerciseStore
         existingWorkout.Sets = workout.Sets;
         existingWorkout.Reps = workout.Reps;
         existingWorkout.Weight = workout.Weight;
+        existingWorkout.Distance = workout.Distance;
+        existingWorkout.Time = workout.Time;
+        existingWorkout.isCompleted = workout.isCompleted;
 
         _db.WorkoutExercises.Update(existingWorkout);                     // Stage changes
         return await _db.SaveChangesAsync() > 0;            // Same save changes as the first function
