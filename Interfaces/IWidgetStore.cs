@@ -5,13 +5,7 @@ namespace ProjectMaVe.Interfaces;
 
 public interface IWidgetStore
 {
-    Task<bool> CreateWidgetAsync(Widget widget);
-
-    Task<bool> DeleteWidgetAsync(int widget_id);
-
-    Task<Widget?> GetWidgetAsync(int widget_id);
-
-    Task<bool> UpdateWidgetAsync(int widget_id, Widget widget);
+    Task<bool> StoreAllWidgetAsync(int user_id, List<Widget> newWidgets);
 
     Task<List<Widget>> GetWidgetsByUserAsync(int user_id);
 }
