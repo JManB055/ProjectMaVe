@@ -1,44 +1,54 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const addWorkoutBtn = document.getElementById("addWorkoutBtn");
-    const aiWorkoutBtn = document.getElementById("aiWorkoutBtn");
+    // ===== SECTIONS =====
     const addWorkoutSection = document.getElementById("addWorkoutSection");
     const aiPlannerSection = document.getElementById("aiPlannerSection");
-    const workoutForm = document.getElementById("workoutForm");
+
+    // ===== BUTTONS =====
+    const addWorkoutBtn = document.getElementById("addWorkoutBtn");
+    const aiWorkoutBtn = document.getElementById("aiWorkoutBtn");
+    const addStrengthExerciseBtn = document.getElementById("addStrengthExerciseBtn");
+    const addCardioActivityBtn = document.getElementById("addCardioActivityBtn");
+
+    // ===== FORMS =====
+    const workoutForm = document.getElementById("strengthWorkoutForm"); 
     const aiForm = document.getElementById("aiForm");
+
+    // ===== TABLE BODIES =====
+    const strengthExerciseTableBody = document.getElementById("strengthExerciseTableBody");
+    const cardioTableBody = document.getElementById("cardioTableBody");
+
+    // ===== OTHER ELEMENTS =====
     const workoutTableBody = document.getElementById("workoutTableBody");
     const aiPlanResult = document.getElementById("aiPlanResult");
-    const addExerciseBtn = document.getElementById("addExerciseBtn");
-    const exerciseTableBody = document.getElementById("exerciseTableBody");
     const workoutDateInput = document.getElementById("workoutDate");
 
-    // =====================
-    // STATE MANAGEMENT
-    // =====================
-
+    // ===== STATE =====
     let mockWorkouts = [
         {
-            date: "Nov 5, 2025",
+            date: "Nov 6, 2025",
             exercises: [
                 { exercise: "Bench Press", muscle: "Chest", sets: 4, reps: 8, weight: 185 },
                 { exercise: "Shoulder Press", muscle: "Shoulders", sets: 3, reps: 10, weight: 95 },
-            ],
+                { exercise: "Running", muscle: "Cardio", duration: 30, distance: 5 }
+            ]
+        },
+        {
+            date: "Nov 5, 2025",
+            exercises: [
+                { exercise: "Cycling", muscle: "Cardio", duration: 45, distance: 15 }
+            ]
         },
         {
             date: "Nov 3, 2025",
             exercises: [
-                { exercise: "Running", muscle: "Cardio", duration: 30, distance: 5.2 },
-            ],
-        },
-        {
-            date: "Nov 1, 2025",
-            exercises: [
-                { exercise: "Squat", muscle: "Legs", sets: 4, reps: 10, weight: 225 },
-                { exercise: "Deadlift", muscle: "Back", sets: 3, reps: 6, weight: 315 },
-            ],
+                { exercise: "Pull-ups", muscle: "Back", sets: 3, reps: 8, weight: 0 },
+                { exercise: "Bicep Curl", muscle: "Arms", sets: 3, reps: 12, weight: 30 },
+            ]
         },
     ];
 
     const availableExercises = [
+        // Strength
         { name: "Bench Press", muscle: "Chest" },
         { name: "Shoulder Press", muscle: "Shoulders" },
         { name: "Squat", muscle: "Legs" },
@@ -48,15 +58,16 @@ document.addEventListener("DOMContentLoaded", () => {
         { name: "Tricep Extension", muscle: "Arms" },
         { name: "Leg Press", muscle: "Legs" },
         { name: "Lat Pulldown", muscle: "Back" },
+        // Cardio
         { name: "Running", muscle: "Cardio" },
         { name: "Cycling", muscle: "Cardio" },
+        { name: "Swimming", muscle: "Cardio" },
+        { name: "Rowing", muscle: "Cardio" },
+        { name: "Elliptical", muscle: "Cardio" },
+        { name: "Jump Rope", muscle: "Cardio" },
     ];
 
-    // =====================
-    // UI SETUP
-    // =====================
-
-    // Set default date to today
+    // ===== UI SETUP =====
     if (workoutDateInput) {
         const today = new Date().toISOString().split('T')[0];
         workoutDateInput.value = today;
@@ -73,19 +84,15 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     toggleSection(addWorkoutSection, addWorkoutBtn);
-
     addWorkoutBtn.addEventListener("click", () => toggleSection(addWorkoutSection, addWorkoutBtn));
     aiWorkoutBtn.addEventListener("click", () => toggleSection(aiPlannerSection, aiWorkoutBtn));
 
-    // =====================
-    // EXERCISE TABLE LOGIC
-    // =====================
-
-    function createExerciseRow() {
+    // ===== HELPER FUNCTIONS =====
+    function createStrengthRow() {
         const tr = document.createElement("tr");
 
-        // Build the exercise dropdown
         const exerciseOptions = availableExercises
+            .filter(ex => ex.muscle !== "Cardio")
             .map(ex => `<option value="${ex.name}" data-muscle="${ex.muscle}">${ex.name}</option>`)
             .join("");
 
@@ -97,69 +104,56 @@ document.addEventListener("DOMContentLoaded", () => {
                 </select>
             </td>
             <td><input type="text" class="form-control rounded-3 muscle-input" placeholder="Auto-filled" readonly></td>
-            <td class="strength-field"><input type="number" class="form-control rounded-3 sets-input" min="1" placeholder="Sets" required></td>
-            <td class="strength-field"><input type="number" class="form-control rounded-3 reps-input" min="1" placeholder="Reps" required></td>
-            <td class="strength-field"><input type="number" class="form-control rounded-3 weight-input" min="0" step="0.5" placeholder="kg"></td>
-            <td class="cardio-field" style="display:none;"><input type="number" class="form-control rounded-3 duration-input" min="1" placeholder="Minutes"></td>
-            <td class="cardio-field" style="display:none;"><input type="number" class="form-control rounded-3 distance-input" min="0" step="0.1" placeholder="km"></td>
+            <td><input type="number" class="form-control rounded-3 sets-input" min="1" placeholder="Sets" required></td>
+            <td><input type="number" class="form-control rounded-3 reps-input" min="1" placeholder="Reps" required></td>
+            <td><input type="number" class="form-control rounded-3 weight-input" min="0" step="0.5" placeholder="kg"></td>
             <td><button type="button" class="btn btn-sm btn-outline-danger remove-exercise-btn"><i class="fas fa-trash"></i></button></td>
         `;
 
-        const exerciseSelect = tr.querySelector(".exercise-select");
+        const select = tr.querySelector(".exercise-select");
         const muscleInput = tr.querySelector(".muscle-input");
-        const strengthFields = tr.querySelectorAll(".strength-field");
-        const cardioFields = tr.querySelectorAll(".cardio-field");
-
-        // Add event listener for muscle auto-fill and cardio detection
-        exerciseSelect.addEventListener("change", (e) => {
+        select.addEventListener("change", (e) => {
             const selected = e.target.selectedOptions[0];
-            const muscleGroup = selected.dataset.muscle || "";
-            muscleInput.value = muscleGroup;
-
-            // Toggle between strength and cardio fields
-            const isCardio = muscleGroup === "Cardio";
-            
-            strengthFields.forEach(field => {
-                field.style.display = isCardio ? "none" : "";
-                const input = field.querySelector("input");
-                if (input) {
-                    input.required = !isCardio;
-                    if (isCardio) input.value = "";
-                }
-            });
-
-            cardioFields.forEach(field => {
-                field.style.display = isCardio ? "" : "none";
-                const input = field.querySelector("input");
-                if (input) {
-                    input.required = isCardio;
-                    if (!isCardio) input.value = "";
-                }
-            });
+            muscleInput.value = selected.dataset.muscle || "";
         });
 
-        // Add event listener for remove button
-        tr.querySelector(".remove-exercise-btn").addEventListener("click", () => {
-            tr.remove();
-        });
-
-        exerciseTableBody.appendChild(tr);
+        tr.querySelector(".remove-exercise-btn").addEventListener("click", () => tr.remove());
+        strengthExerciseTableBody.appendChild(tr);
     }
 
-    addExerciseBtn?.addEventListener("click", () => {
-        createExerciseRow();
-    });
+    function createCardioRow() {
+        const tr = document.createElement("tr");
 
-    // Add one default exercise row on page load
-    createExerciseRow();
+        const cardioOptions = availableExercises
+            .filter(ex => ex.muscle === "Cardio")
+            .map(ex => `<option value="${ex.name}">${ex.name}</option>`)
+            .join("");
 
-    // =====================
-    // RENDER WORKOUT HISTORY
-    // =====================
+        tr.innerHTML = `
+            <td>
+                <select class="form-select cardio-select rounded-3" required>
+                    <option value="" disabled selected>Select activity</option>
+                    ${cardioOptions}
+                </select>
+            </td>
+            <td><input type="number" class="form-control rounded-3 duration-input" min="1" placeholder="Minutes" required></td>
+            <td><input type="number" class="form-control rounded-3 distance-input" min="0" step="0.1" placeholder="km"></td>
+            <td><button type="button" class="btn btn-sm btn-outline-danger remove-cardio-btn"><i class="fas fa-trash"></i></button></td>
+        `;
 
+        tr.querySelector(".remove-cardio-btn").addEventListener("click", () => tr.remove());
+        cardioTableBody.appendChild(tr);
+    }
+
+    // ===== EVENT LISTENERS =====
+    addStrengthExerciseBtn.addEventListener("click", createStrengthRow);
+    addCardioActivityBtn.addEventListener("click", createCardioRow);
+
+    createStrengthRow();
+
+    // ===== RENDER WORKOUT HISTORY =====
     function renderWorkouts(data) {
         if (!workoutTableBody) return;
-
         if (data.length === 0) {
             workoutTableBody.innerHTML = `<tr><td colspan="3" class="text-center text-muted py-3">No workouts logged yet.</td></tr>`;
             return;
@@ -186,38 +180,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
     renderWorkouts(mockWorkouts);
 
-    // =====================
-    // HANDLE WORKOUT SUBMISSION
-    // =====================
-
-    workoutForm?.addEventListener("submit", (e) => {
+    // ===== FORM SUBMISSION =====
+    workoutForm.addEventListener("submit", (e) => {
         e.preventDefault();
-
         const workoutDate = workoutDateInput.value;
-        const exerciseRows = exerciseTableBody.querySelectorAll("tr");
         const exercises = [];
 
-        exerciseRows.forEach(row => {
+        strengthExerciseTableBody.querySelectorAll("tr").forEach(row => {
             const exercise = row.querySelector(".exercise-select").value;
-            const muscle = row.querySelector(".muscle-input").value;
-
             if (!exercise) return;
+            const muscle = row.querySelector(".muscle-input").value;
+            const sets = parseInt(row.querySelector(".sets-input").value) || 0;
+            const reps = parseInt(row.querySelector(".reps-input").value) || 0;
+            const weight = parseFloat(row.querySelector(".weight-input").value) || 0;
+            if (sets > 0 && reps > 0) {
+                exercises.push({ exercise, muscle, sets, reps, weight });
+            }
+        });
 
-            if (muscle === "Cardio") {
-                const duration = parseInt(row.querySelector(".duration-input").value) || 0;
-                const distance = parseFloat(row.querySelector(".distance-input").value) || 0;
-                
-                if (duration > 0 || distance > 0) {
-                    exercises.push({ exercise, muscle, duration, distance });
-                }
-            } else {
-                const sets = parseInt(row.querySelector(".sets-input").value) || 0;
-                const reps = parseInt(row.querySelector(".reps-input").value) || 0;
-                const weight = parseFloat(row.querySelector(".weight-input").value) || 0;
-
-                if (sets > 0 && reps > 0) {
-                    exercises.push({ exercise, muscle, sets, reps, weight });
-                }
+        cardioTableBody.querySelectorAll("tr").forEach(row => {
+            const activity = row.querySelector(".cardio-select").value;
+            if (!activity) return;
+            const duration = parseInt(row.querySelector(".duration-input").value) || 0;
+            const distance = parseFloat(row.querySelector(".distance-input").value) || 0;
+            if (duration > 0 || distance > 0) {
+                exercises.push({ exercise: activity, muscle: "Cardio", duration, distance });
             }
         });
 
@@ -226,28 +213,23 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const newWorkout = {
-            date: workoutDate
-                ? new Date(workoutDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
-                : new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
-            exercises: exercises,
-        };
+        const newWorkout = { date: workoutDate ? `${new Date(workoutDate + 'T00:00').toLocaleString('en-US',
+            { month: 'short', day: 'numeric', year: 'numeric' })}` : new Date().toLocaleDateString("en-US",
+            { month: "short", day: "numeric", year: "numeric" }), exercises };
 
         mockWorkouts.unshift(newWorkout);
         renderWorkouts(mockWorkouts);
 
+        // Reset tables
+        strengthExerciseTableBody.innerHTML = "";
+        cardioTableBody.innerHTML = "";
         workoutForm.reset();
-        exerciseTableBody.innerHTML = "";
-        
-        // Reset date to today and add one default exercise row
         workoutDateInput.value = new Date().toISOString().split('T')[0];
-        createExerciseRow();
+
+        createStrengthRow();
     });
 
-    // =====================
-    // AI PLANNER (mock)
-    // =====================
-
+    // ===== AI PLANNER (mock) =====
     aiForm?.addEventListener("submit", (e) => {
         e.preventDefault();
         aiPlanResult.style.display = "block";
@@ -255,7 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
             aiPlanResult.innerHTML = `
-                <h5 class="urbanist-bold text-blue mb-3">Your AI-Generated Plan</h5>
+                <h3 class="urbanist-bold text-blue mb-3">Your AI-Generated Plan</h3>
                 <div class="alert bg-light-orange border border-blue rounded-3">
                     <strong class="text-blue">Day 1:</strong> Push (Chest, Triceps, Shoulders)<br>
                     <strong class="text-blue">Day 2:</strong> Pull (Back, Biceps)<br>
