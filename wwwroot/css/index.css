@@ -1,0 +1,171 @@
+/* ===============================
+   Landing Page Styles
+=============================== */
+
+/* ====================================
+   Variables
+==================================== */
+:root {
+    /* Layout */
+    --landing-min-height: calc(100vh - var(--navbar-height) - var(--footer-height));
+    --landing-padding-top: 6rem;
+    --landing-padding-bottom: 6rem;
+    --section-padding-vertical: 4rem;
+    --section-padding-horizontal: 1rem;
+    --container-max-width: 1140px;
+
+    /* Hero */
+    --hero-padding-top: 6rem;
+    --hero-padding-bottom: 6rem;
+    --hero-lead-max-width: 800px;
+
+    /* Features */
+    --feature-card-padding: 2rem;
+    --feature-card-radius: 1rem;
+    --feature-card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    --feature-card-hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    --feature-card-hover-translate: -5px;
+
+    /* Call-to-Action */
+    --cta-padding-vertical: 4rem;
+    --cta-btn-padding: 0.75rem 2rem;
+    --cta-hr-margin: 5rem;
+
+    /* Images */
+    --image-radius: 0.5rem;
+    --image-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Main layout */
+main.landing-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* content starts from top */
+    align-items: center;
+    /* center content horizontally */
+    width: 100%;
+    min-height: var(--landing-min-height);
+    padding: 0;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+/* ====================================
+   Hero Section
+==================================== */
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: var(--landing-min-height);
+    text-align: center;
+    padding: var(--hero-padding-top) var(--section-padding-horizontal) var(--hero-padding-bottom);
+    box-sizing: border-box;
+}
+
+.hero .lead {
+    max-width: var(--hero-lead-max-width);
+    margin: 0 auto;
+}
+
+/* ====================================
+   Image + Text Section
+==================================== */
+.image-text-section {
+    width: 100%;
+    padding: var(--section-padding-vertical) var(--section-padding-horizontal);
+    box-sizing: border-box;
+}
+
+.image-text-section .container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+}
+
+.image-text-section img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--image-radius);
+    box-shadow: var(--image-shadow);
+}
+
+/* ====================================
+   Features Section
+==================================== */
+.features-section {
+    width: 100%;
+    padding: var(--section-padding-vertical) var(--section-padding-horizontal);
+    box-sizing: border-box;
+}
+
+.features-section .container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+}
+
+.feature-card {
+    padding: var(--feature-card-padding);
+    border-radius: var(--feature-card-radius);
+    box-shadow: var(--feature-card-shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.feature-card:hover {
+    transform: translateY(var(--feature-card-hover-translate));
+    box-shadow: var(--feature-card-hover-shadow);
+}
+
+/* ====================================
+   Call-to-Action Section
+==================================== */
+.call-to-action {
+    width: 100%;
+    padding: var(--cta-padding-vertical) var(--section-padding-horizontal);
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.call-to-action .container {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+}
+
+.call-to-action hr {
+    margin: var(--cta-hr-margin) 0;
+}
+
+.call-to-action .btn {
+    padding: var(--cta-btn-padding);
+}
+
+/* ====================================
+   Responsive Adjustments
+==================================== */
+@media (max-width: 768px) {
+    .hero {
+        padding: 3rem 1rem 4rem;
+    }
+
+    .hero .lead {
+        max-width: 100%;
+    }
+
+    .feature-card {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+
+    .hero h1,
+    .hero p {
+        font-size: clamp(1rem, 3vw, 2rem);
+    }
+
+    .feature-card {
+        padding: 1rem;
+    }
+}

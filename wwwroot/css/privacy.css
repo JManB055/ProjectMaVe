@@ -1,0 +1,20 @@
+/* Main container for Privacy page */
+.privacy-main {
+    padding-top: 80px;
+    /* offset for navbar */
+    padding-bottom: 40px;
+    /* optional bottom spacing */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    /* center horizontally */
+}
+
+/* Inner content container */
+.privacy-page {
+    max-width: 800px;
+    /* keeps lines readable */
+    width: 100%;
+    padding: 0 1rem;
+    /* side padding for smaller screens */
+}

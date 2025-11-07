@@ -367,3 +367,4 @@ redeploy.sh
 test-deploy.sh
 projectmave.tar.gz
 .env
+.test-deploy.sh

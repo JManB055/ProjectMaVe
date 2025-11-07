@@ -3,12 +3,10 @@
 @*@inject ProjectMaVe.Interfaces.IAuthenticationService authnService
 @inject ProjectMaVe.Interfaces.IUserStore userStore;*@
 @{
-
     ViewData["Title"] = "Dashboard";
 
     // Placeholder user until backend implementation
-    var user = new
-    {
+    var user = new {
         FirstName = "John",
         LastName = "Doe",
         Email = "john.doe@example.com"
