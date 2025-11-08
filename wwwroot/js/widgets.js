@@ -179,7 +179,31 @@ function getWidgets() {
 
 // TODO: Write function to save widgets to the database (Alex, write save code here to simply save the entire widgets array to database)
 function saveWidgets() {
+    try {
+        const userID = widgets[0].userID;
 
-    //widgetsInDatabase = widgets
-    // Note, the length of the array might change (widgets can be added and deleted, so saving to the database should account for this. We don't want garbage to reappear)
+        const payload = {
+            userId: userId,
+            widgets: widgets
+        };
+
+        const response = await fetch('/Widgets?handler=SaveWidgets', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            console.log('Widgets saved successfully!');
+        } else {
+            console.warn('Failed to save widgets:', result.message);
+        }
+
+    } catch (error) {
+        console.error('Error saving widgets:', error);
+    }
 }
