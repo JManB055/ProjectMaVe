@@ -21,7 +21,7 @@ namespace ProjectMaVe.Pages
   	  	        return new JsonResult(new { success = false, message = "No widgets provided." });
   	  	    }
   	  	
-  	  	    bool success = await _widgetService.StoreAllWidgetsAsync(request.UserId, request.Widgets);
+  	  	    bool success = await _widgetService.StoreAllWidgetsAsync(request.UserID, request.Widgets);
   	  	
   	  	    return new JsonResult(new { success });
   	  	}

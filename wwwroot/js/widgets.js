@@ -180,10 +180,10 @@ function getWidgets() {
 // TODO: Write function to save widgets to the database (Alex, write save code here to simply save the entire widgets array to database)
 function saveWidgets() {
     try {
-        const userID = widgets[0].userID;
+        const userId = widgets[0].userID;
 
         const payload = {
-            userId: userId,
+            userID: userId,
             widgets: widgets
         };
 
