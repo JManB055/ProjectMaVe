@@ -48,7 +48,6 @@ FitSync/
 ├── Properties/                     # ASP.NET configuration
 ├── redeploy.sh                     # Helper script for redeploying container
 ├── Services/                       # Business logic and service implementations
-├── test-deploy.sh                  # Local deploy script for testing
 ├── Widgets/                        # Reusable UI components
 └── wwwroot/                        # Static web assets (CSS, JS, images)
 ```
@@ -82,9 +81,12 @@ The core entities are users, workouts, exercises, and the relationships between 
 | workout_exercise_id | INT (PK, auto_increment) | Entry ID |
 | workout_id | INT (FK → Workouts) | Parent workout |
 | exercise_id | INT (FK → Exercises) | Exercise reference |
-| sets | INT | Number of sets |
-| reps | INT | Reps per set |
+| sets | INT | Optional number of sets |
+| reps | INT | Optional reps per set |
 | weight | DECIMAL(5,2) | Optional weight used |
+| distance | INT | Optional distance walked/ran |
+| time | INT | Optional time taken |
+| isCompleted | BOOL | Status of the workout |
 
 ### **Exercises**
 | Field | Type | Notes |
