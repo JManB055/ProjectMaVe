@@ -178,7 +178,7 @@ function getWidgets() {
 }
 
 // TODO: Write function to save widgets to the database (Alex, write save code here to simply save the entire widgets array to database)
-function saveWidgets() {
+async function saveWidgets() {
     try {
         const userId = widgets[0].userID;
 
@@ -187,7 +187,7 @@ function saveWidgets() {
             widgets: widgets
         };
 
-        const response = await fetch('/Widgets?handler=SaveWidgets', {
+        const response = await fetch('/Dashboard?handler=SaveWidgets', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

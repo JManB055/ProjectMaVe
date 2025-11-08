@@ -5,6 +5,7 @@ using ProjectMaVe.Models;
 
 namespace ProjectMaVe.Pages
 {
+    [IgnoreAntiforgeryToken]
     public class DashboardModel : PageModel
     {
         private readonly IWidgetStore _widgetService;
@@ -16,7 +17,9 @@ namespace ProjectMaVe.Pages
 
         public async Task<JsonResult> OnPostSaveWidgetsAsync([FromBody] SaveWidgetsRequest request)
   	  	{
-  	  	    if (request == null || request.Widgets == null || request.Widgets.Count == 0)
+  	  	    Console.WriteLine("=== HIT OnPostSaveWidgetsAsync ===");
+
+            if (request == null || request.Widgets == null || request.Widgets.Count == 0)
   	  	    {
   	  	        return new JsonResult(new { success = false, message = "No widgets provided." });
   	  	    }
