@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectMaVe.Models;
@@ -11,8 +12,7 @@ public class Widget
     }
 
     //overloaded constructor
-    public Widget(Int32 wid, Int32 uid, Int32 posX, Int32 posY, string wtype, Int32 wwidth, Int32 wheight){
-        widgetID = wid;
+    public Widget(Int32 uid, Int32 posX, Int32 posY, string wtype, Int32 wwidth, Int32 wheight){
         userID = uid;
         x = posX;
         y = posY;
@@ -21,6 +21,8 @@ public class Widget
         h = wheight;
     }
 
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     [Column("widget_id")]
     public Int32 widgetID { get; set; } = 0;
 

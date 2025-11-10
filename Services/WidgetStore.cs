@@ -24,17 +24,17 @@ public class WidgetStore : IWidgetStore
 		
 		    // Step 2: Find which widgets to delete
 		    var widgetsToDelete = existingWidgets
-		        .Where(ew => !newWidgets.Any(nw => nw.widget_id == ew.widget_id))
+		        .Where(ew => !newWidgets.Any(nw => nw.widgetID == ew.widgetID))
 		        .ToList();
 		
 		    // Step 3: Find which widgets to add
 		    var widgetsToAdd = newWidgets
-		        .Where(nw => !existingWidgets.Any(ew => ew.widget_id == nw.widget_id))
+		        .Where(nw => !existingWidgets.Any(ew => ew.widgetID == nw.widgetID))
 		        .ToList();
 		
 		    // Step 4: Find which widgets to update (same ID, changed properties)
 		    var widgetsToUpdate = newWidgets
-		        .Where(nw => existingWidgets.Any(ew => ew.widget_id == nw.widget_id))
+		        .Where(nw => existingWidgets.Any(ew => ew.widgetID == nw.widgetID))
 		        .ToList();
 		    // --- Perform Deletions ---
 		    if (widgetsToDelete.Any())
@@ -47,7 +47,7 @@ public class WidgetStore : IWidgetStore
 		    // --- Perform Updates ---
 		    foreach (var widget in widgetsToUpdate)
 		    {
-		        var existingWidget = existingWidgets.First(ew => ew.widget_id == widget.widget_id);
+		        var existingWidget = existingWidgets.First(ew => ew.widgetID == widget.widgetID);
 		        existingWidget.x = widget.x;
 		        existingWidget.y = widget.y;
 		        existingWidget.w = widget.w;
