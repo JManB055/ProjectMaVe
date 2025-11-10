@@ -1,6 +1,7 @@
 using ProjectMaVe.Interfaces;
 using ProjectMaVe.Models;
 using ProjectMaVe.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProjectMaVe.Services;
 
@@ -69,5 +70,61 @@ public class WorkoutExerciseStore : IWorkoutExerciseStore
 
         _db.WorkoutExercises.Update(existingWorkout);                     // Stage changes
         return await _db.SaveChangesAsync() > 0;            // Same save changes as the first function
+    }
+
+        // --- Bulk save for all exercises of a workout / Used in for database workout exercise interaction ---
+    public async Task<bool> StoreWorkoutExercisesAsync(int workoutId, List<WorkoutExercise> newExercises)
+    {
+        // Step 1: Pull existing exercises for this workout
+        var existingExercises = await _db.WorkoutExercises
+            .Where(e => e.WorkoutID == workoutId)
+            .ToListAsync();
+
+        // Step 2: Determine which exercises to delete
+        var exercisesToDelete = existingExercises
+            .Where(ee => !newExercises.Any(ne => ne.WorkoutExerciseID == ee.WorkoutExerciseID))
+            .ToList();
+
+        // Step 3: Determine which exercises to add
+        var exercisesToAdd = newExercises
+            .Where(ne => !existingExercises.Any(ee => ee.WorkoutExerciseID == ne.WorkoutExerciseID))
+            .ToList();
+
+        // Step 4: Determine which exercises to update
+        var exercisesToUpdate = newExercises
+            .Where(ne => existingExercises.Any(ee => ee.WorkoutExerciseID == ne.WorkoutExerciseID))
+            .ToList();
+
+        // --- Perform deletions ---
+        if (exercisesToDelete.Any())
+            _db.WorkoutExercises.RemoveRange(exercisesToDelete);
+
+        // --- Perform additions ---
+        if (exercisesToAdd.Any())
+            await _db.WorkoutExercises.AddRangeAsync(exercisesToAdd);
+
+        // --- Perform updates ---
+        foreach (var exercise in exercisesToUpdate)
+        {
+            var existingExercise = existingExercises.First(ee => ee.WorkoutExerciseID == exercise.WorkoutExerciseID);
+            existingExercise.Sets = exercise.Sets;
+            existingExercise.Reps = exercise.Reps;
+            existingExercise.Weight = exercise.Weight;
+            existingExercise.Distance = exercise.Distance;
+            existingExercise.Time = exercise.Time;
+            existingExercise.isCompleted = exercise.isCompleted;
+            existingExercise.ExerciseID = exercise.ExerciseID; // just in case
+        }
+
+        // --- Commit all changes at once ---
+        return await _db.SaveChangesAsync() > 0;
+    }
+
+    // --- Get all exercises for a workout / Used in for database workout exercise interaction ---
+    public async Task<List<WorkoutExercise>> GetWorkoutExercisesAsync(int workoutId)
+    {
+        return await _db.WorkoutExercises
+            .Where(e => e.WorkoutID == workoutId)
+            .ToListAsync();
     }
 }
