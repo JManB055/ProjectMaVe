@@ -5,12 +5,7 @@
 @{
     ViewData["Title"] = "Dashboard";
 
-    // Placeholder user until backend implementation
-    var user = new {
-        FirstName = "John",
-        LastName = "Doe",
-        Email = "john.doe@example.com"
-    };
+    var user = await authService.GetCurrentUser();
 }
 
 <div class="mt-4 pt-4 pb-4"></div>
