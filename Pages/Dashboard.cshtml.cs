@@ -9,27 +9,22 @@ namespace ProjectMaVe.Pages
     public class DashboardModel : PageModel
     {
         private readonly IWidgetStore _widgetService;
+        private readonly IAuthenticationService _auth;
 
-        public DashboardModel(IWidgetStore widgetService)
+        public DashboardModel(IWidgetStore widgetService, IAuthenticationService authService)
         {
             _widgetService = widgetService;
+            _auth = authService;
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var authService = HttpContext.RequestServices.GetService<IAuthenticationService>();
-            Int32 uid = int.Parse((Request.Cookies[Constants.COOKIE_ID_FIELD] ?? ""));
-            string token = Request.Cookies[Constants.COOKIE_TOKEN_FIELD] ?? "";
-
-            if (!authService.IsSignedIn(uid, token)) return RedirectToPage("/");
-
+            if (!_auth.IsCurrentSignedIn()) return Redirect("~/");
             return Page();
         }
 
         public async Task<JsonResult> OnPostSaveWidgetsAsync([FromBody] SaveWidgetsRequest request)
         {
-            Console.WriteLine("=== HIT OnPostSaveWidgetsAsync ===");
-
             if (request == null || request.Widgets == null || request.Widgets.Count == 0)
             {
                 return new JsonResult(new { success = false, message = "No widgets provided." });
@@ -40,9 +35,8 @@ namespace ProjectMaVe.Pages
             return new JsonResult(new { success });
         }
 
-        public async Task<JsonResult> OnGetWidgetsAsync(int userId){
-            Console.WriteLine("=== HIT OnGetWidgetsAsync ===");
-
+        public async Task<JsonResult> OnGetWidgetsAsync(int userId)
+        {
             if (userId <= 0)
             {
                 return new JsonResult(new { success = false, message = "Invalid user ID." });

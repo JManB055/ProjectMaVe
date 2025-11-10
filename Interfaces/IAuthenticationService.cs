@@ -6,7 +6,8 @@ namespace ProjectMaVe.Interfaces;
 using Token = string;
 public interface IAuthenticationService
 {
-    UserInfo? GetCurrentUser();
+    Task<UserInfo?> GetCurrentUser();
+    bool IsCurrentSignedIn();
 
     /**
      * <summary>
