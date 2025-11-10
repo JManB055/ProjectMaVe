@@ -11,12 +11,16 @@
 *       'draggies' is the array of Draggabilly objects tied to the widgets. This is neccessary for draggaing capabilities.
 *       'draggable' is a boolean to track the state of the dashboard (editing mode vs view mode)
 */
+const templateContainer = document.querySelector('.template_container');
 const container = document.querySelector('.dashboard_container');
 const editSaveBtn = document.getElementById('editSaveBtn');
 var deleteBtns;
 var widgets = [];
 var draggies = [];
 var draggable = true;
+
+// An array of widget types used to display templates
+const widgetTypes = ['Test Widget'];
 
 
 /*
@@ -164,6 +168,8 @@ function toggleDraggble() {
         // Update the 'editSaveButton'
         editSaveBtn.textContent = "Save";
     }
+
+    templateContainer.hidden = draggable;
 
     for (var i = 0; i < deleteBtns.length; i++) {
         deleteBtns[i].hidden = draggable;
