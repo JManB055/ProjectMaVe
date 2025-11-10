@@ -252,10 +252,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-// get workoutExercises
-//      Somehow verify user???????
-//      send workout_id
-//      send list of workoutExercises
+// TODO: Somehow verify user???????
 async function getWorkoutExercises(workoutId) {
     try {
         const response = await fetch(`/Workout?handler=WorkoutExercises&workoutId=${workoutId}`, {
@@ -278,10 +275,7 @@ async function getWorkoutExercises(workoutId) {
 }
 
 
-// save workoutExercises
-//      Somehow verify user???????
-//      send workout_id
-//      get list of workoutExercises
+// TODO: Somehow verify user???????
 async function saveWorkoutExercises(workoutId, exercises) {
     try {
         const payload = {
