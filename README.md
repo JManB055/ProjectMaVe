@@ -75,7 +75,7 @@ The core entities are users, workouts, exercises, and the relationships between 
 | user_id | INT (FK → Users) | Linked user |
 | workout_date | DATE | Date of workout |
 
-### **Workout_Exercises**
+### **WorkoutExercises**
 | Field | Type | Notes |
 |--------|------|-------|
 | workout_exercise_id | INT (PK, auto_increment) | Entry ID |
