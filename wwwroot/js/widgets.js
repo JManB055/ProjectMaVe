@@ -28,10 +28,10 @@ var draggable = true;
 // Set default widgets for testing
 // TODO: Once we can pull from database, we no longer need default widgets; delete following 7 lines of code.
 var defaultWidgets = [
-    { userID: '0', x: 50, y: 50, w: 2, h: 2, type: 'Test Widget' },
-    { userID: '0', x: 650, y: 50, w: 1, h: 1, type: 'Test Widget' },
-    { userID: '0', x: 650, y: 350, w: 1, h: 1, type: 'Test Widget' },
-    { userID: '0', x: 950, y: 50, w: 1, h: 2, type: 'Test Widget' }
+    { userID: 1006, x: 50, y: 50, w: 2, h: 2, type: 'Test Widget' },
+    { userID: 1006, x: 650, y: 50, w: 1, h: 1, type: 'Test Widget' },
+    { userID: 1006, x: 650, y: 350, w: 1, h: 1, type: 'Test Widget' },
+    { userID: 1006, x: 950, y: 50, w: 1, h: 2, type: 'Test Widget' }
 ];
 widgets = defaultWidgets;
 
@@ -172,9 +172,27 @@ function toggleDraggble() {
 }
 
 // TODO: Write function to get the widgets. It doesn't need return, just set existing 'widgets' array to data from database.
-function getWidgets() {
-    // var widgetService = Httpcontext.RequestServices.GetService<IWidgetService>();
-    //widgets = widgetsFromDatabase
+async function getWidgets(/*userId*/) {
+    try {
+        const response = await fetch(`/Dashboard?handler=Widgets&userId=1006`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            console.log('Widgets loaded successfully:', result.widgets);
+            widgets = result.widgets; // Replace current widgets array
+            renderWidgets(widgets); // Optional: your custom render function
+        } else {
+            console.warn('Failed to load widgets:', result.message);
+        }
+    } catch (error) {
+        console.error('Error loading widgets:', error);
+    }
 }
 
 // TODO: Write function to save widgets to the database (Alex, write save code here to simply save the entire widgets array to database)

@@ -28,6 +28,25 @@ namespace ProjectMaVe.Pages
   	  	
   	  	    return new JsonResult(new { success });
   	  	}
+
+        public async Task<JsonResult> OnGetWidgetsAsync(int userId){
+				    Console.WriteLine("=== HIT OnGetWidgetsAsync ===");
+				
+				    if (userId <= 0)
+				    {
+				        return new JsonResult(new { success = false, message = "Invalid user ID." });
+				    }
+				
+				    var widgets = await _widgetService.GetWidgetsByUserAsync(userId);
+				
+				    if (widgets == null || widgets.Count == 0)
+				    {
+				        return new JsonResult(new { success = true, widgets = new List<Widget>() });
+				    }
+				
+				    return new JsonResult(new { success = true, widgets });
+				}
+				
   	
     }
 
