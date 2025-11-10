@@ -362,7 +362,9 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 
-# Asp.Net secrets
-appsettings.Development.json
+# Docker stuff
+redeploy.sh
+test-deploy.sh
+projectmave.tar.gz
 .env
-*.env
+.test-deploy.sh

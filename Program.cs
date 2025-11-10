@@ -33,6 +33,7 @@ builder.Services.AddTransient<AuthenticationMiddleware>();
 
 builder.Services.AddScoped<IUserStore, UserStore>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<IWidgetStore, WidgetStore>();
 //builder.Services.AddScoped<DBContext, DbContext>();
 
 var app = builder.Build();
