@@ -14,14 +14,16 @@
 const templateContainer = document.querySelector('.template_container');
 const container = document.querySelector('.dashboard_container');
 const editSaveBtn = document.getElementById('editSaveBtn');
+//var addBtns = documnet.querySelectorAll('.add-btn', {});
 var deleteBtns;
+var addBtns;
 var widgets = [];
 var draggies = [];
 var draggable = true;
 
-// An array of widget types used to display templates
+// Arrays of widget types and sizes used to display templates
 const widgetTypes = ['Test Widget'];
-
+const widgetSizes = [[1, 1], [1, 2], [2, 1], [2, 2]];
 
 /*
 *   Set up the initial page rendering
@@ -31,19 +33,27 @@ const widgetTypes = ['Test Widget'];
 
 // Set default widgets for testing
 // TODO: Once we can pull from database, we no longer need default widgets; delete following 7 lines of code.
+
 var defaultWidgets = [
-    { userID: 1006, x: 50, y: 50, w: 2, h: 2, type: 'Test Widget' },
-    { userID: 1006, x: 650, y: 50, w: 1, h: 1, type: 'Test Widget' },
-    { userID: 1006, x: 650, y: 350, w: 1, h: 1, type: 'Test Widget' },
-    { userID: 1006, x: 950, y: 50, w: 1, h: 2, type: 'Test Widget' }
+    { userID: 1006, x: 64, y: 64, w: 2, h: 2, type: 'Test Widget' },
+    { userID: 1006, x: 640, y: 64, w: 1, h: 1, type: 'Test Widget' },
+    { userID: 1006, x: 640, y: 350, w: 1, h: 1, type: 'Test Widget' },
+    { userID: 1006, x: 928, y: 64, w: 1, h: 2, type: 'Test Widget' }
 ];
 widgets = defaultWidgets;
 
+var widgetTemplates = [
+    { userID: 1006, x: 16, y: 16, w: 1, h: 1, type: 'Test Widget' },
+    { userID: 1006, x: 16, y: 16, w: 1, h: 2, type: 'Test Widget' },
+    { userID: 1006, x: 16, y: 16, w: 2, h: 1, type: 'Test Widget' },
+    { userID: 1006, x: 16, y: 16, w: 2, h: 2, type: 'Test Widget' }
+]
+
 // Get widget information from database
-getWidgets()
+//getWidgets()
 
 // Render the widgets in HTML
-renderWidgets()
+renderWidgets();
 
 // Set the dashboard to be static
 toggleDraggble();
@@ -69,7 +79,7 @@ container.addEventListener('click', (event) => {
         widgets.splice(index, 1);
 
         // Save 'widgets' array to Database
-        saveWidgets();
+        //saveWidgets();
 
         // Re-Render the 'widgets' array
         renderWidgets();
@@ -93,7 +103,7 @@ function renderWidgets() {
     var htmlString = '';
 
     // Write HTML code to 'htmlString' based on widget metadata (in 'widgets' array)
-    for (var i = 0; i < defaultWidgets.length; i++) {
+    for (var i = 0; i < widgets.length; i++) {
         // TODO: Implement different widget types
         htmlString += '<div class="widget widget_card size-' + widgets[i].w + 'x' + widgets[i].h + '">' +
             '<button class="delete-btn" data-index="' + i + '">X</button>' +
@@ -114,10 +124,10 @@ function renderWidgets() {
     for (var i = 0; i < elements.length; i++) {
         var draggableElem = elements[i];
         var draggie = new Draggabilly(draggableElem, {
-            grid: [50, 50],
+            grid: [16, 16],
             containment: ".dashboard_container"
         });
-        draggies.push(draggie)
+        draggies.push(draggie);
     }
 
     // Set the postions based on saved positions
@@ -157,7 +167,7 @@ function toggleDraggble() {
 
         // Update 'editSaveBtn'
         editSaveBtn.textContent = "Edit";
-        saveWidgets();
+        //saveWidgets();
     }
     else {
         // If not currently draggable
@@ -175,6 +185,16 @@ function toggleDraggble() {
         deleteBtns[i].hidden = draggable;
     }
     draggable = !draggable;
+} 
+
+function addWidget(width, height, widgetType) {
+    for (var i = 0; i < draggies.length; i++) {
+        widgets[i].x = draggies[i].position.x;
+        widgets[i].y = draggies[i].position.y;
+    }
+
+    widgets.push({ userID: 1006, x: 32, y: 32, w: width, h: height, type: widgetType });
+    renderWidgets();
 }
 
 // TODO: Write function to get the widgets. It doesn't need return, just set existing 'widgets' array to data from database.
@@ -193,6 +213,7 @@ async function getWidgets(/*userId*/) {
             console.log('Widgets loaded successfully:', result.widgets);
             widgets = result.widgets; // Replace current widgets array
             renderWidgets(widgets); // Optional: your custom render function
+            //toggleDraggble();
         } else {
             console.warn('Failed to load widgets:', result.message);
         }

@@ -37,15 +37,122 @@
     </header>
 
     <main class="container">
-        @* ===============================
-        Template Widgets Container
-        =============================== *@
-        <div class="template_container">Hello World</div>
+
         
         @* ===============================
         Widget Grid Container
         =============================== *@
         <div class="dashboard_background dashboard_container"></div>
+
+        @* ===============================
+        Template Widgets
+        =============================== *@
+
+        
+        <div class="template_container">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">1x1 Widgets</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="s1x2-tab" data-bs-toggle="tab" data-bs-target="#s1x2" type="button" role="tab" aria-controls="s1x2" aria-selected="false">1x2 Widgets</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="s2x1-tab" data-bs-toggle="tab" data-bs-target="#s2x1" type="button" role="tab" aria-controls="s2x1" aria-selected="false">2x1 Widgets</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="s2x2-tab" data-bs-toggle="tab" data-bs-target="#s2x2" type="button" role="tab" aria-controls="s2x2" aria-selected="false">2x2 Widgets</button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="template-widget-container thin-tem-con">
+                        <div class="widget-template size-1x1">
+                            <button onClick="addWidget(1, 1, 'Test Widget')" class="add-btn" data-index="0">+</button>
+                            <p>Template Widget</p>
+                        </div>
+                        <div class="widget-template size-1x1">
+                            <button onClick="addWidget(1, 1, 'Test Widget')" class="add-btn" data-index="0">+</button>
+                            <p>Template Widget</p>
+                        </div>
+                        <div class="widget-template size-1x1">
+                            <button onClick="addWidget(1, 1, 'Test Widget')" class="add-btn" data-index="0">+</button>
+                            <p>Template Widget</p>
+                        </div>
+                        <div class="widget-template size-1x1">
+                            <button onClick="addWidget(1, 1, 'Test Widget')" class="add-btn" data-index="0">+</button>
+                            <p>Template Widget</p>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="tab-pane fade" id="s1x2" role="tabpanel" aria-labelledby="s1x2-tab">
+                    <div class="template-widget-container thin-tem-con">
+                        <div class="widget-template size-1x2">
+                            <button onClick="addWidget(1, 2, 'Test Widget')" class="add-btn" data-index="1">+</button>
+                            <p>Template Widget</p>
+                        </div>
+                        <div class="widget-template size-1x2">
+                            <button onClick="addWidget(1, 2, 'Test Widget')" class="add-btn" data-index="1">+</button>
+                            <p>Template Widget</p>
+                        </div>
+                        <div class="widget-template size-1x2">
+                            <button onClick="addWidget(1, 2, 'Test Widget')" class="add-btn" data-index="1">+</button>
+                            <p>Template Widget</p>
+                        </div>
+                        <div class="widget-template size-1x2">
+                            <button onClick="addWidget(1, 2, 'Test Widget')" class="add-btn" data-index="1">+</button>
+                            <p>Template Widget</p>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="tab-pane fade" id="s2x1" role="tabpanel" aria-labelledby="s2x1-tab">
+                    <div class="template-widget-container wide-tem-con">
+                        <div class="widget-template size-2x1">
+                            <button onClick="addWidget(2, 1, 'Test Widget')" class="add-btn" data-index="2">+</button>
+                            <p>Template Widget</p>
+                        </div>
+                        <div class="widget-template size-2x1">
+                            <button onClick="addWidget(2, 1, 'Test Widget')" class="add-btn" data-index="2">+</button>
+                            <p>Template Widget</p>
+                        </div>
+                        <div class="widget-template size-2x1">
+                            <button onClick="addWidget(2, 1, 'Test Widget')" class="add-btn" data-index="2">+</button>
+                            <p>Template Widget</p>
+                        </div>
+                        <div class="widget-template size-2x1">
+                            <button onClick="addWidget(2, 1, 'Test Widget')" class="add-btn" data-index="2">+</button>
+                            <p>Template Widget</p>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="tab-pane fade" id="s2x2" role="tabpanel" aria-labelledby="s2x2-tab">
+                    <div class="template-widget-container wide-tem-con">
+                        <div class="widget-template size-2x2">
+                            <button onClick="addWidget(2, 2, 'Test Widget')" class="add-btn" data-index="3">+</button>
+                            <p>Template Widget</p>
+                        </div>
+                        <div class="widget-template size-2x2">
+                            <button onClick="addWidget(2, 2, 'Test Widget')" class="add-btn" data-index="3">+</button>
+                            <p>Template Widget</p>
+                        </div>
+                        <div class="widget-template size-2x2">
+                            <button onClick="addWidget(2, 2, 'Test Widget')" class="add-btn" data-index="3">+</button>
+                            <p>Template Widget</p>
+                        </div>
+                        <div class="widget-template size-2x2">
+                            <button onClick="addWidget(2, 2, 'Test Widget')" class="add-btn" data-index="3">+</button>
+                            <p>Template Widget</p>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        
 
 		    @* Edit Mode Overlay Instructions *@
 		    <div class="edit-mode-banner" id="editModeBanner" style="display: none;">
@@ -57,7 +164,7 @@
 		            </p>
 		        </div>
 		    </div>
-		</main>
+	</main>
 </div>
 
 

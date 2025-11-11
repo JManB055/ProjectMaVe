@@ -8,9 +8,6 @@ docker build -t projectmave:latest .
 docker rm -f projectmave 2>$null
 
 # Run the container
-docker run -d -p 127.0.0.1:8080:8080 `
-  -v "C:\opt\project\DataProtection-Keys:/root/.aspnet/DataProtection-Keys" `
-  --env-file .env `
-  --name projectmave projectmave:latest
+docker run -d -p 127.0.0.1:8080:8080 -v "C:\opt\project\DataProtection-Keys:/root/.aspnet/DataProtection-Keys" --env-file .env --name projectmave projectmave:latest
 
 Write-Host "ProjectMaVe is now running at http://127.0.0.1:8080"
