@@ -1,0 +1,282 @@
+@page
+@model ProjectMaVe.Pages.Workouts.AIModel
+@{
+    ViewData["Title"] = "AI Workout Planner";
+}
+
+<div class="workouts-page">
+    <!-- Header -->
+    <header class="workouts-header mb-4 py-4 bg-light-orange border-bottom">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="urbanist-bold text-blue mb-2">
+                        <i class="fas fa-robot me-2"></i>AI Workout Planner
+                    </h1>
+                    <p class="urbanist-medium text-black mb-0">
+                        Generate personalized workout plans using artificial intelligence.
+                    </p>
+                </div>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <a href="/Workouts" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-2"></i>Back to Workouts
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="workouts-main container mb-5">
+        <!-- AI Planner Form -->
+        <section class="ai-planner-section mb-5">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-header bg-blue text-light-orange urbanist-bold">
+                    <i class="fas fa-magic me-2"></i>Generate Your Plan
+                </div>
+                <div class="card-body bg-light-orange">
+                    <form id="aiPlannerForm">
+                        <div class="row g-4">
+                            <!-- Fitness Goal -->
+                            <div class="col-md-6">
+                                <label class="form-label urbanist-medium text-blue">Fitness Goal</label>
+                                <select class="form-select rounded-3" id="fitnessGoal" required>
+                                    <option value="" disabled selected>Choose your goal...</option>
+                                    <option value="build-muscle">Build Muscle</option>
+                                    <option value="lose-weight">Lose Weight</option>
+                                    <option value="increase-strength">Increase Strength</option>
+                                    <option value="improve-endurance">Improve Endurance</option>
+                                    <option value="general-fitness">General Fitness</option>
+                                    <option value="athletic-performance">Athletic Performance</option>
+                                </select>
+                            </div>
+
+                            <!-- Experience Level -->
+                            <div class="col-md-6">
+                                <label class="form-label urbanist-medium text-blue">Experience Level</label>
+                                <select class="form-select rounded-3" id="experienceLevel" required>
+                                    <option value="" disabled selected>Select your level...</option>
+                                    <option value="beginner">Beginner (0-6 months)</option>
+                                    <option value="intermediate">Intermediate (6 months - 2 years)</option>
+                                    <option value="advanced">Advanced (2+ years)</option>
+                                </select>
+                            </div>
+
+                            <!-- Workout Frequency -->
+                            <div class="col-md-6">
+                                <label class="form-label urbanist-medium text-blue">Workout Frequency</label>
+                                <select class="form-select rounded-3" id="workoutFrequency" required>
+                                    <option value="" disabled selected>Days per week...</option>
+                                    <option value="3">3 days/week</option>
+                                    <option value="4">4 days/week</option>
+                                    <option value="5">5 days/week</option>
+                                    <option value="6">6 days/week</option>
+                                    <option value="7">7 days/week</option>
+                                </select>
+                            </div>
+
+                            <!-- Session Duration -->
+                            <div class="col-md-6">
+                                <label class="form-label urbanist-medium text-blue">Session Duration</label>
+                                <select class="form-select rounded-3" id="sessionDuration" required>
+                                    <option value="" disabled selected>Time available...</option>
+                                    <option value="30">30 minutes</option>
+                                    <option value="45">45 minutes</option>
+                                    <option value="60">60 minutes</option>
+                                    <option value="90">90 minutes</option>
+                                </select>
+                            </div>
+
+                            <!-- Equipment Available -->
+                            <div class="col-12">
+                                <label class="form-label urbanist-medium text-blue">Equipment Available</label>
+                                <div class="row g-2">
+                                    <div class="col-md-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="dumbbells"
+                                                id="equipDumbbells">
+                                            <label class="form-check-label urbanist-medium text-black"
+                                                for="equipDumbbells">
+                                                Dumbbells
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="barbell"
+                                                id="equipBarbell">
+                                            <label class="form-check-label urbanist-medium text-black"
+                                                for="equipBarbell">
+                                                Barbell
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="machines"
+                                                id="equipMachines">
+                                            <label class="form-check-label urbanist-medium text-black"
+                                                for="equipMachines">
+                                                Machines
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="bodyweight"
+                                                id="equipBodyweight" checked>
+                                            <label class="form-check-label urbanist-medium text-black"
+                                                for="equipBodyweight">
+                                                Bodyweight
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="cardio"
+                                                id="equipCardio">
+                                            <label class="form-check-label urbanist-medium text-black"
+                                                for="equipCardio">
+                                                Cardio Equipment
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" value="resistance-bands"
+                                                id="equipBands">
+                                            <label class="form-check-label urbanist-medium text-black" for="equipBands">
+                                                Resistance Bands
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Preferred Activities -->
+                            <div class="col-12">
+                                <label class="form-label urbanist-medium text-blue">Preferred Activities
+                                    (Optional)</label>
+                                <textarea class="form-control rounded-3" id="preferredActivities" rows="3"
+                                    placeholder="e.g., I love running, prefer free weights over machines, enjoy HIIT workouts..."></textarea>
+                                <small class="form-text text-muted urbanist-medium">
+                                    This helps the AI personalize your plan to your preferences.
+                                </small>
+                            </div>
+
+                            <!-- Additional Notes -->
+                            <div class="col-12">
+                                <label class="form-label urbanist-medium text-blue">Medical Conditions or Injuries
+                                    (Optional)</label>
+                                <textarea class="form-control rounded-3" id="medicalNotes" rows="2"
+                                    placeholder="e.g., Lower back issues, knee pain, shoulder mobility restrictions..."></textarea>
+                                <small class="form-text text-muted urbanist-medium">
+                                    The AI will avoid exercises that might aggravate these conditions.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="text-end mt-4">
+                            <button type="submit" class="btn btn-blue btn-lg">
+                                <i class="fas fa-magic me-2"></i>Generate My Plan
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Plan Result -->
+        <section id="aiPlanResult" class="ai-result-section" style="display:none;">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-header bg-blue text-light-orange urbanist-bold">
+                    <i class="fas fa-clipboard-list me-2"></i>Your Personalized Plan
+                </div>
+                <div class="card-body bg-light-orange">
+                    <!-- Loading State -->
+                    <div id="loadingState" class="text-center py-5">
+                        <div class="spinner-border text-blue mb-3" role="status" style="width: 3rem; height: 3rem;">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <h5 class="urbanist-bold text-blue">Generating Your Plan...</h5>
+                        <p class="urbanist-medium text-black">Our AI is creating a personalized workout routine just for
+                            you.</p>
+                    </div>
+
+                    <!-- Plan Content -->
+                    <div id="planContent" style="display:none;">
+                        <div class="mb-4">
+                            <h4 class="urbanist-bold text-blue mb-3">Your Weekly Schedule</h4>
+                            <div id="weeklySchedule" class="row g-3">
+                                <!-- Generated plan days will be inserted here -->
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h4 class="urbanist-bold text-blue mb-3">Additional Recommendations</h4>
+                            <div id="aiRecommendations" class="alert bg-light border-blue">
+                                <!-- AI recommendations will be inserted here -->
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2">
+                            <button class="btn btn-outline-secondary" id="regeneratePlanBtn">
+                                <i class="fas fa-redo me-2"></i>Generate New Plan
+                            </button>
+                            <button class="btn btn-yellow" id="savePlanBtn">
+                                <i class="fas fa-save me-2"></i>Save This Plan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works -->
+        <section class="info-section mt-5">
+            <div class="card border-0 rounded-4 shadow-sm">
+                <div class="card-body bg-light-orange">
+                    <h5 class="urbanist-bold text-blue mb-3">
+                        <i class="fas fa-question-circle me-2"></i>How It Works
+                    </h5>
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <i class="fas fa-user-check text-blue fs-2 mb-2"></i>
+                                <h6 class="urbanist-bold text-blue mb-2">1. Tell Us About You</h6>
+                                <p class="urbanist-medium text-black small mb-0">
+                                    Share your fitness goals, experience level, and available equipment.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <i class="fas fa-brain text-blue fs-2 mb-2"></i>
+                                <h6 class="urbanist-bold text-blue mb-2">2. AI Analysis</h6>
+                                <p class="urbanist-medium text-black small mb-0">
+                                    Our AI analyzes your profile and generates a customized workout plan.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="text-center">
+                                <i class="fas fa-calendar-check text-blue fs-2 mb-2"></i>
+                                <h6 class="urbanist-bold text-blue mb-2">3. Start Training</h6>
+                                <p class="urbanist-medium text-black small mb-0">
+                                    Follow your personalized plan and track your progress over time.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+@section Scripts {
+    <script src="~/js/workouts-ai.js" asp-append-version="true" defer></script>
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/workouts.css" asp-append-version="true" />
+}

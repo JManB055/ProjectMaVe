@@ -1,0 +1,149 @@
+@page
+@model ProjectMaVe.Pages.Workouts.IndexModel
+@{
+    ViewData["Title"] = "Workouts";
+}
+
+<div class="workouts-page">
+    <!-- Header -->
+    <header class="workouts-header mb-4 py-4 bg-light-orange border-bottom">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="urbanist-bold text-blue mb-2">My Workouts</h1>
+                    <p class="urbanist-medium text-black mb-0">
+                        Track your fitness journey and monitor your progress.
+                    </p>
+                </div>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <a href="/Workouts/Add" class="btn btn-yellow me-2">
+                        <i class="fas fa-plus me-2"></i>Log Workout
+                    </a>
+                    <a href="/Workouts/AI" class="btn btn-blue">
+                        <i class="fas fa-robot me-2"></i>AI Plan
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="workouts-main container mb-5">
+        <!-- Stats Overview -->
+        <section class="stats-section mb-5">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card border-0 rounded-4 shadow-sm bg-light-orange">
+                        <div class="card-body text-center py-4">
+                            <i class="fas fa-calendar-week text-blue fs-2 mb-2"></i>
+                            <h3 class="urbanist-bold text-blue mb-1" id="totalWorkouts">0</h3>
+                            <p class="urbanist-medium text-black mb-0 small">Total Workouts</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 rounded-4 shadow-sm bg-light-orange">
+                        <div class="card-body text-center py-4">
+                            <i class="fas fa-dumbbell text-blue fs-2 mb-2"></i>
+                            <h3 class="urbanist-bold text-blue mb-1" id="totalStrength">0</h3>
+                            <p class="urbanist-medium text-black mb-0 small">Strength Sessions</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 rounded-4 shadow-sm bg-light-orange">
+                        <div class="card-body text-center py-4">
+                            <i class="fas fa-running text-blue fs-2 mb-2"></i>
+                            <h3 class="urbanist-bold text-blue mb-1" id="totalCardio">0</h3>
+                            <p class="urbanist-medium text-black mb-0 small">Cardio Sessions</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filter Section -->
+        <section class="filter-section mb-4">
+            <div class="card border-0 rounded-4 shadow-sm">
+                <div class="card-body bg-light-orange">
+                    <div class="row g-3 align-items-end">
+                        <div class="col-md-3">
+                            <label class="form-label urbanist-medium text-blue small">Filter by Type</label>
+                            <select class="form-select rounded-3" id="filterType">
+                                <option value="all">All Workouts</option>
+                                <option value="strength">Strength Only</option>
+                                <option value="cardio">Cardio Only</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label urbanist-medium text-blue small">Date Range</label>
+                            <select class="form-select rounded-3" id="filterDate">
+                                <option value="all">All Time</option>
+                                <option value="week">Past Week</option>
+                                <option value="month">Past Month</option>
+                                <option value="year">Past Year</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label urbanist-medium text-blue small">Sort By</label>
+                            <select class="form-select rounded-3" id="sortBy">
+                                <option value="date-desc">Date (Newest)</option>
+                                <option value="date-asc">Date (Oldest)</option>
+                                <option value="exercises-desc">Most Exercises</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-blue w-100" id="applyFilters">
+                                <i class="fas fa-filter me-2"></i>Apply Filters
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workout History -->
+        <section class="workout-history-section">
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-header bg-blue text-light-orange urbanist-bold">
+                    <i class="fas fa-history me-2"></i>Recent Workouts
+                </div>
+                <div class="card-body bg-light-orange">
+                    <div class="table-responsive">
+                        <table class="table align-middle mb-0">
+                            <thead class="urbanist-bold text-blue small">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Exercises</th>
+                                    <th>Details</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="workoutTableBody" class="urbanist-medium text-black">
+                                <!-- Populated dynamically by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Empty State -->
+                    <div id="emptyState" class="text-center py-5" style="display:none;">
+                        <i class="fas fa-clipboard-list text-muted mb-3" style="font-size: 4rem;"></i>
+                        <h4 class="urbanist-bold text-blue mb-2">No Workouts Yet</h4>
+                        <p class="urbanist-medium text-black mb-3">Start tracking your fitness journey today!</p>
+                        <a href="/Workouts/Add" class="btn btn-yellow">
+                            <i class="fas fa-plus me-2"></i>Log Your First Workout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+@section Scripts {
+    <script src="~/js/workouts-index.js" asp-append-version="true" defer></script>
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/workouts.css" asp-append-version="true" />
+}

@@ -22,6 +22,21 @@
     animation: fadeIn 0.4s ease-in;
 }
 
+/* ====================================
+   Forms
+==================================== */
+/* Fix spacing and vertical alignment for equipment checkboxes */
+.form-check-input {
+    margin-top: 0.25rem;
+    margin-right: 0.4rem;
+    vertical-align: middle;
+}
+
+.form-check-label {
+    vertical-align: middle;
+    margin-left: 0.1rem;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
