@@ -150,18 +150,52 @@ textarea {
     Widget Formatting
 ------------------------- */
 
-.dashboard_background {
-    height: 1000px;
+.template_container {
+    height: 38em;
+    overflow-y: auto;
+    overflow-x: clip;
     background: var(--color-blue);
     border-radius: 1em;
     position: relative;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.template-widget-container {
+    display: grid;
+    padding: 1em;
+    gap: 1em;
+    justify-content: space-evenly;
+}
+
+.thin-tem-con {
+    grid-template-columns: repeat(4, 16em);
+}
+
+.wide-tem-con {
+    grid-template-columns: repeat(2, 34em);
+}
+
+.dashboard_background {
+    height: 68em;
+    background: var(--color-blue);
+    border-radius: 1em;
+    position: relative;
+    margin-top: 2em;
+    margin-bottom: 2em;
 }
 
 .widget_card {
     position: absolute;
     background: var(--color-light-orange);
-    padding: 10px;
+    padding: 1em;
     cursor: grab;
+    border-radius: 1em;
+}
+
+.widget-template {
+    background: var(--color-light-orange);
+    padding: 1em;
     border-radius: 1em;
 }
 
@@ -171,22 +205,22 @@ textarea {
 }
 
 .size-1x1 {
-    width: 250px;
-    height: 250px;
+    width: 16em;
+    height: 16em;
 }
 .size-1x2 {
-    width: 250px;
-    height: 550px;
+    width: 16em;
+    height: 34em;
 }
 
 .size-2x1 {
-    width: 550px;
-    height: 250px;
+    width: 34em;
+    height: 16em;
 }
 
 .size-2x2 {
-    width: 550px;
-    height: 550px;
+    width: 34em;
+    height: 34em;
 }
 
 .hidden {
