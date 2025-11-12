@@ -22,7 +22,7 @@ public class WorkoutExercise
         Reps = reps;
         Weight = weight;
         Distance = distance;
-        time = time;
+        Time = time;
         isCompleted = complete;
     }
 

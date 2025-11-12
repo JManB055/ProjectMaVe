@@ -31,10 +31,11 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddTransient<AuthenticationMiddleware>();
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserStore, UserStore>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IWidgetStore, WidgetStore>();
-//builder.Services.AddScoped<DBContext, DbContext>();
+builder.Services.AddScoped<IWorkoutExerciseStore, WorkoutExerciseStore>();
 
 var app = builder.Build();
 
