@@ -1,4 +1,5 @@
 ﻿using ProjectMaVe.Interfaces;
+using System.Net;
 using System.Text;
 using System.Text.Json;
 
@@ -25,20 +26,50 @@ namespace ProjectMaVe.APIs.Google_AI
 			var json = JsonSerializer.Serialize(payload);
 			//access model with API key
 			var url = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={_apiKey}";
-			//receive response as string
-			var response = await client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
+			
+			//catch failed responses from the API
+			HttpResponseMessage response;
+			try{
+				//receive response as string
+				response = await client.PostAsync(url, new StringContent(json, Encoding.UTF8, "application/json"));
+			}
+			catch(HttpRequestException e){
+				return $"Network error, try again";
+			}
+			
 			var result =  await response.Content.ReadAsStringAsync();
+			//catch 503 Service Unavailable errors
+			if(response.StatusCode == HttpStatusCode.ServiceUnavailable){
+				return "Service is currently unavailable, try again later. Error 503";
+			}
+			else if(!response.IsSuccessStatusCode){
+				return "API error: {response.StatusCode} - {response.ReasonPhrase}";
+			}
 
-			//parse JSON string to get human readable output
-			using var doc = JsonDocument.Parse(result);
-			var text = doc.RootElement
-				.GetProperty("candidates")[0]
-				.GetProperty("content")
-				.GetProperty("parts")[0]
-				.GetProperty("text")
-				.GetString();
-
-			return text ?? "";
+			try{
+				//parse JSON string to get human readable output
+				using var doc = JsonDocument.Parse(result);
+				
+				if(doc.RootElement.TryGetProperty("candidates", out var candidates)){
+					var text = doc.RootElement
+						.GetProperty("candidates")[0]
+						.GetProperty("content")
+						.GetProperty("parts")[0]
+						.GetProperty("text")
+						.GetString();
+					return text ?? "";
+				}
+				else if(doc.RootElement.TryGetProperty("error", out var error)){
+					var message = error.TryGetProperty("message", out var msg) ? msg.GetString() : "Unknown error";
+					return $"API responded with error: {message}";
+				}
+				else{
+					return "Unexpected response format";
+				}
+			}
+			catch(JsonException e){
+				return $"Failed to parse response, try again";
+			}
 		}
 	}
 }
