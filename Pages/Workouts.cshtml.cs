@@ -8,9 +8,26 @@ namespace ProjectMaVe.Pages
 		[IgnoreAntiforgeryToken]
     public class WorkoutsModel : PageModel{
 				private readonly IWorkoutExerciseStore _workoutExerciseService;
+				private readonly IAuthenticationService _auth;
+				private int userID;
 
-				public WorkoutsModel(IWorkoutExerciseStore workoutExerciseService){
+				public WorkoutsModel(IWorkoutExerciseStore workoutExerciseService, IAuthenticationService authService){
 						_workoutExerciseService = workoutExerciseService;
+						_auth = authService;
+				}
+
+				public async Task<bool> OnGetAsync(){
+					// get user token and set as user id
+					var cookieInfo = _auth.GetCookieInfo();
+
+					if(cookieInfo != null){
+						userID = cookieInfo.Value.uid;
+						return true;
+					}
+					else{
+						Console.WriteLine("Error with cookie retrieval");
+						return false;
+					}
 				}
 
         public async Task<JsonResult> OnGetWorkoutExercisesAsync(int workoutId){

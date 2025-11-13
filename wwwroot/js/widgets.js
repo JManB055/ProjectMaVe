@@ -216,10 +216,10 @@ function addWidget(width, height, widgetType) {
 *       3) Set draggable to false
 *   3) If not successful, throws error to console.
 */
-async function getWidgets(/*userId*/) {
+async function getWidgets() {
     try {
         // Get widgets from te database in JSON format
-        const response = await fetch(`/Dashboard?handler=Widgets&userId=1006`, {
+        const response = await fetch(`/Dashboard?handler=Widgets`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
