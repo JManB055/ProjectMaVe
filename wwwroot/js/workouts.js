@@ -259,13 +259,59 @@ document.addEventListener("DOMContentLoaded", () => {
         createStrengthRow();
     });
 
-    // ===== AI PLANNER (mock) =====
+    // ===== AI PLANNER =====
     aiForm?.addEventListener("submit", async (e) => {
         e.preventDefault();
         aiPlanResult.style.display = "block";
         aiPlanResult.innerHTML = `<div class="alert alert-info urbanist-medium"><i class="fas fa-spinner fa-spin me-2"></i>Generating your AI plan...</div>`;
 
-		const userPrompt = document.getElementById("aiPromptInput")?.value || "Create a 5-day workout split";
+		const goal = document.getElementById("fitnessSelect")?.value.trim();
+		const frequency = document.getElementById("frequencySelect")?.value.trim();
+		const activities = document.getElementById("activitiesSelect")?.value.trim();
+
+		const userPrompt = `
+		You are a workout coach who helps create workout plans based on user preferences. You return plans in the following format:
+		Day
+		- Activity - Sets x Reps (or duration) - Weight (or effort if cardio)
+		- Activity - Sets x Reps (or duration) - Weight (or effort if cardio)
+		- etc.
+		
+		These are the workout options you can choose from: 
+		- Push-Up
+		- Bench Press
+		- Incline Bench Press
+		- Shoulder Press
+		- Lateral Raises
+		- Triceps Extensions
+		- Pull-up
+		- Deadlift
+		- Row
+		- Curl
+		- Hammer Curl
+		- Squat
+		- Romanian Deadlift
+		- Split Squat
+		- Hamstring Curl
+		- Quad Extension
+		- Hip Adduction
+		- Hip Abduction
+		- Calf Raises
+		- Sit-up
+		- Leg Raises
+		- Stair Climber
+		- Row Machine
+		- 100m Sprint
+		- 200m Sprint
+		- 400m Sprint
+		- 800m Sprint
+		- Running
+		- Cycling
+		
+		Here are the user's fitness goals, avaialability and preferences:
+		- Goal: ${goal}
+		- Frequency:${frequency}
+		- Preferred Activities:${activities}
+		`;
 		
 		const response = await fetch("/Workouts?handler=GeneratePlan", {
 			method: "POST",
@@ -277,21 +323,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		aiPlanResult.innerHTML = result.success
 			? `<div class="alert bg-light-orange">${result.plan}</div>`
 			: `<div class="alert alert-danger">${result.message}</div>`;
-		/*
-        setTimeout(() => {
-            aiPlanResult.innerHTML = `
-                <h3 class="urbanist-bold text-blue mb-3">Your AI-Generated Plan</h3>
-                <div class="alert bg-light-orange border border-blue rounded-3">
-                    <strong class="text-blue">Day 1:</strong> Push (Chest, Triceps, Shoulders)<br>
-                    <strong class="text-blue">Day 2:</strong> Pull (Back, Biceps)<br>
-                    <strong class="text-blue">Day 3:</strong> Legs & Core<br>
-                    <strong class="text-blue">Day 4:</strong> Cardio / Active Recovery<br>
-                    <strong class="text-blue">Day 5:</strong> Upper Body Hypertrophy<br>
-                    <em class="text-muted">Repeat weekly for optimal progress.</em>
-                </div>
-            `;
-        }, 1500);
-		*/
     });
 });
 
