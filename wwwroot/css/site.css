@@ -51,6 +51,13 @@
   letter-spacing: 0.5px;
 }
 
+.btn-blue-no-pad {
+    background-color: var(--color-blue);
+    color: var(--color-light-orange);
+    border-radius: 0.5rem;
+    letter-spacing: 0.5px;
+}
+
 .btn-blue:hover,
 .btn-blue:focus {
   background-color: var(--color-blue-hover);
@@ -151,7 +158,7 @@ textarea {
 ------------------------- */
 
 .template_container {
-    height: 38em;
+    max-height: 38em;
     overflow-y: auto;
     overflow-x: clip;
     background: var(--color-blue);
@@ -188,9 +195,14 @@ textarea {
 .widget_card {
     position: absolute;
     background: var(--color-light-orange);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
     padding: 1em;
     cursor: grab;
     border-radius: 1em;
+}
+
+.widget_card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .widget-template {
@@ -210,23 +222,96 @@ textarea {
 }
 .size-1x2 {
     width: 16em;
-    height: 34em;
+    height: 33em;
 }
 
 .size-2x1 {
-    width: 34em;
+    width: 33em;
     height: 16em;
 }
 
 .size-2x2 {
-    width: 34em;
-    height: 34em;
+    width: 33em;
+    height: 33em;
 }
 
 .hidden {
     display: none;
 }
 
+.delete-btn-color {
+    background-color: red;
+    color: var(--color-light-orange);
+}
+
+.no-widget-message {
+    color: var(--color-light-orange);
+    text-align: center;
+    padding: 2em;
+}
+
+/* -------------------------
+   Widget Header
+------------------------- */
+.widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 1rem 0.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    background: linear-gradient(to bottom, rgba(20, 120, 241, 0.02), transparent);
+}
+
+.widget-title {
+    font-size: 1.25rem;
+    color: var(--color-blue);
+    margin: 0;
+    flex: 1;
+}
+
+/* -------------------------
+   Widget Content
+------------------------- */
+.widget-content {
+    flex: 1;
+    /*padding: var(--widget-padding);*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+/* Placeholder visuals */
+.placeholder-content {
+    text-align: center;
+    color: #999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+    .placeholder-content i {
+        opacity: 0.3;
+    }
+
+    .placeholder-content p {
+        margin: 0;
+        font-size: 0.9rem;
+    }
+
+.daily-workout {
+    width: 100%;
+}
+
+.daily-workout h1 {
+    font-size: 1.1rem;
+    color: var(--color-blue);
+}
+
+.daily-workout p {
+    font-size: .9rem;
+}
 
 /* -------------------------
     Utility Padding Classes

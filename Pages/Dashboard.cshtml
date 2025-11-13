@@ -30,20 +30,17 @@
                     <p class="urbanist-medium text-muted mb-0">
                         Here's your fitness overview for today
                     </p>
-                    <button onclick="toggleDraggble()" id="editSaveBtn">Edit Widgets</button>
+                </div>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <button class="btn btn-blue" onclick="toggleDraggble()" id="editSaveBtn">
+                        <i class="fas fa-edit me-2"></i>Edit
+                    </button>
                 </div>
             </div>
         </div>
     </header>
 
     <main class="container">
-
-        
-        @* ===============================
-        Widget Grid Container
-        =============================== *@
-        <div class="dashboard_background dashboard_container"><h1>Loading Widgets...</h1></div>
-
         @* ===============================
         Template Widgets
         =============================== *@
@@ -52,7 +49,10 @@
         <div class="template_container">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">1x1 Widgets</button>
+                    <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Add Widgets</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="s1x1-tab" data-bs-toggle="tab" data-bs-target="#s1x1" type="button" role="tab" aria-controls="s1x1" aria-selected="true">1x1 Widgets</button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="s1x2-tab" data-bs-toggle="tab" data-bs-target="#s1x2" type="button" role="tab" aria-controls="s1x2" aria-selected="false">1x2 Widgets</button>
@@ -63,10 +63,88 @@
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="s2x2-tab" data-bs-toggle="tab" data-bs-target="#s2x2" type="button" role="tab" aria-controls="s2x2" aria-selected="false">2x2 Widgets</button>
                 </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="hide-tab" data-bs-toggle="tab" data-bs-target="#hide" type="button" role="tab" aria-controls="hide" aria-selected="false">Minimize</button>
+                </li>
             </ul>
 
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="template-widget-container thin-tem-con">
+                        <div class="widget-template size-1x1">
+                            <div class="widget-header">
+                                <h3 class="widget-title urbanist-bold">Today's Goal</h3>
+                                <button onClick="addWidget(1, 1, 'Test Widget')" class="add-btn btn btn-blue-no-pad">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="widget-content mt-4 pt-4">
+                                <div class="placeholder-content">
+                                    <i class="fas fa-bullseye fa-2x text-blue mb-2"></i>
+                                    <p class="urbanist-medium small">Widget Template</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-template size-1x1">
+                            <div class="widget-header">
+                                <h3 class="widget-title urbanist-bold">Today's Workouts</h3>
+                                <button onClick="addWidget(1, 1, 'Daily Workout')" class="add-btn btn btn-blue-no-pad">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="widget-content mt-4 pt-4">
+                                <div>
+                                    <p>Daily Workouts go here.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-template size-1x2">
+                            <div class="widget-header">
+                                <h3 class="widget-title urbanist-bold">Today's Goal</h3>
+                                <button onClick="addWidget(1, 2, 'Test Widget')" class="add-btn btn btn-blue-no-pad">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="widget-content mt-4 pt-4">
+                                <div class="placeholder-content">
+                                    <i class="fas fa-bullseye fa-2x text-blue mb-2"></i>
+                                    <p class="urbanist-medium small">Widget Template</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="template-widget-container wide-tem-con">
+                        <div class="widget-template size-2x1">
+                            <div class="widget-header">
+                                <h3 class="widget-title urbanist-bold">Today's Goal</h3>
+                                <button onClick="addWidget(2, 1, 'Test Widget')" class="add-btn btn btn-blue-no-pad">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="widget-content mt-4 pt-4">
+                                <div class="placeholder-content">
+                                    <i class="fas fa-bullseye fa-2x text-blue mb-2"></i>
+                                    <p class="urbanist-medium small">Widget Template</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-template size-2x2">
+                            <div class="widget-header">
+                                <h3 class="widget-title urbanist-bold">Today's Goal</h3>
+                                <button onClick="addWidget(2, 2, 'Test Widget')" class="add-btn btn btn-blue-no-pad">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="widget-content mt-4 pt-4">
+                                <div class="placeholder-content">
+                                    <i class="fas fa-bullseye fa-2x text-blue mb-2"></i>
+                                    <p class="urbanist-medium small">Widget Template</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="s1x1" role="tabpanel" aria-labelledby="s1x1-tab">
                     <div class="template-widget-container thin-tem-con">
                         <div class="widget-template size-1x1">
                             <button onClick="addWidget(1, 1, 'Test Widget')" class="add-btn" data-index="0">+</button>
@@ -150,8 +228,14 @@
                     </div>
                     
                 </div>
+                <div class="tab-pane fade show active" id="hide" role="tabpanel" aria-labelledby="hide-tab"></div>
             </div>
         </div>
+
+        @* ===============================
+        Widget Grid Container
+        =============================== *@
+        <div class="dashboard_background dashboard_container"><h1>Loading Widgets...</h1></div>
         
 
 		    @* Edit Mode Overlay Instructions *@
