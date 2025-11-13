@@ -26,6 +26,7 @@ namespace ProjectMaVe.Pages
             else{
                 var cookieInfo = _auth.GetCookieInfo();
 
+                /*
                 if(cookieInfo != null){
                     var uid = cookieInfo.Value.uid;
                     HttpContext.Session.SetInt32("userID", uid);
@@ -33,7 +34,7 @@ namespace ProjectMaVe.Pages
                 }
                 else{
                     Console.WriteLine("Error with cookie retrieval");
-                }
+                }*/
 
                 return Page();
             }
@@ -53,21 +54,30 @@ namespace ProjectMaVe.Pages
 
         public async Task<JsonResult> OnGetWidgetsAsync()
         {
-            var uid = HttpContext.Session.GetInt32("userID");
+            var cookieInfo = _auth.GetCookieInfo();
+
+            if(cookieInfo != null){
+                var uid = cookieInfo.Value.uid;
+                Console.WriteLine($"User ID set: {userID}");
             
-            if (uid <= 0)
-            {
-                return new JsonResult(new { success = false, message = $"Invalid user ID. UserID={uid}" });
+		            if (uid <= 0)
+		            {
+		                return new JsonResult(new { success = false, message = $"Invalid user ID. UserID={uid}" });
+		            }
+		
+		            var widgets = await _widgetService.GetWidgetsByUserAsync(uid);
+		
+		            if (widgets == null || widgets.Count == 0)
+		            {
+		                return new JsonResult(new { success = true, widgets = new List<Widget>() });
+		            }
+		
+		            return new JsonResult(new { success = true, widgets });
             }
-
-            var widgets = await _widgetService.GetWidgetsByUserAsync(uid.Value);
-
-            if (widgets == null || widgets.Count == 0)
-            {
-                return new JsonResult(new { success = true, widgets = new List<Widget>() });
+            else{
+                Console.WriteLine("Error with cookie retrieval");
+		            return new JsonResult(new { success = false, message = $"Error with User identification" });
             }
-
-            return new JsonResult(new { success = true, widgets });
         }
 
 
