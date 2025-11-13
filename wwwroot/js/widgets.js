@@ -44,8 +44,12 @@ const widgetTemplates = [
 ]
 
 // Get widget information from database
-getWidgets()
-
+//
+// TODO I don't know if this works or not. I need the rest of the js code on this page to wait for the getWidgets function to return before executing or stuff breaks
+//
+document.addEventListener("DOMContentLoaded", async function(){
+    await getWidgets();
+});
 /*
 *   Adds EventListener for the delete button. On Click:
 *       1) Save current widget positions
@@ -247,19 +251,12 @@ async function getWidgets() {
 */
 async function saveWidgets() {
     try {
-        const userId = widgets[0].userID;
-
-        const payload = {
-            userID: userId,
-            widgets: widgets
-        };
-
         const response = await fetch('/Dashboard?handler=SaveWidgets', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(widgets)
         });
 
         const result = await response.json();

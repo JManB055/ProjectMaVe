@@ -23,16 +23,32 @@ namespace ProjectMaVe.Pages
             return Page();
         }
 
-        public async Task<JsonResult> OnPostSaveWidgetsAsync([FromBody] SaveWidgetsRequest request)
+        public async Task<JsonResult> OnPostSaveWidgetsAsync([FromBody] List<Widget> widgets)
         {
-            if (request == null || request.Widgets == null || request.Widgets.Count == 0)
-            {
-                return new JsonResult(new { success = false, message = "No widgets provided." });
+            var cookieInfo = _auth.GetCookieInfo();
+            
+            if(cookieInfo != null){
+                var uid = cookieInfo.Value.uid;
+                Console.WriteLine($"User ID set: {uid}");
+		            
+		            if (uid <= 0)
+		            {
+		                return new JsonResult(new { success = false, message = "Invalid user ID" });
+		            }
+                
+                if (widgets == null || widgets.Count == 0)
+		            {
+		                return new JsonResult(new { success = false, message = "No widgets provided." });
+		            }
+		
+		            bool success = await _widgetService.StoreAllWidgetsAsync(uid, widgets);
+		
+		            return new JsonResult(new { success });
             }
-
-            bool success = await _widgetService.StoreAllWidgetsAsync(userID, request.Widgets);
-
-            return new JsonResult(new { success });
+            else{
+                Console.WriteLine("Error with cookie retrieval");
+		            return new JsonResult(new { success = false, message = $"Error with User identification" });
+            }
         }
 
         public async Task<JsonResult> OnGetWidgetsAsync()
@@ -41,11 +57,11 @@ namespace ProjectMaVe.Pages
 
             if(cookieInfo != null){
                 var uid = cookieInfo.Value.uid;
-                Console.WriteLine($"User ID set: {userID}");
+                Console.WriteLine($"User ID set: {uid}");
             
 		            if (uid <= 0)
 		            {
-		                return new JsonResult(new { success = false, message = $"Invalid user ID. UserID={uid}" });
+		                return new JsonResult(new { success = false, message = "Invalid user ID" });
 		            }
 		
 		            var widgets = await _widgetService.GetWidgetsByUserAsync(uid);
@@ -64,10 +80,5 @@ namespace ProjectMaVe.Pages
         }
 
 
-    }
-
-    public class SaveWidgetsRequest{
-        public int UserID { get; set; }
-        public List<Widget> Widgets { get; set; }
     }
 }
