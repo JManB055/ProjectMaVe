@@ -10,7 +10,6 @@ namespace ProjectMaVe.Pages
     {
         private readonly IWidgetStore _widgetService;
         private readonly IAuthenticationService _auth;
-        public int userID { get; private set; }
 
         public DashboardModel(IWidgetStore widgetService, IAuthenticationService authService)
         {
@@ -20,24 +19,8 @@ namespace ProjectMaVe.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            if (!_auth.IsCurrentSignedIn()){ 
-                return Redirect("~/");
-            }
-            else{
-                var cookieInfo = _auth.GetCookieInfo();
-
-                /*
-                if(cookieInfo != null){
-                    var uid = cookieInfo.Value.uid;
-                    HttpContext.Session.SetInt32("userID", uid);
-                    Console.WriteLine($"User ID set: {userID}");
-                }
-                else{
-                    Console.WriteLine("Error with cookie retrieval");
-                }*/
-
-                return Page();
-            }
+            if (!_auth.IsCurrentSignedIn()) return Redirect("~/");
+            return Page();
         }
 
         public async Task<JsonResult> OnPostSaveWidgetsAsync([FromBody] SaveWidgetsRequest request)
