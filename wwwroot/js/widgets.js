@@ -82,6 +82,10 @@ async function renderWidgets() {
     // Write HTML code to 'htmlString' based on widget metadata (in 'widgets' array)
     let data = await getWorkouts()
     workoutList = data.workouts;
+
+    let todayDate = new Date();
+    let graphs = [];
+
     for (var i = 0; i < widgets.length; i++) {
         switch (widgets[i].type) {
             case "Test Widget":
@@ -92,33 +96,117 @@ async function renderWidgets() {
                     '<p class="urbanist-medium small">Widget Template</p> </div></div></div>';
                 break;
 
-            case "Daily Workout":
+            case "Daily Strength":
+                
+                htmlString += '<div class="widget widget_card size-' + widgets[i].w + 'x' + widgets[i].h + '"> <div class="widget-header">' +
+                    '<h3 class="widget-title urbanist-bold">Today\'s Strength </h3>' +
+                    '<button class="delete-btn delete-btn-color btn ml-1" data-index="' + i + '"><i class="fa-solid fa-x"></i></button>' +
+                    '</div> <div class="widget-content pt-1"> <div class="daily-workout">' +
+                    '<table><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Weight</th></tr>';
+
+                for (let j = 0; j < workoutList.length; j++) {
+                    let workoutDate = new Date(workoutList[j].date);
+                    if (todayDate.toDateString() != workoutDate.toDateString()) continue;
+                    for (let k = 0; k < workoutList[j].strengthExercises.length; k++) {
+                        let exercise = workoutList[j].strengthExercises[k];
+                        htmlString += '<tr><td>' + exercise.activity + '</td><td>' + exercise.sets + '</td><td>' + exercise.reps + '</td><td>' + exercise.weight + ' lbs</td></tr>';
+                    }
+                }
+
+                htmlString += '</table></div></div></div>';
+                break;
+
+            case "Daily Cardio":
+                htmlString += '<div class="widget widget_card size-' + widgets[i].w + 'x' + widgets[i].h + '"> <div class="widget-header">' +
+                    '<h3 class="widget-title urbanist-bold">Today\'s Cardio</h3>' +
+                    '<button class="delete-btn delete-btn-color btn" data-index="' + i + '"><i class="fa-solid fa-x"></i></button>' +
+                    '</div> <div class="widget-content pt-1"> <div class="daily-workout">' +
+                    '<table><tr><th>Exercise</th><th>Distance</th><th>Duration</th></tr>';
+
+                for (let j = 0; j < workoutList.length; j++) {
+                    let workoutDate = new Date(workoutList[j].date);
+                    if (todayDate.toDateString() != workoutDate.toDateString()) continue;
+                    for (let k = 0; k < workoutList[j].cardioExercises.length; k++) {
+                        let exercise = workoutList[j].cardioExercises[k];
+                        htmlString += '<tr><td>' + exercise.activity + "</td><td>" + exercise.distance + ' km</td><td>' + exercise.time + ' mins.</td></tr>';
+                    }
+                }
+
+                htmlString += '</table></div></div></div>';
+                break;
+
+            case "Daily Workout 1x2":
                 htmlString += '<div class="widget widget_card size-' + widgets[i].w + 'x' + widgets[i].h + '"> <div class="widget-header">' +
                     '<h3 class="widget-title urbanist-bold">Today\'s Workouts</h3>' +
                     '<button class="delete-btn delete-btn-color btn" data-index="' + i + '"><i class="fa-solid fa-x"></i></button>' +
-                    '</div> <div class="widget-content pt-1"> <div class="daily-workout">' +
-                    '<h1>Strength Workouts</h1><p>';
+                    '</div> <div class="widget-content"> <div class="daily-workout daily-workout-1x2">' +
+                    '<div class="pt-1"><h1>Strength</h1><table><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Weight</th></tr>';
 
                 for (let j = 0; j < workoutList.length; j++) {
+                    let workoutDate = new Date(workoutList[j].date);
+                    if (todayDate.toDateString() != workoutDate.toDateString()) continue;
                     for (let k = 0; k < workoutList[j].strengthExercises.length; k++) {
                         let exercise = workoutList[j].strengthExercises[k];
-                        htmlString += exercise.activity + ': ' + exercise.sets + ' sets, ' + exercise.reps + ' reps, ' + exercise.weight + 'lbs<br>';
+                        htmlString += '<tr><td>' + exercise.activity + '</td><td>' + exercise.sets + '</td><td>' + exercise.reps + '</td><td>' + exercise.weight + ' lbs</td></tr>';
                     }
                 }
 
-                htmlString += '</p><h1>Cardio Workouts</h1>';
+                htmlString += '</table></div><div class="pt-1"><h1>Cardio</h1><table><tr><th>Exercise</th><th>Distance</th><th>Duration</th></tr>';
 
                 for (let j = 0; j < workoutList.length; j++) {
+                    let workoutDate = new Date(workoutList[j].date);
+                    if (todayDate.toDateString() != workoutDate.toDateString()) continue;
                     for (let k = 0; k < workoutList[j].cardioExercises.length; k++) {
                         let exercise = workoutList[j].cardioExercises[k];
-                        htmlString += exercise.activity + ": " + exercise.distance + 'km in ' + exercise.duraion + ' minutes<br>';
+                        htmlString += '<tr><td>' + exercise.activity + "</td><td>" + exercise.distance + ' km</td><td>' + exercise.time + ' mins.</td></tr>';
                     }
                 }
 
-                htmlString += '</div></div></div>';
+                htmlString += '</table></div></div></div></div>';
 
                 break;
 
+            case "Daily Workout 2x1":
+                htmlString += '<div class="widget widget_card size-' + widgets[i].w + 'x' + widgets[i].h + '"> <div class="widget-header">' +
+                    '<h3 class="widget-title urbanist-bold">Today\'s Workouts</h3>' +
+                    '<button class="delete-btn delete-btn-color btn" data-index="' + i + '"><i class="fa-solid fa-x"></i></button>' +
+                    '</div> <div class="widget-content"> <div class="daily-workout daily-workout-2x1">' +
+                    '<div class="pt-1"><h1>Strength</h1><table><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Weight</th></tr>';
+
+                for (let j = 0; j < workoutList.length; j++) {
+                    let workoutDate = new Date(workoutList[j].date);
+                    if (todayDate.toDateString() != workoutDate.toDateString()) continue;
+                    for (let k = 0; k < workoutList[j].strengthExercises.length; k++) {
+                        let exercise = workoutList[j].strengthExercises[k];
+                        htmlString += '<tr><td>' + exercise.activity + '</td><td>' + exercise.sets + '</td><td>' + exercise.reps + '</td><td>' + exercise.weight + ' lbs</td></tr>';
+                    }
+                }
+
+                htmlString += '</table></div><div class="pt-1"><h1>Cardio</h1><table><tr><th>Exercise</th><th>Distance</th><th>Duration</th></tr>';
+
+                for (let j = 0; j < workoutList.length; j++) {
+                    let workoutDate = new Date(workoutList[j].date);
+                    if (todayDate.toDateString() != workoutDate.toDateString()) continue;
+                    for (let k = 0; k < workoutList[j].cardioExercises.length; k++) {
+                        let exercise = workoutList[j].cardioExercises[k];
+                        htmlString += '<tr><td>' + exercise.activity + "</td><td>" + exercise.distance + ' km</td><td>' + exercise.time + ' mins.</td></tr>';
+                    }
+                }
+
+                htmlString += '</table></div></div></div></div>';
+
+                break;
+
+            case "Workout History":
+                htmlString += '<div class="widget widget_card size-' + widgets[i].w + 'x' + widgets[i].h + '"> <div class="widget-header">' +
+                    '<h3 class="widget-title urbanist-bold">Workout History</h3>' +
+                    '<button class="delete-btn delete-btn-color btn" data-index="' + i + '"><i class="fa-solid fa-x"></i></button>' +
+                    '</div> <div class="widget-content"> <div id="graph-' + i + '" style="width:100%;height:100%;">' +
+                    '</div ></div ></div > ';
+
+                graphs.push(i);
+
+                break;
             default:
                 htmlString += '<div class="widget widget_card size-' + widgets[i].w + 'x' + widgets[i].h + '"> <div class="widget-header">' +
                     '<h3 class="widget-title urbanist-bold">Today\'s Goal</h3>' +
@@ -167,6 +255,24 @@ async function renderWidgets() {
         x = widgets[i].x;
         y = widgets[i].y;
         draggies[i].setPosition(x, y);
+    }
+
+    for (let i = 0; i < graphs.length; i++) {
+        let trace1 = {
+            x: [1, 2, 3, 4],
+            y: [10, 15, 13, 17],
+            type: 'scatter'
+        };
+
+        let trace2 = {
+            x: [1, 2, 3, 4],
+            y: [16, 5, 11, 9],
+            type: 'scatter'
+        };
+
+        let data = [trace1, trace2];
+
+        Plotly.newPlot(('graph-' + graphs[i]), data);
     }
 }
 
@@ -323,13 +429,53 @@ async function getWorkouts() {
     return {
         workouts: [
             {
-                date: "2025-11-13",
+                date: "2025/11/08",
                 strengthExercises: [
                     { activity: "Squat", sets: 2, reps: 10, weight: 45 },
-                    { activity: "Bench Press", sets: 2, reps: 10, weight: 50 }
+                    { activity: "Bench Press", sets: 20, reps: 100, weight: 235 }
                 ],
                 cardioExercises: [
-                    { activity: "Running", duraion: 20, distance: 1.5 }
+                    { activity: "Running", time: 20, distance: 1.5 }
+                ]
+            },
+            {
+                date: "2025/11/10",
+                strengthExercises: [
+                    { activity: "Squat", sets: 2, reps: 10, weight: 45 },
+                    { activity: "Bench Press", sets: 20, reps: 100, weight: 235 }
+                ],
+                cardioExercises: [
+                    { activity: "Running", time: 20, distance: 1.5 }
+                ]
+            },
+            {
+                date: "2025/11/13",
+                strengthExercises: [
+                    { activity: "Squat", sets: 2, reps: 10, weight: 45 },
+                    { activity: "Bench Press", sets: 20, reps: 100, weight: 235 }
+                ],
+                cardioExercises: [
+                    { activity: "Running", time: 20, distance: 1.5 }
+                ]
+            },
+            {
+                date: "2025/11/14",
+                strengthExercises: [
+                    { activity: "Squat", sets: 3, reps: 11, weight: 46 },
+                    { activity: "Bench Press", sets: 3, reps: 10, weight: 50 }
+                ],
+                cardioExercises: [
+                    { activity: "Running", time: 21, distance: 1.6 }
+                ]
+            },
+            {
+                date: "2025/11/15",
+                strengthExercises: [
+                    { activity: "Squat", sets: 3, reps: 11, weight: 46 },
+                    { activity: "Bench Press", sets: 3, reps: 11, weight: 51 }
+                ],
+                cardioExercises: [
+                    { activity: "Running", time: 21, distance: 1.6 }
                 ]
             }
     ]}
