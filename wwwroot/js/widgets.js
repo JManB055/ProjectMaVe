@@ -492,7 +492,7 @@ async function getWorkoutInfo(){
 
         if (result.success) {
             console.log('Workouts loaded successfully:', result.workouts);
-            // workouts = result.workouts; // Replace current workouts array
+            // workoutList = result.workouts; // Replace current workoutList array
         } else {
             console.warn('Failed to load workouts:', result.message);
         }
