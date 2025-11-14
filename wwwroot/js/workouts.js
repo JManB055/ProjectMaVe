@@ -270,7 +270,8 @@ document.addEventListener("DOMContentLoaded", () => {
 		const activities = document.getElementById("activitiesSelect")?.value.trim();
 
 		const userPrompt = `
-		You are a workout coach who helps create workout plans based on user preferences. You return plans in the following format:
+		You are a workout coach who helps create workout plans based on user preferences.
+		You return plans in the following format, where each day and activity is on a new line:
 		Day
 		- Activity - Sets x Reps (or duration) - Weight (or effort if cardio)
 		- Activity - Sets x Reps (or duration) - Weight (or effort if cardio)
