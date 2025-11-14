@@ -17,7 +17,7 @@ var widgets = [];
 var draggies = [];
 var draggable = true;
 
-
+getWorkoutInfo();
 
 // Set default widgets for testing (Commented out as it now pulls widgets from the database. Keeping for potentially setting default widgets later.)
 /*
@@ -270,4 +270,28 @@ async function saveWidgets() {
     } catch (error) {
         console.error('Error saving widgets:', error);
     }
+}
+
+async function getWorkoutInfo(){
+    try {
+        // Get widgets from te database in JSON format
+        const response = await fetch(`/Dashboard?handler=WorkoutInfo`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            console.log('Workouts loaded successfully:', result.workouts);
+            // workouts = result.workouts; // Replace current workouts array
+        } else {
+            console.warn('Failed to load workouts:', result.message);
+        }
+    } catch (error) {
+        console.error('Error loading workouts:', error);
+    }
+    
 }

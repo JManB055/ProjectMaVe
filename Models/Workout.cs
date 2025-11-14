@@ -11,7 +11,7 @@ public class Workout
     }
 
     //overloaded constructor
-    public Workout(Int32 guid, Int32 uuid, string date)
+    public Workout(Int32 guid, Int32 uuid, DateTime date)
     {
         WorkoutID = guid;
         UserID = uuid;
@@ -25,6 +25,6 @@ public class Workout
     public Int32 UserID { get; set; } = 0;
 
     [Column("workout_date")]
-    public string WorkoutDate { get; set; } = "";
+    public DateTime WorkoutDate { get; set; } = DateTime.MinValue;
 
 }
