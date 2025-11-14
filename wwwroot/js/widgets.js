@@ -19,7 +19,7 @@ var draggies = [];
 var draggable = true;
 var workoutList;
 
-
+getWorkoutInfo();
 
 // Set default widgets for testing (Commented out as it now pulls widgets from the database. Keeping for potentially setting default widgets later.)
 /*
@@ -38,8 +38,12 @@ widgets = defaultWidgets;*/
 */
 
 // Get widget information from database
-getWidgets()
-
+//
+// TODO I don't know if this works or not. I need the rest of the js code on this page to wait for the getWidgets function to return before executing or stuff breaks
+//
+document.addEventListener("DOMContentLoaded", async function(){
+    await getWidgets();
+});
 /*
 *   Adds EventListener for the delete button. On Click:
 *       1) Save current widget positions
@@ -365,10 +369,10 @@ function addWidget(width, height, widgetType) {
 *       3) Set draggable to false
 *   3) If not successful, throws error to console.
 */
-async function getWidgets(/*userId*/) {
+async function getWidgets() {
     try {
         // Get widgets from te database in JSON format
-        const response = await fetch(`/Dashboard?handler=Widgets&userId=1006`, {
+        const response = await fetch(`/Dashboard?handler=Widgets`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -396,19 +400,12 @@ async function getWidgets(/*userId*/) {
 */
 async function saveWidgets() {
     try {
-        const userId = widgets[0].userID;
-
-        const payload = {
-            userID: userId,
-            widgets: widgets
-        };
-
         const response = await fetch('/Dashboard?handler=SaveWidgets', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(widgets)
         });
 
         const result = await response.json();
@@ -479,4 +476,28 @@ async function getWorkouts() {
                 ]
             }
     ]}
+}
+
+async function getWorkoutInfo(){
+    try {
+        // Get widgets from te database in JSON format
+        const response = await fetch(`/Dashboard?handler=WorkoutInfo`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            console.log('Workouts loaded successfully:', result.workouts);
+            // workouts = result.workouts; // Replace current workouts array
+        } else {
+            console.warn('Failed to load workouts:', result.message);
+        }
+    } catch (error) {
+        console.error('Error loading workouts:', error);
+    }
+    
 }

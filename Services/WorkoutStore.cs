@@ -64,4 +64,12 @@ public class WorkoutStore : IWorkoutStore
         _db.Workouts.Update(existingWorkout);                     // Stage changes
         return await _db.SaveChangesAsync() > 0;            // Same save changes as the first function
     }
+
+
+    public async Task<List<Workout>> GetWorkoutsByUserAsync(int user_id)
+    {
+        return await _db.Workouts    // Return the workouts with that uid
+            .Where(w => w.UserID == user_id)
+            .ToListAsync();
+    }
 }

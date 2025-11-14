@@ -13,7 +13,7 @@ public class WorkoutExercise
     }
 
     //overloaded constructor
-    public WorkoutExercise(Int32 guid, Int32 wuid, Int32 euid, float sets, float reps, float weight, float distance, float time, bool complete)
+    public WorkoutExercise(Int32 guid, Int32 wuid, Int32 euid, int sets, int reps, decimal weight, int distance, int time, bool complete)
     {
         WorkoutExerciseID = guid;
         WorkoutID = wuid;
@@ -22,7 +22,7 @@ public class WorkoutExercise
         Reps = reps;
         Weight = weight;
         Distance = distance;
-        time = time;
+        Time = time;
         isCompleted = complete;
     }
 
@@ -36,19 +36,19 @@ public class WorkoutExercise
     public Int32 ExerciseID { get; set; } = 0;
 
     [Column("sets")]
-    public float Sets { get; set; } = 0;
+    public int? Sets { get; set; } = 0;
 
     [Column("reps")]
-    public float Reps { get; set; } = 0;
+    public int? Reps { get; set; } = 0;
 
     [Column("weight")]
-    public float Weight { get; set; } = 0;
+    public decimal? Weight { get; set; } = 0;
 
     [Column("distance")]
-    public float Distance { get; set; } = 0;
+    public int? Distance { get; set; } = 0;
 
     [Column("time")]
-    public float Time { get; set; } = 0;
+    public int? Time { get; set; } = 0;
 
     [Column("isCompleted")]
     public bool isCompleted { get; set; } = false;

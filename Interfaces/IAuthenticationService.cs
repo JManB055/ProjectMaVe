@@ -6,7 +6,8 @@ namespace ProjectMaVe.Interfaces;
 using Token = string;
 public interface IAuthenticationService
 {
-    UserInfo? GetCurrentUser();
+    Task<UserInfo?> GetCurrentUser();
+    bool IsCurrentSignedIn();
 
     /**
      * <summary>
@@ -20,6 +21,8 @@ public interface IAuthenticationService
     (Int32 uid, Token token)? SignIn(string email, string password);
 
     string GetAuthToken(Int32 uid);
+    bool IsSignedIn(Int32 uid, Token token);
     Task<bool> SetPassword(Int32 uid, string password);
     Task<bool> RegisterAsync(UserInfo userInfo);
+    (Int32 uid, Token token)? GetCookieInfo();
 }
