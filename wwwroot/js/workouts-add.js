@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 </select>
             </td>
             <td><input type="number" class="form-control rounded-3 duration-input" min="1" placeholder="Minutes" required></td>
-            <td><input type="number" class="form-control rounded-3 distance-input" min="0" step="0.1" placeholder="km"></td>
+            <td><input type="number" class="form-control rounded-3 distance-input" min="0" step="0.1" placeholder="mi"></td>
             <td>
                 <button type="button" class="btn btn-sm btn-outline-danger remove-btn" title="Remove activity">
                     <i class="fas fa-trash"></i>

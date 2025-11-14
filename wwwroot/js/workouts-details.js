@@ -253,7 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 </select>
             </td>
             <td><input type="number" class="form-control rounded-3 duration-input" min="1" value="${data ? data.duration : ''}" placeholder="Minutes"></td>
-            <td><input type="number" class="form-control rounded-3 distance-input" min="0" step="0.1" value="${data ? (data.distance || '') : ''}" placeholder="km"></td>
+            <td><input type="number" class="form-control rounded-3 distance-input" min="0" step="0.1" value="${data ? (data.distance || '') : ''}" placeholder="mi"></td>
             <td>
                 <button type="button" class="btn btn-sm btn-outline-danger remove-btn">
                     <i class="fas fa-trash"></i>

@@ -161,9 +161,9 @@ document.addEventListener("DOMContentLoaded", () => {
                         <ul class="mb-0 ps-3 urbanist-medium text-black small">
                             ${w.exercises.map(ex => {
                                 if (ex.muscle === "Cardio") {
-                                    return `<li>${ex.exercise} - ${ex.duration || 0} min${ex.distance ? `, ${ex.distance} km` : ""}</li>`;
+                                    return `<li>${ex.exercise} - ${ex.duration || 0} min${ex.distance ? `, ${ex.distance} mi` : ""}</li>`;
                                 } else {
-                                    return `<li>${ex.exercise} - ${ex.sets}×${ex.reps}${ex.weight ? ` @ ${ex.weight}kg` : ""}</li>`;
+                                    return `<li>${ex.exercise} - ${ex.sets}×${ex.reps}${ex.weight ? ` @ ${ex.weight}lbs` : ""}</li>`;
                                 }
                             }).join("")}
                         </ul>
