@@ -206,7 +206,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <td><input type="text" class="form-control rounded-3 muscle-input" value="${data ? data.muscle : ''}" readonly></td>
             <td><input type="number" class="form-control rounded-3 sets-input" min="1" value="${data ? data.sets : ''}" placeholder="Sets"></td>
             <td><input type="number" class="form-control rounded-3 reps-input" min="1" value="${data ? data.reps : ''}" placeholder="Reps"></td>
-            <td><input type="number" class="form-control rounded-3 weight-input" min="0" step="0.5" value="${data ? data.weight : ''}" placeholder="kg"></td>
+            <td><input type="number" class="form-control rounded-3 weight-input" min="0" step="0.5" value="${data ? data.weight : ''}" placeholder="lbs"></td>
             <td>
                 <button type="button" class="btn btn-sm btn-outline-danger remove-btn">
                     <i class="fas fa-trash"></i>

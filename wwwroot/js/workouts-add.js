@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <td><input type="text" class="form-control rounded-3 muscle-input" placeholder="Auto-filled" readonly></td>
             <td><input type="number" class="form-control rounded-3 sets-input" min="1" placeholder="Sets" required></td>
             <td><input type="number" class="form-control rounded-3 reps-input" min="1" placeholder="Reps" required></td>
-            <td><input type="number" class="form-control rounded-3 weight-input" min="0" step="0.5" placeholder="kg"></td>
+            <td><input type="number" class="form-control rounded-3 weight-input" min="0" step="0.5" placeholder="lbs"></td>
             <td>
                 <button type="button" class="btn btn-sm btn-outline-danger remove-btn" title="Remove exercise">
                     <i class="fas fa-trash"></i>
