@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Text.Json;
 
 namespace ProjectMaVe.Pages.Workouts
 {
@@ -51,24 +50,5 @@ namespace ProjectMaVe.Pages.Workouts
                 });
             }
         }
-    }
-
-    // Request models
-    public class SaveWorkoutRequest
-    {
-        public int? WorkoutID { get; set; } // null for new workouts
-        public string WorkoutDate { get; set; }
-        public List<ExerciseData> Exercises { get; set; }
-    }
-
-    public class ExerciseData
-    {
-        public string ExerciseName { get; set; }
-        public string MuscleGroup { get; set; }
-        public int? Sets { get; set; }
-        public int? Reps { get; set; }
-        public decimal? Weight { get; set; }
-        public int? Duration { get; set; }
-        public decimal? Distance { get; set; }
     }
 }

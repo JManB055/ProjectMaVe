@@ -44,36 +44,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ===== INITIALIZE =====
     function init() {
-        // Get workout ID from URL
-        const pathParts = window.location.pathname.split('/');
+        // Parse workoutId from URL
+        const pathParts = window.location.pathname.split('/').filter(Boolean); // removes empty segments
         workoutId = parseInt(pathParts[pathParts.length - 1]);
 
+        // Fallback to 1 for testing
         if (!workoutId || isNaN(workoutId)) {
-            showError("Invalid workout ID");
-            setTimeout(() => window.location.href = "/Workouts", 2000);
-            return;
+            console.warn("Invalid workout ID in URL, defaulting to 1 for testing");
+            workoutId = 1;
         }
 
-        fetchWorkoutDetails();
+        fetchWorkoutExercises(workoutId);
     }
 
     // ===== API FUNCTIONS =====
-    async function fetchWorkoutDetails() {
+    async function fetchWorkoutExercises(id) {
         try {
-            // TODO: Replace with actual API call
-            // const response = await fetch(`/api/workouts/${workoutId}`);
-            // workoutData = await response.json();
+            let result;
+            try {
+                const response = await fetch(`/Workout?handler=WorkoutExercises&workoutId=${id}`);
+                result = await response.json(); // might fail if 404
+            } catch {
+                result = { success: false }; // fallback to mock
+            }
 
-            // Mock data for now
-            workoutData = {
-                id: workoutId,
-                date: "2025-11-06",
-                exercises: [
-                    { id: 1, exercise: "Bench Press", muscle: "Chest", sets: 4, reps: 8, weight: 185 },
-                    { id: 2, exercise: "Shoulder Press", muscle: "Shoulders", sets: 3, reps: 10, weight: 95 },
-                    { id: 3, exercise: "Running", muscle: "Cardio", duration: 30, distance: 5 }
-                ]
-            };
+            if (result.success && result.exercises?.length > 0) {
+                workoutData = { id, date: result.workoutDate, exercises: result.exercises };
+            } else {
+                // Mock data for testing
+                workoutData = {
+                    id,
+                    date: "2025-11-06",
+                    exercises: [
+                        { id: 1, exercise: "Bench Press", muscle: "Chest", sets: 4, reps: 8, weight: 185 },
+                        { id: 2, exercise: "Shoulder Press", muscle: "Shoulders", sets: 3, reps: 10, weight: 95 },
+                        { id: 3, exercise: "Running", muscle: "Cardio", duration: 30, distance: 5 }
+                    ]
+                };
+            }
 
             renderWorkoutDetails();
         } catch (error) {
