@@ -146,6 +146,88 @@ textarea {
   }
 }
 
+/* -----------------------
+    Widget Formatting
+------------------------- */
+
+.template_container {
+    height: 38em;
+    overflow-y: auto;
+    overflow-x: clip;
+    background: var(--color-blue);
+    border-radius: 1em;
+    position: relative;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.template-widget-container {
+    display: grid;
+    padding: 1em;
+    gap: 1em;
+    justify-content: space-evenly;
+}
+
+.thin-tem-con {
+    grid-template-columns: repeat(4, 16em);
+}
+
+.wide-tem-con {
+    grid-template-columns: repeat(2, 34em);
+}
+
+.dashboard_background {
+    height: 68em;
+    background: var(--color-blue);
+    border-radius: 1em;
+    position: relative;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.widget_card {
+    position: absolute;
+    background: var(--color-light-orange);
+    padding: 1em;
+    cursor: grab;
+    border-radius: 1em;
+}
+
+.widget-template {
+    background: var(--color-light-orange);
+    padding: 1em;
+    border-radius: 1em;
+}
+
+.widget_card.is-dragging {
+    cursor: grabbing;
+    opacity: 0.8;
+}
+
+.size-1x1 {
+    width: 16em;
+    height: 16em;
+}
+.size-1x2 {
+    width: 16em;
+    height: 34em;
+}
+
+.size-2x1 {
+    width: 34em;
+    height: 16em;
+}
+
+.size-2x2 {
+    width: 34em;
+    height: 34em;
+}
+
+.hidden {
+    display: none;
+}
+
+
 /* -------------------------
     Utility Padding Classes
 ------------------------- */
