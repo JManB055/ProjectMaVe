@@ -7,6 +7,7 @@
 <div class="workouts-page">
     <!-- Header -->
     <header class="workouts-header mb-4 py-4 bg-light-orange border-bottom">
+        <input type="hidden" id="workout-id" value="@Model.RouteData.Values["id"]" />
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-8">
@@ -28,6 +29,9 @@
     </header>
 
     <main class="workouts-main container mb-5">
+        <form id="antiForgeryForm" style="display:none;">
+            @Html.AntiForgeryToken()
+        </form>
         <!-- Workout Info Card -->
         <section class="workout-info-section mb-4">
             <div class="card shadow-sm border-0 rounded-4">

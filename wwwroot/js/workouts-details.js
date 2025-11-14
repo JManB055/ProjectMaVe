@@ -84,17 +84,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function saveWorkoutChanges() {
         try {
-            const updatedData = collectWorkoutData();
-            
-            // TODO: Replace with actual API call
+            const payload = collectWorkoutData();
 
-            console.log("Saving changes:", updatedData);
-            
-            hasUnsavedChanges = false;
-            updateLastSaved();
-            showSuccess("Changes saved successfully!");
+            // Include AntiForgery token if present
+            const tokenInput = document.querySelector('#antiForgeryForm input[name="__RequestVerificationToken"]');
+            const headers = { 'Content-Type': 'application/json' };
+            if (tokenInput) headers['RequestVerificationToken'] = tokenInput.value;
+
+            const response = await fetch(`/Workouts/Details/${workoutId}?handler=SaveWorkoutExercises`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                hasUnsavedChanges = false;
+                updateLastSaved();
+                showSuccess(result.message || "Changes saved successfully!");
+            } else {
+                showError(result.message || "Failed to save changes");
+            }
+
         } catch (error) {
-            console.error("Error saving changes:", error);
+            console.error("Error saving workout:", error);
             showError("Failed to save changes");
         }
     }
@@ -258,41 +272,41 @@ document.addEventListener("DOMContentLoaded", () => {
     function collectWorkoutData() {
         const exercises = [];
 
-        // Collect strength exercises
+        // Strength
         strengthExerciseTableBody.querySelectorAll("tr").forEach(row => {
             const exercise = row.querySelector(".exercise-select").value;
             if (!exercise) return;
 
             exercises.push({
-                exercise_name: exercise,
-                muscle_group: row.querySelector(".muscle-input").value,
-                sets: parseInt(row.querySelector(".sets-input").value) || 0,
-                reps: parseInt(row.querySelector(".reps-input").value) || 0,
-                weight: parseFloat(row.querySelector(".weight-input").value) || 0,
-                duration: null,
-                distance: null
+                ExerciseName: exercise,
+                MuscleGroup: row.querySelector(".muscle-input").value,
+                Sets: parseInt(row.querySelector(".sets-input").value) || null,
+                Reps: parseInt(row.querySelector(".reps-input").value) || null,
+                Weight: parseFloat(row.querySelector(".weight-input").value) || null,
+                Duration: null,
+                Distance: null
             });
         });
 
-        // Collect cardio exercises
+        // Cardio
         cardioTableBody.querySelectorAll("tr").forEach(row => {
             const activity = row.querySelector(".cardio-select").value;
             if (!activity) return;
 
             exercises.push({
-                exercise_name: activity,
-                muscle_group: "Cardio",
-                sets: null,
-                reps: null,
-                weight: null,
-                duration: parseInt(row.querySelector(".duration-input").value) || 0,
-                distance: parseFloat(row.querySelector(".distance-input").value) || null
+                ExerciseName: activity,
+                MuscleGroup: "Cardio",
+                Sets: null,
+                Reps: null,
+                Weight: null,
+                Duration: parseInt(row.querySelector(".duration-input").value) || null,
+                Distance: parseFloat(row.querySelector(".distance-input").value) || null
             });
         });
 
         return {
-            workout_date: editWorkoutDate.value,
-            exercises: exercises
+            WorkoutID: workoutId,
+            Exercises: exercises
         };
     }
 

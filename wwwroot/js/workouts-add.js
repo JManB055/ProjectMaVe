@@ -62,15 +62,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function saveWorkout(workoutData) {
         try {
-            // TODO: Replace with actual API call
+            console.log("Sending data:", workoutData);
             
-            // Mock success for now
-            console.log("Saving workout:", workoutData);
+            // Get the anti-forgery token (handle if it doesn't exist)
+            const tokenInput = document.querySelector('input[name="__RequestVerificationToken"]');
+            const headers = { 'Content-Type': 'application/json' };
             
-            // Redirect to workouts index after short delay
-            setTimeout(() => {
-                window.location.href = "/Workouts";
-            }, 1500);
+            if (tokenInput) {
+                headers['RequestVerificationToken'] = tokenInput.value;
+            }
+            
+            const response = await fetch('/Workouts/Add?handler=SaveWorkoutExercises', {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify({
+                    workoutDate: workoutData.workout_date,
+                    exercises: workoutData.exercises
+                })
+            });
+
+            console.log("Response status:", response.status);
+            const result = await response.json();
+            console.log("Response data:", result);
+
+            if (result.success) {
+                showSuccess("Workout logged successfully!");
+                setTimeout(() => {
+                    window.location.href = "/Workouts";
+                }, 500);
+            } else {
+                showError(result.message || "Failed to save workout");
+            }
         } catch (error) {
             console.error("Error saving workout:", error);
             showError("Failed to save workout. Please try again.");
