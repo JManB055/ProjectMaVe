@@ -11,10 +11,12 @@ namespace ProjectMaVe.Pages
     public class WorkoutsModel : PageModel{
 		private readonly IWorkoutExerciseStore _workoutExerciseService;
 		private readonly IAIService _aiService;
+		private readonly DBContext _db;
 		
-		public WorkoutsModel(IWorkoutExerciseStore workoutExerciseService, IAIService aiService){
+		public WorkoutsModel(IWorkoutExerciseStore workoutExerciseService, IAIService aiService, DBContext db){
 			_workoutExerciseService = workoutExerciseService;
 			_aiService = aiService;
+			_db = db;
 		}
 
         public async Task<JsonResult> OnGetWorkoutExercisesAsync(int workoutId){
@@ -50,6 +52,11 @@ namespace ProjectMaVe.Pages
 				success = true,
 				plan = aiResponse
 			});
+		}
+		
+		public async Task<JsonResult> OnGetExercisesAsync(){
+			var exercises = await _context.Exercises.ToListAsync();
+			return new JsonResult(new { success = true, exercises });
 		}
     }
 
