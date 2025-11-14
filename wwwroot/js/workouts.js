@@ -272,23 +272,31 @@ document.addEventListener("DOMContentLoaded", () => {
 		const userPrompt = `
 		You are a workout coach who helps create workout plans based on user preferences.
 		You return plans in the following format, where each day and activity is on a new line:
-		Day
-		- Activity - Sets x Reps (or duration) - Weight (or effort if cardio)
-		- Activity - Sets x Reps (or duration) - Weight (or effort if cardio)
+		Day #
+		- Activity - Sets x Reps (or duration) - Weight/Intensity
+		- Activity - Sets x Reps (or duration) - Weight/Intensity
 		- etc.
 		
-		These are the workout options you can choose from: 
+		These are the workout options you can choose from. I've sorted them by type: 
+		
+		Bodyweight:
 		- Push-Up
+		- Sit-up
+		- Leg Raises
+		- Pull-up
+		
+		Weights (upper body):
 		- Bench Press
 		- Incline Bench Press
 		- Shoulder Press
 		- Lateral Raises
 		- Triceps Extensions
-		- Pull-up
-		- Deadlift
 		- Row
 		- Curl
 		- Hammer Curl
+		
+		Weights (lower body):
+		- Deadlift
 		- Squat
 		- Romanian Deadlift
 		- Split Squat
@@ -297,8 +305,8 @@ document.addEventListener("DOMContentLoaded", () => {
 		- Hip Adduction
 		- Hip Abduction
 		- Calf Raises
-		- Sit-up
-		- Leg Raises
+		
+		Cardio:
 		- Stair Climber
 		- Row Machine
 		- 100m Sprint
@@ -308,10 +316,12 @@ document.addEventListener("DOMContentLoaded", () => {
 		- Running
 		- Cycling
 		
-		Here are the user's fitness goals, avaialability and preferences:
+		Here are the user's fitness goals, availability and preferences:
 		- Goal: ${goal}
 		- Frequency:${frequency}
 		- Preferred Activities:${activities}
+		
+		Make every effort to match the user's preferred activities with the types of workouts included in the plan.
 		`;
 		
 		const response = await fetch("/Workouts?handler=GeneratePlan", {
@@ -322,7 +332,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		
 		const result = await response.json();
 		aiPlanResult.innerHTML = result.success
-			? `<div class="alert bg-light-orange">${result.plan}</div>`
+			? `<pre class="alert bg-light-orange">${result.plan}</pre>`
 			: `<div class="alert alert-danger">${result.message}</div>`;
     });
 });
