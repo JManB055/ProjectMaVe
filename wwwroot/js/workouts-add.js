@@ -55,6 +55,28 @@ document.addEventListener("DOMContentLoaded", () => {
     async function fetchExercisesFromDB() {
         try {
             // TODO: Replace with actual API call
+            // Get the anti-forgery token (handle if it doesn't exist)
+            const tokenInput = document.querySelector('input[name="__RequestVerificationToken"]');
+            const headers = { 'Content-Type': 'application/json' };
+            
+            if (tokenInput) {
+                headers['RequestVerificationToken'] = tokenInput.value;
+            }
+
+            const response = await fetch(`/Dashboard?handler=WorkoutInfo`, {
+                method: 'GET',
+                headers: headers
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                console.log('Workouts loaded successfully:', result.workouts);
+                // workoutList = result.workouts; // Replace current workoutList array
+            } else {
+                console.warn('Failed to load workouts:', result.message);
+            }
+
         } catch (error) {
             console.error("Error fetching exercises:", error);
         }

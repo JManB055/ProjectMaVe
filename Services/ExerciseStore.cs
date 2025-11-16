@@ -23,6 +23,10 @@ public class ExerciseStore : IExerciseStore
         return _db.Exercises.FirstOrDefault(e => e.Name == name);       // Return the exercise with that name
     }
 
-
+    public async Task<List<Exercise>> GetAllExercisesAsync()
+    {
+        return await _context.Workouts.ToListAsync();
+    }
+    
     // This service does not need an add or delete function since it will be a static list of exercise options
 }
