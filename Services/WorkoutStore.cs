@@ -15,12 +15,13 @@ public class WorkoutStore : IWorkoutStore
     }
 
 // Possibly have this function return the db id for the created row?
-    public async Task<bool> CreateWorkoutAsync(Workout workout)
+    public async Task<int> CreateWorkoutAsync(Workout workout)
     {
         await _db.Workouts.AddAsync(workout);                 // Tells EF to stage this workout for insertion
-        return await _db.SaveChangesAsync() > 0;
+        await _db.SaveChangesAsync();
         // SaveChangesAsync() commits the staged changes and returns the number of affected rows
-        // This function returns true if the number of affected rows is more than 0 (which means that it succeeded)
+        
+        return workout.WorkoutID;
     }
 
     public async Task<bool> DeleteWorkoutAsync(int workout_id)

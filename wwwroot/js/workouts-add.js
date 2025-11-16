@@ -54,7 +54,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // ===== API FUNCTIONS =====
     async function fetchExercisesFromDB() {
         try {
-            // TODO: Replace with actual API call
             // Get the anti-forgery token (handle if it doesn't exist)
             const tokenInput = document.querySelector('input[name="__RequestVerificationToken"]');
             const headers = { 'Content-Type': 'application/json' };

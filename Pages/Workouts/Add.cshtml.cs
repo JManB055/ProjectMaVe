@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using ProjectMaVe.Interfaces;
 using ProjectMaVe.Models;
 
@@ -38,7 +39,7 @@ namespace ProjectMaVe.Pages.Workouts
                     return new JsonResult(new { success = false, message = "Invalid user ID" });
 
                 // Step 1: get static exercise list
-                var exercises = await _exerciseService.GetAllExercisesAsync(uid);
+                var exercises = await _exerciseService.GetAllExercisesAsync();
 
                 // Handle case of no workouts
                 if (exercises == null)
@@ -85,33 +86,33 @@ namespace ProjectMaVe.Pages.Workouts
                 // Translate Workout JSON to Model
                 Workout newWorkout = new Workout();
                 newWorkout.UserID = uid;
-                newWorkout.WorkoutDate = request.workoutDate;
+                newWorkout.WorkoutDate = DateTime.Parse(request.WorkoutDate);
 
                 // Save workout to database
-                var workoutId = await _workoutService.CreateWorkoutAsync(newWorkout);
-                if(workoutId == null)
+                int workoutId = await _workoutService.CreateWorkoutAsync(newWorkout);
+                if(workoutId <= 0)
                     return new JsonResult(new { success = false, message = "Error with saving new workout object" });
 
 
 
                 // Translate WorkoutExercise JSON to Model
                 List<WorkoutExercise> newExercises = new List<WorkoutExercise>();
-                foreach (var e in request.exercises){
-                    WorkoutExercise current = new WorkoutExercise();
-                    current.WorkoutID = workoutId;
-                    current.ExerciseID = e.exercise_id;
-                    current.Sets = e.sets;
-                    current.Reps = e.reps;
-                    current.Weight = e.weight;
-                    current.Distance = e.distance;
-                    current.Time = e.duration;
+                foreach (var e in request.Exercises){
+                    WorkoutExercise c = new WorkoutExercise();
+                    c.WorkoutID = workoutId;
+                    c.ExerciseID = e.ExerciseID;
+                    c.Sets = e.Sets;
+                    c.Reps = e.Reps;
+                    c.Weight = e.Weight;
+                    c.Distance = e.Distance;
+                    c.Time = e.Duration;
                     
-                    newExercises.Add(current);
+                    newExercises.Add(c);
                 }
 
-                // TODO: Save exercises to database
+                // Save exercises to database
                 var workoutExerciseStoreSuccess = await _workoutExerciseService.StoreWorkoutExercisesAsync(workoutId, newExercises);
-                if(workoutExerciseStoreSuccess == null || workoutExerciseStoreSuccess == false)
+                if(!workoutExerciseStoreSuccess)
                     return new JsonResult(new { success = false, message = "Error with saving new workout exercise objects" });
 
                 
