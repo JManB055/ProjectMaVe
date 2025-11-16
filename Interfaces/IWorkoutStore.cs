@@ -12,4 +12,6 @@ public interface IWorkoutStore
     Task<Workout?> GetWorkoutAsync(int workout_id);
 
     Task<bool> UpdateWorkoutAsync(int workout_id, Workout workout);
+
+    Task<List<Workout>> GetWorkoutsByUserAsync(int user_id);
 }
