@@ -46,7 +46,7 @@ namespace ProjectMaVe.Pages.Workouts
 
                 // Step 2: fetch exercises for each workout
                 var exerciseResults = new List<object>();
-                foreach (var exercise in exercise)
+                foreach (var exercise in exercises)
                 {
                     exerciseResults.Add(new
                     {
@@ -95,7 +95,7 @@ namespace ProjectMaVe.Pages.Workouts
 
 
                 // Translate WorkoutExercise JSON to Model
-                List<WorkoutExercise> newExercises = new List<WorkoutExercises>();
+                List<WorkoutExercise> newExercises = new List<WorkoutExercise>();
                 foreach (var e in request.exercises){
                     WorkoutExercise current = new WorkoutExercise();
                     current.WorkoutID = workoutId;
@@ -157,8 +157,8 @@ namespace ProjectMaVe.Pages.Workouts
                 var workouts = await _workoutService.GetWorkoutsByUserAsync(uid);
 
                 // Handle case of no workouts
-                if (workouts == null || workouts.Count == 0)
-                    return new JsonResult(new { success = true, workouts = new List<object>() });
+                if (workouts == null)
+                    return new JsonResult(new { success = false, message = "Error with user workouts retrieval" });
 
                 // Step 2: fetch exercises for each workout
                 var workoutResults = new List<object>();
