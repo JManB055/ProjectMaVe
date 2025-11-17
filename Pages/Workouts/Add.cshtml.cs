@@ -27,46 +27,39 @@ namespace ProjectMaVe.Pages.Workouts
             return Page();
         }
 
-        public async Task<JsonResult> OnGetExercisesAsync(){
+        public async Task<JsonResult> OnGetExercisesAsync()
+        {
             try
             {
                 var cookieInfo = _auth.GetCookieInfo();
+        
                 if (cookieInfo == null)
                     return new JsonResult(new { success = false, message = "Error with User identification" });
-
+        
                 var uid = cookieInfo.Value.uid;
+        
                 if (uid <= 0)
                     return new JsonResult(new { success = false, message = "Invalid user ID" });
-
-                // Step 1: get static exercise list
+        
                 var exercises = await _exerciseService.GetAllExercisesAsync();
-
-                // Handle case of no workouts
+        
                 if (exercises == null)
-                    return new JsonResult(new { success = false, message = "Error with Exercise list retrieval" });
-
-                // Step 2: fetch exercises for each workout
-                var exerciseResults = new List<object>();
-                foreach (var exercise in exercises)
-                {
-                    exerciseResults.Add(new
-                    {
-                        exercise.ExerciseID,
-                        exercise.Name,
-                        exercise.MuscleGroup,
-                    });
-                }
-
-                // Step 3: return JSON
+                    return new JsonResult(new { success = false, message = "Error retrieving exercises" });
+        
+                var exerciseResults = exercises.Select(e => new {
+                    e.ExerciseID,
+                    e.Name,
+                    e.MuscleGroup
+                });
+        
                 return new JsonResult(new { success = true, exercises = exerciseResults });
             }
             catch (Exception ex)
             {
-                // Always return JSON, even on error
                 return new JsonResult(new { success = false, message = ex.Message });
             }
         }
-
+        
         // Handler to save a new workout with exercises
         public async Task<IActionResult> OnPostSaveWorkoutExercisesAsync([FromBody] SaveWorkoutRequest request)
         {
