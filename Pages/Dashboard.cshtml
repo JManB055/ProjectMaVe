@@ -4,16 +4,12 @@
 @inject ProjectMaVe.Interfaces.IAuthenticationService authService;
 @{
     ViewData["Title"] = "Dashboard";
-
+    // Load the currently authenticated user
     var user = await authService.GetCurrentUser();
 }
 
 <div class="mt-4 pt-4 pb-4"></div>
 
-@* ===============================
-    Dashboard Header
-    - Welcome message and quick actions
-   =============================== *@
 <div class="dashboard-page">
     <header class="dashboard-header mb-4">
         <div class="container">
@@ -25,34 +21,29 @@
                     <p class="urbanist-medium text-muted mb-0">
                         Here's your fitness overview for today
                     </p>
-                    <button onclick="toggleDraggble()" id="editSaveBtn">Edit Widgets</button>
+                    <!-- Edit-mode toggle -->
+                    <button onclick="toggleDraggable()" id="editSaveBtn">Edit Widgets</button>
                 </div>
             </div>
         </div>
     </header>
 
     <main class="container">
-
-        @* ===============================
-        Widget Grid Container
-        =============================== *@
         <div class="dashboard_background dashboard_container">
+            <!-- Edit-mode banner shown only while reordering widgets -->
+            <div class="edit-mode-banner" id="editModeBanner" style="display: none;">
+                <div class="container-fluid">
+                    <p class="mb-0 urbanist-bold">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Edit Mode: Drag widgets to reorder. Click "Done" when finished.
+                        <button class="btn btn-yellow btn-sm ms-3" id="doneEditingBtn">Done</button>
+                    </p>
+                </div>
+            </div>
         </div>
-                    @* Edit Mode Overlay Instructions *@
-                    <div class="edit-mode-banner" id="editModeBanner" style="display: none;">
-                        <div class="container-fluid">
-                            <p class="mb-0 urbanist-bold">
-                                <i class="fas fa-info-circle me-2"></i>
-                                Edit Mode: Drag widgets to reorder. Click "Done" when finished.
-                                <button class="btn btn-yellow btn-sm ms-3" id="doneEditingBtn">Done</button>
-                            </p>
-                        </div>
-                    </div>
-        </main>
+    </main>
 </div>
 
-
-@* Reference to JavaScript Logic *@
 @section Scripts {
     <script src="https://unpkg.com/draggabilly@3/dist/draggabilly.pkgd.min.js"></script>
     <script src="~/js/widgets.js" asp-append-version="true"></script>

@@ -1,5 +1,5 @@
 /* -------------------------
-    FitSync Brand Color Variables
+   FitSync Brand Color Variables
 ------------------------- */
 :root {
   --color-yellow: #fff671;
@@ -18,7 +18,7 @@
 }
 
 /* -------------------------
-    Brand Typography
+   Brand Typography
 ------------------------- */
 .archivo-black-regular {
   font-family: "Archivo Black", sans-serif;
@@ -36,7 +36,7 @@
 }
 
 /* -------------------------
-    Brand Color Utilities
+   Brand Color Utilities
 ------------------------- */
 .bg-yellow { background-color: var(--color-yellow); }
 .bg-light-orange { background-color: var(--color-light-orange); }

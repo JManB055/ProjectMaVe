@@ -14,9 +14,7 @@
                 <p class="urbanist-bold text-blue mb-0">Welcome Back</p>
             </header>
 
-            @* ===============================
-                Feedback Message
-               =============================== *@
+            @* Feedback message *@
             @if (!string.IsNullOrEmpty(Model.Message))
             {
                 <div class="alert alert-danger text-center urbanist-medium mb-3 rounded-3" role="alert">
@@ -24,15 +22,13 @@
                 </div>
             }
 
-            @* ===============================
-                Login Form
-               =============================== *@
+            @* Login form *@
             <form method="post" novalidate aria-label="Login form">
 
-                @* --- Validation Summary --- *@
+                @* Validation summary *@
                 <div asp-validation-summary="ModelOnly" class="text-danger text-center mb-3" role="alert"></div>
 
-                @* --- Username Field --- *@
+                @* Username field *@
                 <div class="mb-3">
                     <label asp-for="UserName" class="form-label urbanist-medium text-blue mb-1">Username</label>
                     <input asp-for="UserName"
@@ -49,7 +45,7 @@
                         role="alert"></span>
                 </div>
 
-                @* --- Password Field --- *@
+                @* Password field *@
                 <div class="mb-2">
                     <label asp-for="Password" class="form-label urbanist-medium text-blue mb-1">Password</label>
                     <input asp-for="Password"
@@ -60,13 +56,11 @@
                         required
                         aria-required="true"
                         aria-describedby="password-error" />
-                    <span asp-validation-for="Password"
-                        id="password-error"
-                        class="text-danger d-block mt-1 small"
+                    <span asp-validation-for="Password" id="password-error" class="text-danger d-block mt-1 small"
                         role="alert"></span>
                 </div>
 
-                @* --- Forgot Password Link --- *@
+                @* Forgot password link *@
                 <div class="text-end mb-2">
                     <a asp-page="/ForgotPassword"
                         class="urbanist-medium text-blue text-decoration-none"
@@ -75,7 +69,7 @@
                     </a>
                 </div>
 
-                @* --- Submit Button --- *@
+                @* Submit button *@
                 <div class="d-grid mt-4">
                     <input asp-page-handler="LogIn"
                         type="submit"
@@ -84,7 +78,7 @@
                         aria-label="Sign in to your account" />
                 </div>
 
-                @* --- Sign-Up Redirect Link --- *@
+                @* Sign-up link *@
                 <div class="text-center mt-3">
                     <span class="urbanist-medium">Don't have an account? </span>
                     <a asp-page="/NewUser" class="urbanist-medium text-blue text-decoration-none">
