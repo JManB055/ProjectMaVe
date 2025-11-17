@@ -23,15 +23,6 @@ getWorkoutInfo();
 
 // Set default widgets for testing (Commented out as it now pulls widgets from the database. Keeping for potentially setting default widgets later.)
 /*
-var defaultWidgets = [
-    { userID: 1006, x: 64, y: 64, w: 2, h: 2, type: 'Test Widget' },
-    { userID: 1006, x: 640, y: 64, w: 1, h: 1, type: 'Test Widget' },
-    { userID: 1006, x: 640, y: 350, w: 1, h: 1, type: 'Test Widget' },
-    { userID: 1006, x: 928, y: 64, w: 1, h: 2, type: 'Test Widget' }
-];
-widgets = defaultWidgets;*/
-
-/*
 *   Set up the initial page rendering
 *       1) Set widget templates used when adding a widget to the dashboard
 *       2) Get widget information from the database using 'getWidgets' function
@@ -101,7 +92,7 @@ async function renderWidgets() {
                 break;
 
             case "Daily Strength":
-                
+
                 htmlString += '<div class="widget widget_card size-' + widgets[i].w + 'x' + widgets[i].h + '"> <div class="widget-header">' +
                     '<h3 class="widget-title urbanist-bold">Today\'s Strength </h3>' +
                     '<button class="delete-btn delete-btn-color btn ml-1" data-index="' + i + '"><i class="fa-solid fa-x"></i></button>' +
@@ -239,7 +230,7 @@ async function renderWidgets() {
             '<button class="delete-btn" data-index="' + i + '">X</button>' +
             '<p>Drag Me Around!</p></div>';*/
     }
-    
+
 
     if (htmlString == '') {
         htmlString = "<div class=\"no-widget-message\"><h1>It looks like you don't have any widgets yet...</h1><p>" +
@@ -295,8 +286,8 @@ async function renderWidgets() {
 
 /*
 *   Fucntion to toggle the draggable state of the widgets
-*       1) If they are currently draggable, then: 
-*           1) Disable 
+*       1) If they are currently draggable, then:
+*           1) Disable
 *           2) Save all widget positions locally
 *           3) Change the 'editSaveBtn' to Edit
 *           4) Save the new widget states to database.
@@ -349,10 +340,10 @@ function toggleDraggble() {
 
     // Toggle draggable state
     draggable = !draggable;
-} 
+}
 
 /*
-*   Function to add widget to the widget array based on width, height, and type. 
+*   Function to add widget to the widget array based on width, height, and type.
 *   Called when '+' button is pressed on widget templates.
 *       1) Save existing widget positions locally
 *       2) Push new widget to local array of widgets
@@ -366,7 +357,7 @@ function addWidget(width, height, widgetType) {
     }
 
     // Push new widget to widgets array
-    widgets.push({ userID: 1006, x: 32, y: 32, w: width, h: height, type: widgetType });
+    widgets.push({ x: 32, y: 32, w: width, h: height, type: widgetType });
 
     // Render widgets
     renderWidgets();
@@ -408,7 +399,7 @@ async function getWidgets() {
 }
 
 /*
-*   Function to save widgets to the database. 
+*   Function to save widgets to the database.
 *   Called when 'Save' button is pressed.
 */
 async function saveWidgets() {
@@ -522,5 +513,5 @@ async function getWorkoutInfo(){
     } catch (error) {
         console.error('Error loading workouts:', error);
     }
-    
+
 }
