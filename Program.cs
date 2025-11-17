@@ -36,6 +36,7 @@ builder.Services.AddScoped<IUserStore, UserStore>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<IWidgetStore, WidgetStore>();
 builder.Services.AddScoped<IWorkoutStore, WorkoutStore>();
+builder.Services.AddScoped<IExerciseStore, ExerciseStore>();
 builder.Services.AddScoped<IWorkoutExerciseStore, WorkoutExerciseStore>();
 
 var app = builder.Build();
