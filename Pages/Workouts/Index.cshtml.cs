@@ -5,15 +5,18 @@ using ProjectMaVe.Models;
 
 namespace ProjectMaVe.Pages.Workouts
 {
+    [IgnoreAntiforgeryToken]
     public class IndexModel : PageModel
     {
         private readonly IWorkoutStore _workoutService;
+        private readonly IExerciseStore _exerciseService;
         private readonly IWorkoutExerciseStore _workoutExerciseService;
         private readonly IAuthenticationService _auth;
 
-        public IndexModel(IAuthenticationService authService, IWorkoutStore workoutService, IWorkoutExerciseStore workoutExerciseService)
+        public IndexModel(IAuthenticationService authService, IExerciseStore exerciseService, IWorkoutStore workoutService, IWorkoutExerciseStore workoutExerciseService)
         {
             _workoutService = workoutService;
+            _exerciseService = exerciseService;
             _workoutExerciseService = workoutExerciseService;
             _auth = authService;
         }
@@ -22,6 +25,40 @@ namespace ProjectMaVe.Pages.Workouts
         {
             if (!_auth.IsCurrentSignedIn()) return Redirect("~/");
             return Page();
+        }
+
+
+        public async Task<JsonResult> OnGetExercisesAsync()
+        {
+            try
+            {
+                var cookieInfo = _auth.GetCookieInfo();
+
+                if (cookieInfo == null)
+                    return new JsonResult(new { success = false, message = "Error with User identification" });
+
+                var uid = cookieInfo.Value.uid;
+
+                if (uid <= 0)
+                    return new JsonResult(new { success = false, message = "Invalid user ID" });
+
+                var exercises = await _exerciseService.GetAllExercisesAsync();
+
+                if (exercises == null)
+                    return new JsonResult(new { success = false, message = "Error retrieving exercises" });
+
+                var exerciseResults = exercises.Select(e => new {
+                    e.ExerciseID,
+                    e.Name,
+                    e.MuscleGroup
+                });
+
+                return new JsonResult(new { success = true, exercises = exerciseResults });
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { success = false, message = ex.Message });
+            }
         }
 
         public async Task<JsonResult> OnGetWorkoutInfoAsync()
@@ -76,12 +113,18 @@ namespace ProjectMaVe.Pages.Workouts
                 return new JsonResult(new { success = false, message = ex.Message });
             }
         }
-        public async Task<JsonResult> OnPostDeleteWorkoutAsync(int workoutID){
-            var result = await _workoutService.DeleteWorkoutAsync(workoutID);
+
+        public async Task<JsonResult> OnPostDeleteWorkoutAsync([FromBody] DeleteWorkoutDto workout){
+            var result = await _workoutService.DeleteWorkoutAsync(workout.wid);
 
             if(!result) return new JsonResult(new { success = false, message = "Error deleting workout" });
 
             return new JsonResult(new { success = true, message = "Workout deleted successfully" });
         }
+    }
+
+    public class DeleteWorkoutDto
+    {
+        public int wid { get; set; }
     }
 }

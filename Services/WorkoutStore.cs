@@ -37,7 +37,7 @@ public class WorkoutStore : IWorkoutStore
 
         using var command = connection.CreateCommand();		// Create new command
 
-        command.CommandText = "DELETE FROM workout_exercises WHERE workout_id = @WorkoutId";	// Set command text
+        command.CommandText = "DELETE FROM WorkoutExercises WHERE workout_id = @WorkoutId";	// Set command text
         var workoutParam = command.CreateParameter();						// Create parameter for variable to prevent SQL injection
         workoutParam.ParameterName = "@WorkoutId";
         workoutParam.Value = workout_id;
