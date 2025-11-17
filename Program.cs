@@ -4,7 +4,6 @@ using ProjectMaVe.Data;
 using ProjectMaVe.Interfaces;
 using ProjectMaVe.Middleware;
 using ProjectMaVe.Services;
-using ProjectMaVe.APIs.Google_AI;
 
 var builder = WebApplication.CreateBuilder(args);
 
