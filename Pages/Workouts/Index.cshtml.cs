@@ -76,5 +76,12 @@ namespace ProjectMaVe.Pages.Workouts
                 return new JsonResult(new { success = false, message = ex.Message });
             }
         }
+        public async Task<JsonResult> OnPostDeleteWorkoutAsync(int workoutID){
+            var result = await _workoutService.DeleteWorkoutAsync(workoutID);
+
+            if(!result) return new JsonResult(new { success = false, message = "Error deleting workout" });
+
+            return new JsonResult(new { success = true, message = "Workout deleted successfully" });
+        }
     }
 }
