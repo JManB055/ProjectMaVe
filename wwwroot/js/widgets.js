@@ -201,14 +201,29 @@ async function renderWidgets() {
 
                 break;
 
-            case "Workout History":
+            case "Strength History":
                 htmlString += '<div class="widget widget_card size-' + widgets[i].w + 'x' + widgets[i].h + '"> <div class="widget-header">' +
-                    '<h3 class="widget-title urbanist-bold">Workout History</h3>' +
+                    '<h3 class="widget-title urbanist-bold">Strength History</h3>' +
                     '<button class="delete-btn delete-btn-color btn" data-index="' + i + '"><i class="fa-solid fa-x"></i></button>' +
                     '</div> <div class="widget-content"> <div id="graph-' + i + '" style="width:100%;height:100%;">' +
                     '</div ></div ></div > ';
 
-                graphs.push(i);
+
+
+                graphs.push({
+                    graphIndex: i,
+                    data: [
+                        {
+                            x: [1, 2, 3, 4],
+                            y: [10, 15, 13, 17],
+                            type: 'scatter'
+                        },
+                        {
+                            x: [1, 2, 3, 4],
+                            y: [16, 5, 11, 9],
+                            type: 'scatter'
+                        }
+                ]});
 
                 break;
             default:
@@ -274,9 +289,7 @@ async function renderWidgets() {
             type: 'scatter'
         };
 
-        let data = [trace1, trace2];
-
-        Plotly.newPlot(('graph-' + graphs[i]), data);
+        Plotly.newPlot(('graph-' + graphs[i].graphIndex), graphs[i].data);
     }
 }
 
@@ -467,6 +480,16 @@ async function getWorkouts() {
             },
             {
                 date: "2025/11/15",
+                strengthExercises: [
+                    { activity: "Squat", sets: 3, reps: 11, weight: 46 },
+                    { activity: "Bench Press", sets: 3, reps: 11, weight: 51 }
+                ],
+                cardioExercises: [
+                    { activity: "Running", time: 21, distance: 1.6 }
+                ]
+            },
+            {
+                date: "2025/11/17",
                 strengthExercises: [
                     { activity: "Squat", sets: 3, reps: 11, weight: 46 },
                     { activity: "Bench Press", sets: 3, reps: 11, weight: 51 }
