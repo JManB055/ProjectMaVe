@@ -42,52 +42,52 @@ public class AuthenticationService : IAuthenticationService
         return token;
     }
 
-    public (Int32 uid, Token token)? GetCookieInfo()
+    private (Int32 uid, Token token)? GetCookieInfo()
     {
-        /*var cookies = _accessor.HttpContext?.Request.Cookies;
-        if (cookies is null) return null;
-        if (!cookies.TryGetValue(Constants.COOKIE_ID_FIELD, out string uidString)) return null;
-        if (!cookies.TryGetValue(Constants.COOKIE_TOKEN_FIELD, out string token)) return null;
-        var uid = Int32.Parse(uidString);
-        if (!IsSignedIn(uid, token)) return null;
-        return (uid, token);*/
+        /*
+          var cookies = _accessor.HttpContext?.Request.Cookies;
+          if (cookies is null) return null;
+          if (!cookies.TryGetValue(Constants.COOKIE_ID_FIELD, out string uidString)) return null;
+          if (!cookies.TryGetValue(Constants.COOKIE_TOKEN_FIELD, out string token)) return null;
+          var uid = Int32.Parse(uidString);
+          if (!IsSignedIn(uid, token)) return null;
+          return (uid, token);
+        */
 
-		    var cookies = _accessor.HttpContext?.Request.Cookies;
-		    if (cookies is null)
-		    {
-		        _logger.LogWarning("No HttpContext or Cookies available.");
-		        return null;
-		    }
-		
-		    if (!cookies.TryGetValue(Constants.COOKIE_ID_FIELD, out string uidString))
-		    {
-		        _logger.LogWarning("Missing UID cookie.");
-		        return null;
-		    }
-		
-		    if (!cookies.TryGetValue(Constants.COOKIE_TOKEN_FIELD, out string token))
-		    {
-		        _logger.LogWarning("Missing token cookie.");
-		        return null;
-		    }
-		
-		    if (!int.TryParse(uidString, out int uid))
-		    {
-		        _logger.LogWarning($"Invalid UID cookie value: {uidString}");
-		        return null;
-		    }
-		
-		    if (!IsSignedIn(uid, token))
-		    {
-		        _logger.LogWarning($"IsSignedIn failed for UID {uid}");
-		        return null;
-		    }
-		
-		    _logger.LogInformation($"Successfully retrieved cookie info for UID {uid}");
-		    return (uid, token);
-		
-		
-		}
+        var cookies = _accessor.HttpContext?.Request.Cookies;
+        if (cookies is null)
+        {
+            _logger.LogWarning("No HttpContext or Cookies available.");
+            return null;
+        }
+
+        if (!cookies.TryGetValue(Constants.COOKIE_ID_FIELD, out string uidString))
+        {
+            _logger.LogWarning("Missing UID cookie.");
+            return null;
+        }
+
+        if (!cookies.TryGetValue(Constants.COOKIE_TOKEN_FIELD, out string token))
+        {
+            _logger.LogWarning("Missing token cookie.");
+            return null;
+        }
+
+        if (!int.TryParse(uidString, out int uid))
+        {
+            _logger.LogWarning($"Invalid UID cookie value: {uidString}");
+            return null;
+        }
+
+        if (!IsSignedIn(uid, token))
+        {
+            _logger.LogWarning($"IsSignedIn failed for UID {uid}");
+            return null;
+        }
+
+        _logger.LogInformation($"Successfully retrieved cookie info for UID {uid}");
+        return (uid, token);
+    }
 
     public async Task<UserInfo?> GetCurrentUser()
     {
