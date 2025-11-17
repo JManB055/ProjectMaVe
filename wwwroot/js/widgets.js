@@ -208,22 +208,44 @@ async function renderWidgets() {
                     '</div> <div class="widget-content"> <div id="graph-' + i + '" style="width:100%;height:100%;">' +
                     '</div ></div ></div > ';
 
+                let gData = [];
+                
+                for (let j = 0; j < workoutList.length; j++) {
+                    for (let k = 0; k < workoutList[j].strengthExercises.length; k++) {
+                        let exercise = workoutList[j].strengthExercises[k];
 
+                        gIndex = gData.findIndex(checkName);
+                        function checkName(value, index, array) {
+                            return value.name == exercise.activity;
+                        }
 
-                graphs.push({
-                    graphIndex: i,
-                    data: [
-                        {
+                        // If the exercise is not already in the gData
+                        if (gIndex == -1) {
+                            gData.push({ name: exercise.activity, x: [], y: [], type: 'scatter' });
+                            gIndex = gData.length - 1;
+                        }
+
+                        dateFormatted = workoutList[j].date.replaceAll("/", "-");
+                        gData[gIndex].x.push(dateFormatted);
+                        gData[gIndex].y.push(exercise.weight);
+
+                        /*{
+                            name: "Name",
                             x: [1, 2, 3, 4],
-                            y: [10, 15, 13, 17],
-                            type: 'scatter'
+                                y: [10, 15, 13, 17],
+                                    type: 'scatter'
                         },
                         {
                             x: [1, 2, 3, 4],
-                            y: [16, 5, 11, 9],
-                            type: 'scatter'
-                        }
-                ]});
+                                y: [16, 5, 11, 9],
+                                    type: 'scatter'
+                        }*/
+                    }
+                }
+
+                graphs.push({
+                    graphIndex: i,
+                    graphData: gData});
 
                 break;
             default:
@@ -277,19 +299,7 @@ async function renderWidgets() {
     }
 
     for (let i = 0; i < graphs.length; i++) {
-        let trace1 = {
-            x: [1, 2, 3, 4],
-            y: [10, 15, 13, 17],
-            type: 'scatter'
-        };
-
-        let trace2 = {
-            x: [1, 2, 3, 4],
-            y: [16, 5, 11, 9],
-            type: 'scatter'
-        };
-
-        Plotly.newPlot(('graph-' + graphs[i].graphIndex), graphs[i].data);
+        Plotly.newPlot(('graph-' + graphs[i].graphIndex), graphs[i].graphData);
     }
 }
 
@@ -442,7 +452,7 @@ async function getWorkouts() {
                 date: "2025/11/08",
                 strengthExercises: [
                     { activity: "Squat", sets: 2, reps: 10, weight: 45 },
-                    { activity: "Bench Press", sets: 20, reps: 100, weight: 235 }
+                    { activity: "Bench Press", sets: 20, reps: 100, weight: 40 }
                 ],
                 cardioExercises: [
                     { activity: "Running", time: 20, distance: 1.5 }
@@ -452,7 +462,7 @@ async function getWorkouts() {
                 date: "2025/11/10",
                 strengthExercises: [
                     { activity: "Squat", sets: 2, reps: 10, weight: 45 },
-                    { activity: "Bench Press", sets: 20, reps: 100, weight: 235 }
+                    { activity: "Bench Press", sets: 20, reps: 100, weight: 40 }
                 ],
                 cardioExercises: [
                     { activity: "Running", time: 20, distance: 1.5 }
@@ -462,7 +472,7 @@ async function getWorkouts() {
                 date: "2025/11/13",
                 strengthExercises: [
                     { activity: "Squat", sets: 2, reps: 10, weight: 45 },
-                    { activity: "Bench Press", sets: 20, reps: 100, weight: 235 }
+                    { activity: "Bench Press", sets: 20, reps: 100, weight: 45 }
                 ],
                 cardioExercises: [
                     { activity: "Running", time: 20, distance: 1.5 }
@@ -492,7 +502,7 @@ async function getWorkouts() {
                 date: "2025/11/17",
                 strengthExercises: [
                     { activity: "Squat", sets: 3, reps: 11, weight: 46 },
-                    { activity: "Bench Press", sets: 3, reps: 11, weight: 51 }
+                    { activity: "Bench Press", sets: 3, reps: 11, weight: 56 }
                 ],
                 cardioExercises: [
                     { activity: "Running", time: 21, distance: 1.6 }
