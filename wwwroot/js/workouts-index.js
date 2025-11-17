@@ -17,36 +17,22 @@ document.addEventListener("DOMContentLoaded", () => {
     // ===== API FUNCTIONS =====
     async function fetchWorkouts() {
         try {
-            // TODO: Replace with actual API call
-            
-            // Mock data for now
-            workouts = [
-                {
-                    id: 1,
-                    date: "2025-11-06",
-                    exercises: [
-                        { exercise: "Bench Press", muscle: "Chest", sets: 4, reps: 8, weight: 185 },
-                        { exercise: "Shoulder Press", muscle: "Shoulders", sets: 3, reps: 10, weight: 95 },
-                        { exercise: "Running", muscle: "Cardio", duration: 30, distance: 5 }
-                    ]
-                },
-                {
-                    id: 2,
-                    date: "2025-11-05",
-                    exercises: [
-                        { exercise: "Cycling", muscle: "Cardio", duration: 45, distance: 15 }
-                    ]
-                },
-                {
-                    id: 3,
-                    date: "2025-11-03",
-                    exercises: [
-                        { exercise: "Pull-ups", muscle: "Back", sets: 3, reps: 8, weight: 0 },
-                        { exercise: "Bicep Curl", muscle: "Arms", sets: 3, reps: 12, weight: 30 },
-                    ]
+            // Get workouts from te database in JSON format
+            const response = await fetch(`/Dashboard?handler=WorkoutInfo`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
                 }
-            ];
-
+            });
+    
+            const result = await response.json();
+    
+            if (result.success) {
+                console.log('Workouts loaded successfully:', result.workouts);
+                workouts = result.workouts; // Replace current workouts array
+            } else {
+                console.warn('Failed to load workouts:', result.message);
+            }
             filteredWorkouts = [...workouts];
             updateStats();
             renderWorkouts();
