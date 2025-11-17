@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProjectMaVe.Interfaces; 
 using ProjectMaVe.Models; 
 using ProjectMaVe.APIs.Google_AI;
+using ProjectMaVe.Data;
 
 namespace ProjectMaVe.Pages
 {
@@ -13,12 +14,14 @@ namespace ProjectMaVe.Pages
 		private readonly IAIService _aiService;
 		private readonly DBContext _db;
 		
+		//constructor to provide workout exercise store, AI functionality and database context to workouts page
 		public WorkoutsModel(IWorkoutExerciseStore workoutExerciseService, IAIService aiService, DBContext db){
 			_workoutExerciseService = workoutExerciseService;
 			_aiService = aiService;
 			_db = db;
 		}
 
+		//return a user's workout as a list of exercises, formatted as a JSON object
         public async Task<JsonResult> OnGetWorkoutExercisesAsync(int workoutId){
 			Console.WriteLine("=== HIT OnGetWorkoutExercisesAsync ===");
 				
@@ -28,7 +31,8 @@ namespace ProjectMaVe.Pages
 		    var exercises = await _workoutExerciseService.GetWorkoutExercisesAsync(workoutId);
 		    return new JsonResult(new { success = true, exercises });
 		}
-				
+		
+		//save user workouts as a list of exercises, formatted as a JSON object
 		public async Task<JsonResult> OnPostSaveWorkoutExercisesAsync([FromBody] SaveWorkoutExercisesRequest request){
 			Console.WriteLine("=== HIT OnPostSaveWorkoutExercisesAsync ===");
 				
@@ -39,6 +43,7 @@ namespace ProjectMaVe.Pages
 				return new JsonResult(new { success });
 		}
 		
+		//use AI Service to push a user prompt to Google Gemini API and return JSON object containing its response
 		public async Task<JsonResult> OnPostGeneratePlanAsync([FromBody] AIPromptRequest promptRequest){
 			Console.WriteLine("=== HIT OnPostGeneratePlanAsync ===");
 			
@@ -54,8 +59,9 @@ namespace ProjectMaVe.Pages
 			});
 		}
 		
+		//get entire list of exercises from database context
 		public async Task<JsonResult> OnGetExercisesAsync(){
-			var exercises = await _context.Exercises.ToListAsync();
+			var exercises = await _db.Exercises.ToListAsync();
 			return new JsonResult(new { success = true, exercises });
 		}
     }
