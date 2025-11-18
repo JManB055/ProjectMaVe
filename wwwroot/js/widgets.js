@@ -19,7 +19,7 @@ var draggies = [];
 var draggable = true;
 var workoutList;
 
-getWorkoutInfo();
+//getWorkoutInfo();
 
 // Set default widgets for testing (Commented out as it now pulls widgets from the database. Keeping for potentially setting default widgets later.)
 /*
@@ -75,7 +75,7 @@ async function renderWidgets() {
     let htmlString = '';
 
     // Write HTML code to 'htmlString' based on widget metadata (in 'widgets' array)
-    let data = await getWorkouts()
+    let data = await getWorkoutInfo()
     workoutList = data.workouts;
 
     let todayDate = new Date();
@@ -100,7 +100,8 @@ async function renderWidgets() {
                     '<table><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Weight</th></tr>';
 
                 for (let j = 0; j < workoutList.length; j++) {
-                    let workoutDate = new Date(workoutList[j].date);
+                    let dateFormatted = workoutList[j].date.replaceAll("-", "/");
+                    let workoutDate = new Date(dateFormatted);
                     if (todayDate.toDateString() != workoutDate.toDateString()) continue;
                     for (let k = 0; k < workoutList[j].strengthExercises.length; k++) {
                         let exercise = workoutList[j].strengthExercises[k];
@@ -119,7 +120,8 @@ async function renderWidgets() {
                     '<table><tr><th>Exercise</th><th>Distance</th><th>Duration</th></tr>';
 
                 for (let j = 0; j < workoutList.length; j++) {
-                    let workoutDate = new Date(workoutList[j].date);
+                    let dateFormatted = workoutList[j].date.replaceAll("-", "/");
+                    let workoutDate = new Date(dateFormatted);
                     if (todayDate.toDateString() != workoutDate.toDateString()) continue;
                     for (let k = 0; k < workoutList[j].cardioExercises.length; k++) {
                         let exercise = workoutList[j].cardioExercises[k];
@@ -138,7 +140,8 @@ async function renderWidgets() {
                     '<div class="pt-1"><h1>Strength</h1><table><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Weight</th></tr>';
 
                 for (let j = 0; j < workoutList.length; j++) {
-                    let workoutDate = new Date(workoutList[j].date);
+                    let dateFormatted = workoutList[j].date.replaceAll("-", "/");
+                    let workoutDate = new Date(dateFormatted);
                     if (todayDate.toDateString() != workoutDate.toDateString()) continue;
                     for (let k = 0; k < workoutList[j].strengthExercises.length; k++) {
                         let exercise = workoutList[j].strengthExercises[k];
@@ -149,7 +152,8 @@ async function renderWidgets() {
                 htmlString += '</table></div><div class="pt-1"><h1>Cardio</h1><table><tr><th>Exercise</th><th>Distance</th><th>Duration</th></tr>';
 
                 for (let j = 0; j < workoutList.length; j++) {
-                    let workoutDate = new Date(workoutList[j].date);
+                    let dateFormatted = workoutList[j].date.replaceAll("-", "/");
+                    let workoutDate = new Date(dateFormatted);
                     if (todayDate.toDateString() != workoutDate.toDateString()) continue;
                     for (let k = 0; k < workoutList[j].cardioExercises.length; k++) {
                         let exercise = workoutList[j].cardioExercises[k];
@@ -169,7 +173,8 @@ async function renderWidgets() {
                     '<div class="pt-1"><h1>Strength</h1><table><tr><th>Exercise</th><th>Sets</th><th>Reps</th><th>Weight</th></tr>';
 
                 for (let j = 0; j < workoutList.length; j++) {
-                    let workoutDate = new Date(workoutList[j].date);
+                    let dateFormatted = workoutList[j].date.replaceAll("-", "/");
+                    let workoutDate = new Date(dateFormatted);
                     if (todayDate.toDateString() != workoutDate.toDateString()) continue;
                     for (let k = 0; k < workoutList[j].strengthExercises.length; k++) {
                         let exercise = workoutList[j].strengthExercises[k];
@@ -180,7 +185,8 @@ async function renderWidgets() {
                 htmlString += '</table></div><div class="pt-1"><h1>Cardio</h1><table><tr><th>Exercise</th><th>Distance</th><th>Duration</th></tr>';
 
                 for (let j = 0; j < workoutList.length; j++) {
-                    let workoutDate = new Date(workoutList[j].date);
+                    let dateFormatted = workoutList[j].date.replaceAll("-", "/");
+                    let workoutDate = new Date(dateFormatted);
                     if (todayDate.toDateString() != workoutDate.toDateString()) continue;
                     for (let k = 0; k < workoutList[j].cardioExercises.length; k++) {
                         let exercise = workoutList[j].cardioExercises[k];
@@ -216,21 +222,8 @@ async function renderWidgets() {
                             gIndex = gData.length - 1;
                         }
 
-                        dateFormatted = workoutList[j].date.replaceAll("/", "-");
-                        gData[gIndex].x.push(dateFormatted);
+                        gData[gIndex].x.push(workoutList[j].date);
                         gData[gIndex].y.push(exercise.weight);
-
-                        /*{
-                            name: "Name",
-                            x: [1, 2, 3, 4],
-                                y: [10, 15, 13, 17],
-                                    type: 'scatter'
-                        },
-                        {
-                            x: [1, 2, 3, 4],
-                                y: [16, 5, 11, 9],
-                                    type: 'scatter'
-                        }*/
                     }
                 }
 
@@ -440,7 +433,7 @@ async function getWorkouts() {
     return {
         workouts: [
             {
-                date: "2025/11/08",
+                date: "2025-11-08",
                 strengthExercises: [
                     { activity: "Squat", sets: 2, reps: 10, weight: 45 },
                     { activity: "Bench Press", sets: 20, reps: 100, weight: 40 }
@@ -450,7 +443,7 @@ async function getWorkouts() {
                 ]
             },
             {
-                date: "2025/11/10",
+                date: "2025-11-10",
                 strengthExercises: [
                     { activity: "Squat", sets: 2, reps: 10, weight: 45 },
                     { activity: "Bench Press", sets: 20, reps: 100, weight: 40 }
@@ -460,7 +453,7 @@ async function getWorkouts() {
                 ]
             },
             {
-                date: "2025/11/13",
+                date: "2025-11-13",
                 strengthExercises: [
                     { activity: "Squat", sets: 2, reps: 10, weight: 45 },
                     { activity: "Bench Press", sets: 20, reps: 100, weight: 45 }
@@ -470,7 +463,7 @@ async function getWorkouts() {
                 ]
             },
             {
-                date: "2025/11/14",
+                date: "2025-11-14",
                 strengthExercises: [
                     { activity: "Squat", sets: 3, reps: 11, weight: 46 },
                     { activity: "Bench Press", sets: 3, reps: 10, weight: 50 }
@@ -480,7 +473,7 @@ async function getWorkouts() {
                 ]
             },
             {
-                date: "2025/11/15",
+                date: "2025-11-15",
                 strengthExercises: [
                     { activity: "Squat", sets: 3, reps: 11, weight: 46 },
                     { activity: "Bench Press", sets: 3, reps: 11, weight: 51 }
@@ -490,7 +483,7 @@ async function getWorkouts() {
                 ]
             },
             {
-                date: "2025/11/17",
+                date: "2025-11-17",
                 strengthExercises: [
                     { activity: "Squat", sets: 3, reps: 11, weight: 46 },
                     { activity: "Bench Press", sets: 3, reps: 11, weight: 56 }
@@ -516,12 +509,83 @@ async function getWorkoutInfo(){
 
         if (result.success) {
             console.log('Workouts loaded successfully:', result.workouts);
+            console.log('Exercises:', result.workouts[0].exercises)
             // workoutList = result.workouts; // Replace current workoutList array
+
+            let exerciseList = await getExerciseList();
+            let workoutsFormatted = [];
+
+            for (let i = 0; i < result.workouts.length; i++) {
+                let tempWorkout = {
+                    date: result.workouts[i].workoutDate,
+                    strengthExercises: [],
+                    cardioExercises: []
+                };
+
+                for (let j = 0; j < result.workouts[i].exercises.length; j++) {
+                    let tempExercise = result.workouts[i].exercises[j];
+                    if (tempExercise.distance == null) {
+                        // Strength Exercise
+                        if (tempExercise.weight == null) {
+                            tempExercise.weight = 0;
+                        }
+                        tempWorkout.strengthExercises.push(
+                            {
+                                activity: exerciseList[tempExercise.exerciseID - 1].name,
+                                muscleGroup: exerciseList[tempExercise.exerciseID - 1].muscleGroup,
+                                sets: tempExercise.sets,
+                                reps: tempExercise.reps,
+                                weight: tempExercise.weight
+                            }
+                        );
+                    }
+                    else {
+                        tempWorkout.cardioExercises.push(
+                            {
+                                activity: exerciseList[tempExercise.exerciseID - 1].name,
+                                muscleGroup: exerciseList[tempExercise.exerciseID - 1].muscleGroup,
+                                time: tempExercise.time,
+                                distance: tempExercise.distance
+                            }
+                        );
+                    }
+                }
+
+                workoutsFormatted.push(tempWorkout);
+            }
+
+            return { workouts: workoutsFormatted };
+
         } else {
             console.warn('Failed to load workouts:', result.message);
+            return [];
         }
+
     } catch (error) {
         console.error('Error loading workouts:', error);
+        return [];
     }
-    
+}
+
+async function getExerciseList() {
+    try {
+        const response = await fetch(`/Dashboard?handler=ExerciseInfo`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const result = await response.json();
+        if (result.success) {
+            console.log('Exercise List loaded successfully:', result.exercises);
+            return result.exercises;
+        }
+        else {
+            console.warn('Failed to load exercises:', result.message);
+            return [];
+        }
+    } catch (error) {
+        console.error('Error loading exercises: ', error);
+        return [];
+    }
 }

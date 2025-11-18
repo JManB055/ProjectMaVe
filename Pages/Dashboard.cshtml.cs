@@ -11,13 +11,15 @@ namespace ProjectMaVe.Pages
         private readonly IWidgetStore _widgetService;
         private readonly IWorkoutStore _workoutService;
         private readonly IWorkoutExerciseStore _workoutExerciseService;
+        private readonly IExerciseStore _exerciseService;
         private readonly IAuthenticationService _auth;
 
-        public DashboardModel(IWidgetStore widgetService, IAuthenticationService authService, IWorkoutStore workoutService, IWorkoutExerciseStore workoutExerciseService)
+        public DashboardModel(IWidgetStore widgetService, IAuthenticationService authService, IWorkoutStore workoutService, IWorkoutExerciseStore workoutExerciseService, IExerciseStore exerciseService)
         {
             _widgetService = widgetService;
             _workoutService = workoutService;
             _workoutExerciseService = workoutExerciseService;
+            _exerciseService = exerciseService;
             _auth = authService;
         }
 
@@ -123,6 +125,24 @@ namespace ProjectMaVe.Pages
             catch (Exception ex)
             {
                 // Always return JSON, even on error
+                return new JsonResult(new { success = false, message = ex.Message });
+            }
+        }
+
+        public async Task<JsonResult> OnGetExerciseInfoAsync()
+        {
+            try
+            {
+                var exercises = await _exerciseService.GetExercisesAsync();
+                if (exercises == null || exercises.Count == 0)
+                {
+                    return new JsonResult(new { success = true, exercises = new List<Exercise>() });
+                }
+
+                return new JsonResult(new { success = true, exercises });
+            }
+            catch (Exception ex)
+            {
                 return new JsonResult(new { success = false, message = ex.Message });
             }
         }

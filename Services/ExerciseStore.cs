@@ -1,6 +1,7 @@
 using ProjectMaVe.Interfaces;
 using ProjectMaVe.Models;
 using ProjectMaVe.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProjectMaVe.Services;
 
@@ -21,6 +22,12 @@ public class ExerciseStore : IExerciseStore
     public Exercise? GetExerciseByName(string name)
     {
         return _db.Exercises.FirstOrDefault(e => e.Name == name);       // Return the exercise with that name
+    }
+
+    public async Task<List<Exercise>> GetExercisesAsync()
+    {
+        return await _db.Exercises
+            .ToListAsync();
     }
 
 

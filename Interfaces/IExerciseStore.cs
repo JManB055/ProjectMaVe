@@ -8,4 +8,6 @@ public interface IExerciseStore
     Task<Exercise?> GetExerciseAsync(int exercise_id);
 
     Exercise? GetExerciseByName(string name);
+
+    Task<List<Exercise>> GetExercisesAsync();
 }
