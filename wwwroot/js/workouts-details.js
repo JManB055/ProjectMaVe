@@ -195,8 +195,9 @@ document.addEventListener("DOMContentLoaded", () => {
     function createStrengthRow(data = null) {
         const tr = document.createElement("tr");
 
+        const strengthExercises = workoutData.exercises.filter(ex => getExerciseGroup(ex.exerciseID) !== "Speed" && getExerciseGroup(ex.exerciseID) !== "Endurance");
         const exerciseOptions = availableExercises
-            .map(ex => `<option value="${ex.name}" data-muscle="${ex.muscle}" ${data && data.exercise === ex.name ? 'selected' : ''}>${ex.name}</option>`)
+            .map(ex => `<option value="${getExerciseName(ex.exerciseID)}" data-muscle="${getExerciseGroup(ex.exerciseID)}" ${data && data.exercise === getExerciseName(ex.exerciseID) ? 'selected' : ''}>${getExerciseName(ex.exerciseID)}</option>`)
             .join("");
 
         tr.innerHTML = `
@@ -244,8 +245,9 @@ document.addEventListener("DOMContentLoaded", () => {
     function createCardioRow(data = null) {
         const tr = document.createElement("tr");
 
+        const cardioActivities = workoutData.exercises.filter(ex => getExerciseGroup(ex.exerciseID) == "Speed" || getExerciseGroup(ex.exerciseID) == "Endurance");
         const cardioOptions = cardioActivities
-            .map(activity => `<option value="${activity}" ${data && data.exercise === activity ? 'selected' : ''}>${activity}</option>`)
+            .map(activity => `<option value="${getExerciseName(activity.exerciseID)}" ${data && data.exercise === activity ? 'selected' : ''}>${getExerciseName(activity.exerciseID)}</option>`)
             .join("");
 
         tr.innerHTML = `
@@ -352,12 +354,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function getExerciseName(id){
-        const exercise = exercises.find(ex => ex.id === id);
+        const exercise = availableExercises.find(ex => ex.exerciseID === id);
+        // console.log('Getting exercise name: ', exercise, exercise.name);
         return exercise ? exercise.name : null;
     }
 
     function getExerciseGroup(id){
-        const exercise = exercises.find(ex => ex.id === id);
+        const exercise = availableExercises.find(ex => ex.exerciseID === id);
+        // console.log('Getting exercise group: ', exercise, exercise.muscleGroup);
         return exercise ? exercise.muscleGroup : null;
     }
 
