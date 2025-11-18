@@ -18,29 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let workoutId = null;
     let workoutData = null;
     let hasUnsavedChanges = false;
-
-    // ===== AVAILABLE EXERCISES (will be fetched from DB) =====
-    const availableExercises = [
-        { name: "Bench Press", muscle: "Chest" },
-        { name: "Incline Press", muscle: "Chest" },
-        { name: "Shoulder Press", muscle: "Shoulders" },
-        { name: "Lateral Raise", muscle: "Shoulders" },
-        { name: "Squat", muscle: "Legs" },
-        { name: "Leg Press", muscle: "Legs" },
-        { name: "Deadlift", muscle: "Back" },
-        { name: "Pull-ups", muscle: "Back" },
-        { name: "Lat Pulldown", muscle: "Back" },
-        { name: "Barbell Row", muscle: "Back" },
-        { name: "Bicep Curl", muscle: "Arms" },
-        { name: "Tricep Extension", muscle: "Arms" },
-        { name: "Plank", muscle: "Core" },
-        { name: "Crunches", muscle: "Core" },
-    ];
-
-    const cardioActivities = [
-        "Running", "Cycling", "Swimming", "Rowing", 
-        "Elliptical", "Stair Climber", "Jump Rope", "Walking"
-    ];
+    let availableExercises = [];
 
     // ===== INITIALIZE =====
     function init() {
@@ -53,36 +31,58 @@ document.addEventListener("DOMContentLoaded", () => {
             console.warn("Invalid workout ID in URL, defaulting to 1 for testing");
             workoutId = 1;
         }
-
+        
+        fetchExercisesFromDB();
         fetchWorkoutExercises(workoutId);
     }
 
     // ===== API FUNCTIONS =====
+    async function fetchExercisesFromDB() {
+        try {
+            // Get the anti-forgery token (handle if it doesn't exist)
+            const tokenInput = document.querySelector('input[name="__RequestVerificationToken"]');
+            const headers = { 'Content-Type': 'application/json' };
+            
+            if (tokenInput) {
+                headers['RequestVerificationToken'] = tokenInput.value;
+            }
+
+            const response = await fetch(`/Workouts/Details/${workoutId}?handler=Exercises`, {
+                method: 'GET',
+                headers: headers
+            });
+
+            const result = await response.json();
+            // console.log("Raw Response: ", result);
+
+            if (result.success) {
+                console.log('Exercises loaded successfully:', result.exercises);
+                availableExercises = result.exercises; // Replace current availableExercises array
+            } else {
+                console.warn('Failed to load exercises:', result.message);
+            }
+
+        } catch (error) {
+            console.error("Error fetching exercises:", error);
+        }
+    }
+
     async function fetchWorkoutExercises(id) {
         try {
             let result;
             try {
-                const response = await fetch(`/Workout?handler=WorkoutExercises&workoutId=${id}`);
+                const response = await fetch(`/Workouts/Details/${workoutId}?handler=WorkoutExercises&workoutId=${id}`, {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+            });
                 result = await response.json(); // might fail if 404
             } catch {
                 result = { success: false }; // fallback to mock
+                return;
             }
 
-            if (result.success && result.exercises?.length > 0) {
-                workoutData = { id, date: result.workoutDate, exercises: result.exercises };
-            } else {
-                // Mock data for testing
-                workoutData = {
-                    id,
-                    date: "2025-11-06",
-                    exercises: [
-                        { id: 1, exercise: "Bench Press", muscle: "Chest", sets: 4, reps: 8, weight: 185 },
-                        { id: 2, exercise: "Shoulder Press", muscle: "Shoulders", sets: 3, reps: 10, weight: 95 },
-                        { id: 3, exercise: "Running", muscle: "Cardio", duration: 30, distance: 5 }
-                    ]
-                };
-            }
-
+            workoutData = { id, date: result.workoutDate, exercises: result.exercises };
+            console.log("Workout Exercises loaded successfully: ", workoutData);
             renderWorkoutDetails();
         } catch (error) {
             console.error("Error fetching workout:", error);
@@ -148,8 +148,11 @@ document.addEventListener("DOMContentLoaded", () => {
         editWorkoutDate.value = workoutData.date;
 
         // Separate exercises by type
-        const strengthExercises = workoutData.exercises.filter(ex => ex.muscle !== "Cardio");
-        const cardioExercises = workoutData.exercises.filter(ex => ex.muscle === "Cardio");
+        const strengthExercises = workoutData.exercises.filter(ex => getExerciseGroup(ex.exerciseID) !== "Speed" && getExerciseGroup(ex.exerciseID) !== "Endurance");
+        const cardioExercises = workoutData.exercises.filter(ex => getExerciseGroup(ex.exerciseID) == "Speed" || getExerciseGroup(ex.exerciseID) == "Endurance");
+        console.log("Raw workoutData: ", workoutData);
+        console.log("Strength exercises: ", strengthExercises);
+        console.log("Cardio exercises: ", cardioExercises);
 
         // Update stats
         totalExercisesCount.textContent = workoutData.exercises.length;
@@ -346,6 +349,16 @@ document.addEventListener("DOMContentLoaded", () => {
             day: "numeric", 
             year: "numeric" 
         });
+    }
+
+    function getExerciseName(id){
+        const exercise = exercises.find(ex => ex.id === id);
+        return exercise ? exercise.name : null;
+    }
+
+    function getExerciseGroup(id){
+        const exercise = exercises.find(ex => ex.id === id);
+        return exercise ? exercise.muscleGroup : null;
     }
 
     function showSuccess(message) {

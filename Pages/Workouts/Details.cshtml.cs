@@ -1,24 +1,39 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ProjectMaVe.Interfaces;
+using ProjectMaVe.Models;
 
 namespace ProjectMaVe.Pages.Workouts
 {
     [IgnoreAntiforgeryToken]
     public class DetailsModel : PageModel
     {
-        public void OnGet(int id)
+        private readonly IWorkoutStore _workoutService;
+        private readonly IExerciseStore _exerciseService;
+        private readonly IWorkoutExerciseStore _workoutExerciseService;
+        private readonly IAuthenticationService _auth;
+
+        public DetailsModel(IAuthenticationService authService, IExerciseStore exerciseService, IWorkoutStore workoutService, IWorkoutExerciseStore workoutExerciseService)
         {
+            _workoutService = workoutService;
+            _exerciseService = exerciseService;
+            _workoutExerciseService = workoutExerciseService;
+            _auth = authService;
         }
 
-        public IActionResult OnPost(int id)
+        public async Task<IActionResult> OnGetAsync()
         {
-            // TODO: Update workout in database
-            return RedirectToPage("/Workouts/Details", new { id });
+            if (!_auth.IsCurrentSignedIn()) return Redirect("~/");
+            return Page();
         }
 
-        public IActionResult OnPostDelete(int id)
+        public async Task<IActionResult> OnPostDeleteAsync(int id)
         {
-            // TODO: Delete workout from database
+            // Delete workout from database
+            var result = await _workoutService.DeleteWorkoutAsync(id);
+
+            if(!result) return new JsonResult(new { success = false, message = "Error deleting workout" });
+
             return RedirectToPage("/Workouts/Index");
         }
 
@@ -31,7 +46,27 @@ namespace ProjectMaVe.Pages.Workouts
 
             try
             {
-                // TODO: Save workout and exercises to database
+                // Verify user is authenticated
+                var cookieInfo = _auth.GetCookieInfo();
+                if (cookieInfo == null)
+                    return new JsonResult(new { success = false, message = "Error with User identification" });
+
+                var uid = cookieInfo.Value.uid;
+                if (uid <= 0)
+                    return new JsonResult(new { success = false, message = "Invalid user ID" });
+
+                // Translate Workout JSON to Model
+                Workout inputWorkout = new Workout();
+                inputWorkout.UserID = uid;
+                inputWorkout.WorkoutDate = DateTime.Parse(request.WorkoutDate);
+
+                var wid = request.WorkoutID ?? -1;
+
+                // Save workout to database
+                bool workoutId = await _workoutService.UpdateWorkoutAsync(wid, inputWorkout);
+                if(!workoutId)
+                    return new JsonResult(new { success = false, message = "Error with saving new workout object" });
+
                 return new JsonResult(new
                 {
                     success = true,
@@ -47,29 +82,79 @@ namespace ProjectMaVe.Pages.Workouts
         }
 
         // ===== API HANDLER =====
-        public async Task<JsonResult> OnGetWorkoutExercises(int workoutId)
+        public async Task<JsonResult> OnGetWorkoutExercisesAsync(int workoutId)
         {
             try
             {
+                /*
                 // Explicitly typed array fixes CS0826
                 var exercises = new List<object>
                 {
                     new { Exercise = "Bench Press", Muscle = "Chest", Sets = 4, Reps = 8, Weight = 185 },
                     new { Exercise = "Shoulder Press", Muscle = "Shoulders", Sets = 3, Reps = 10, Weight = 95 },
                     new { Exercise = "Running", Muscle = "Cardio", Duration = 30, Distance = 5 }
-                };
+                };*/
+
+                var workout = await _workoutService.GetWorkoutAsync(workoutId);
+
+                var exercises = await _workoutExerciseService.GetWorkoutExercisesAsync(workout.WorkoutID);
+
+                var Exercises = exercises.Select(e => new
+                {
+                    e.WorkoutExerciseID,
+                    e.ExerciseID,
+                    e.Sets,
+                    e.Reps,
+                    e.Weight,
+                    e.Distance,
+                    e.Time,
+                    e.isCompleted
+                }).ToList();
 
                 return new JsonResult(new
                 {
                     success = true,
                     workoutDate = DateTime.Today.ToString("yyyy-MM-dd"),
-                    exercises
+                    exercises = Exercises
                 });
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error fetching workout exercises: {ex.Message}");
                 return new JsonResult(new { success = false, message = "Failed to fetch exercises" });
+            }
+        }
+
+        public async Task<JsonResult> OnGetExercisesAsync()
+        {
+            try
+            {
+                var cookieInfo = _auth.GetCookieInfo();
+
+                if (cookieInfo == null)
+                    return new JsonResult(new { success = false, message = "Error with User identification" });
+
+                var uid = cookieInfo.Value.uid;
+
+                if (uid <= 0)
+                    return new JsonResult(new { success = false, message = "Invalid user ID" });
+
+                var exercises = await _exerciseService.GetAllExercisesAsync();
+
+                if (exercises == null)
+                    return new JsonResult(new { success = false, message = "Error retrieving exercises" });
+
+                var exerciseResults = exercises.Select(e => new {
+                    e.ExerciseID,
+                    e.Name,
+                    e.MuscleGroup
+                });
+
+                return new JsonResult(new { success = true, exercises = exerciseResults });
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { success = false, message = ex.Message });
             }
         }
     }
