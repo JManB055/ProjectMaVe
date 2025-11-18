@@ -325,6 +325,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         return {
             WorkoutID: workoutId,
+            WorkoutDate: "2025-11-20", // TODO dynamically get this
             Exercises: exercises
         };
     }
