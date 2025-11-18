@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ===== STATE =====
     let workoutId = null;
-    let workoutData = null;
+    let workoutData = [];
     let hasUnsavedChanges = false;
     let availableExercises = [];
 
@@ -148,11 +148,13 @@ document.addEventListener("DOMContentLoaded", () => {
         editWorkoutDate.value = workoutData.date;
 
         // Separate exercises by type
-        const strengthExercises = workoutData.exercises.filter(ex => getExerciseGroup(ex.exerciseID) !== "Speed" && getExerciseGroup(ex.exerciseID) !== "Endurance");
-        const cardioExercises = workoutData.exercises.filter(ex => getExerciseGroup(ex.exerciseID) == "Speed" || getExerciseGroup(ex.exerciseID) == "Endurance");
-        console.log("Raw workoutData: ", workoutData);
-        console.log("Strength exercises: ", strengthExercises);
-        console.log("Cardio exercises: ", cardioExercises);
+        var strengthExercises = [];
+        strengthExercises = workoutData.exercises.filter(ex => getExerciseGroup(ex.exerciseID) !== "Speed" && getExerciseGroup(ex.exerciseID) !== "Endurance");
+        var cardioExercises = [];
+        cardioExercises = workoutData.exercises.filter(ex => getExerciseGroup(ex.exerciseID) == "Speed" || getExerciseGroup(ex.exerciseID) == "Endurance");
+//        console.log("Raw workoutData: ", workoutData);
+//        console.log("Strength exercises: ", strengthExercises);
+//        console.log("Cardio exercises: ", cardioExercises);
 
         // Update stats
         totalExercisesCount.textContent = workoutData.exercises.length;
@@ -195,9 +197,9 @@ document.addEventListener("DOMContentLoaded", () => {
     function createStrengthRow(data = null) {
         const tr = document.createElement("tr");
 
-        const strengthExercises = workoutData.exercises.filter(ex => getExerciseGroup(ex.exerciseID) !== "Speed" && getExerciseGroup(ex.exerciseID) !== "Endurance");
-        const exerciseOptions = availableExercises
-            .map(ex => `<option value="${getExerciseName(ex.exerciseID)}" data-muscle="${getExerciseGroup(ex.exerciseID)}" ${data && data.exercise === getExerciseName(ex.exerciseID) ? 'selected' : ''}>${getExerciseName(ex.exerciseID)}</option>`)
+        const strengthExercises = availableExercises.filter(ex => ex.muscleGroup !== "Speed" && ex.muscleGroup !== "Endurance");
+        const exerciseOptions = strengthExercises
+            .map(ex => `<option value="${ex.name}" data-muscle="${ex.muscleGroup}" ${data && getExerciseName(data.exerciseID) === ex.name ? 'selected' : ''}>${ex.name}</option>`)
             .join("");
 
         tr.innerHTML = `
@@ -207,7 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     ${exerciseOptions}
                 </select>
             </td>
-            <td><input type="text" class="form-control rounded-3 muscle-input" value="${data ? data.muscle : ''}" readonly></td>
+            <td><input type="text" class="form-control rounded-3 muscle-input" value="${data ? getExerciseGroup(data.exerciseID) : ''}" readonly></td>
             <td><input type="number" class="form-control rounded-3 sets-input" min="1" value="${data ? data.sets : ''}" placeholder="Sets"></td>
             <td><input type="number" class="form-control rounded-3 reps-input" min="1" value="${data ? data.reps : ''}" placeholder="Reps"></td>
             <td><input type="number" class="form-control rounded-3 weight-input" min="0" step="0.5" value="${data ? data.weight : ''}" placeholder="lbs"></td>
@@ -220,10 +222,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Auto-fill muscle group
         const select = tr.querySelector(".exercise-select");
+        // console.log("Autoset select is: ", select);
         const muscleInput = tr.querySelector(".muscle-input");
+        // console.log("Autoset muscleInput is: ", muscleInput);
         select.addEventListener("change", (e) => {
             const selected = e.target.selectedOptions[0];
+            // console.log("Autoset interior selected: ", selected);
             muscleInput.value = selected.dataset.muscle || "";
+            // console.log("Autoset interior selected dataset && muscleInput.value: ", selected.dataset, muscleInput);
             markAsChanged();
         });
 
@@ -245,9 +251,9 @@ document.addEventListener("DOMContentLoaded", () => {
     function createCardioRow(data = null) {
         const tr = document.createElement("tr");
 
-        const cardioActivities = workoutData.exercises.filter(ex => getExerciseGroup(ex.exerciseID) == "Speed" || getExerciseGroup(ex.exerciseID) == "Endurance");
+        const cardioActivities = availableExercises.filter(ex => ex.muscleGroup == "Speed" || ex.muscleGroup == "Endurance");
         const cardioOptions = cardioActivities
-            .map(activity => `<option value="${getExerciseName(activity.exerciseID)}" ${data && data.exercise === activity ? 'selected' : ''}>${getExerciseName(activity.exerciseID)}</option>`)
+            .map(activity => `<option value="${activity.name}" ${data && getExerciseName(data.exerciseID) === activity.name ? 'selected' : ''}>${activity.name}</option>`)
             .join("");
 
         tr.innerHTML = `
@@ -257,7 +263,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     ${cardioOptions}
                 </select>
             </td>
-            <td><input type="number" class="form-control rounded-3 duration-input" min="1" value="${data ? data.duration : ''}" placeholder="Minutes"></td>
+            <td><input type="number" class="form-control rounded-3 duration-input" min="1" value="${data ? data.time : ''}" placeholder="Minutes"></td>
             <td><input type="number" class="form-control rounded-3 distance-input" min="0" step="0.1" value="${data ? (data.distance || '') : ''}" placeholder="mi"></td>
             <td>
                 <button type="button" class="btn btn-sm btn-outline-danger remove-btn">
