@@ -28,7 +28,7 @@ namespace ProjectMaVe.Pages.Workouts
             return Page();
         }
 
-        public async Task<IActionResult> OnPostDeleteAsync(int id)
+        public async Task<IActionResult> OnPostDelete(int id)
         {
             // Delete workout from database
             var result = await _workoutService.DeleteWorkoutAsync(id);

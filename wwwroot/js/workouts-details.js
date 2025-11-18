@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Fallback to 1 for testing
         if (!workoutId || isNaN(workoutId)) {
             console.warn("Invalid workout ID in URL, defaulting to 1 for testing");
-            workoutId = 1;
+            return;
         }
         
         fetchExercisesFromDB();
@@ -128,7 +128,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function confirmDelete() {
         try {
-            // TODO: Replace with actual API call
+            const response = await fetch(`/Workouts/Details/${workoutId}?handler=Delete`, {
+                method: 'POST',
+            });
 
             showSuccess("Workout deleted successfully!");
             setTimeout(() => window.location.href = "/Workouts", 1500);
