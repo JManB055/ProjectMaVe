@@ -13,11 +13,13 @@ const templateContainer = document.querySelector('.template_container'); templat
 const container = document.querySelector('.dashboard_container');
 const editSaveBtn = document.getElementById('editSaveBtn');
 var deleteBtns;
+var specialItems;
 var addBtns;
 var widgets = [];
 var draggies = [];
 var draggable = true;
 var workoutList;
+var graphs = [];
 
 //getWorkoutInfo();
 
@@ -35,6 +37,7 @@ var workoutList;
 document.addEventListener("DOMContentLoaded", async function(){
     await getWidgets();
 });
+
 /*
 *   Adds EventListener for the delete button. On Click:
 *       1) Save current widget positions
@@ -61,14 +64,15 @@ container.addEventListener('click', (event) => {
 /*
 *   Function to render widgets in HTML
 *       1) Initialize string variable to store HTML code (for formatting)
-*       2) Write HTML code to 'htmlString' based on widget metadata
+*       2) Write HTML code to 'htmlString' based on widget metadata (Contains large switch statement)
 *       3) Set the HTML code of 'container'
 *       4) Save all delete buttons
 *
 *   And initialize Draggabilly objects
-*       4) Get all qualifying objects from the HTML as 'elements'
-*       5) Add all 'elements' to 'draggies' as Draggabilly objects
-*       6) Set the widget positions
+*       5) Get all qualifying objects from the HTML as 'elements'
+*       6) Add all 'elements' to 'draggies' as Draggabilly objects
+*       7) Set the widget positions
+*       8) Display graphs in widgets when applicable
 */
 async function renderWidgets() {
     // Initialize string variable to store HTML code
@@ -76,10 +80,10 @@ async function renderWidgets() {
 
     // Write HTML code to 'htmlString' based on widget metadata (in 'widgets' array)
     let data = await getWorkoutInfo()
+    //let data = await getWorkouts();
     workoutList = data.workouts;
 
     let todayDate = new Date();
-    let graphs = [];
 
     for (var i = 0; i < widgets.length; i++) {
         switch (widgets[i].type) {
@@ -103,8 +107,11 @@ async function renderWidgets() {
                     let dateFormatted = workoutList[j].date.replaceAll("-", "/");
                     let workoutDate = new Date(dateFormatted);
                     if (todayDate.toDateString() != workoutDate.toDateString()) continue;
-                    for (let k = 0; k < workoutList[j].strengthExercises.length; k++) {
-                        let exercise = workoutList[j].strengthExercises[k];
+                    for (let k = 0; k < workoutList[j].exercises.length; k++) {
+                        let exercise = workoutList[j].exercises[k];
+                        if (exercise.muscleGroup == "Endurance") {
+                            continue;
+                        }
                         htmlString += '<tr><td>' + exercise.activity + '</td><td>' + exercise.sets + '</td><td>' + exercise.reps + '</td><td>' + exercise.weight + ' lbs</td></tr>';
                     }
                 }
@@ -123,8 +130,11 @@ async function renderWidgets() {
                     let dateFormatted = workoutList[j].date.replaceAll("-", "/");
                     let workoutDate = new Date(dateFormatted);
                     if (todayDate.toDateString() != workoutDate.toDateString()) continue;
-                    for (let k = 0; k < workoutList[j].cardioExercises.length; k++) {
-                        let exercise = workoutList[j].cardioExercises[k];
+                    for (let k = 0; k < workoutList[j].exercises.length; k++) {
+                        let exercise = workoutList[j].exercises[k];
+                        if (exercise.muscleGroup != "Endurance") {
+                            continue;
+                        }
                         htmlString += '<tr><td>' + exercise.activity + "</td><td>" + exercise.distance + ' km</td><td>' + exercise.time + ' mins.</td></tr>';
                     }
                 }
@@ -143,8 +153,11 @@ async function renderWidgets() {
                     let dateFormatted = workoutList[j].date.replaceAll("-", "/");
                     let workoutDate = new Date(dateFormatted);
                     if (todayDate.toDateString() != workoutDate.toDateString()) continue;
-                    for (let k = 0; k < workoutList[j].strengthExercises.length; k++) {
-                        let exercise = workoutList[j].strengthExercises[k];
+                    for (let k = 0; k < workoutList[j].exercises.length; k++) {
+                        let exercise = workoutList[j].exercises[k];
+                        if (exercise.muscleGroup == "Endurance") {
+                            continue;
+                        }
                         htmlString += '<tr><td>' + exercise.activity + '</td><td>' + exercise.sets + '</td><td>' + exercise.reps + '</td><td>' + exercise.weight + ' lbs</td></tr>';
                     }
                 }
@@ -155,8 +168,11 @@ async function renderWidgets() {
                     let dateFormatted = workoutList[j].date.replaceAll("-", "/");
                     let workoutDate = new Date(dateFormatted);
                     if (todayDate.toDateString() != workoutDate.toDateString()) continue;
-                    for (let k = 0; k < workoutList[j].cardioExercises.length; k++) {
-                        let exercise = workoutList[j].cardioExercises[k];
+                    for (let k = 0; k < workoutList[j].exercises.length; k++) {
+                        let exercise = workoutList[j].exercises[k];
+                        if (exercise.muscleGroup != "Endurance") {
+                            continue;
+                        }
                         htmlString += '<tr><td>' + exercise.activity + "</td><td>" + exercise.distance + ' km</td><td>' + exercise.time + ' mins.</td></tr>';
                     }
                 }
@@ -176,8 +192,11 @@ async function renderWidgets() {
                     let dateFormatted = workoutList[j].date.replaceAll("-", "/");
                     let workoutDate = new Date(dateFormatted);
                     if (todayDate.toDateString() != workoutDate.toDateString()) continue;
-                    for (let k = 0; k < workoutList[j].strengthExercises.length; k++) {
-                        let exercise = workoutList[j].strengthExercises[k];
+                    for (let k = 0; k < workoutList[j].exercises.length; k++) {
+                        let exercise = workoutList[j].exercises[k];
+                        if (exercise.muscleGroup == "Endurance") {
+                            continue;
+                        }
                         htmlString += '<tr><td>' + exercise.activity + '</td><td>' + exercise.sets + '</td><td>' + exercise.reps + '</td><td>' + exercise.weight + ' lbs</td></tr>';
                     }
                 }
@@ -188,8 +207,11 @@ async function renderWidgets() {
                     let dateFormatted = workoutList[j].date.replaceAll("-", "/");
                     let workoutDate = new Date(dateFormatted);
                     if (todayDate.toDateString() != workoutDate.toDateString()) continue;
-                    for (let k = 0; k < workoutList[j].cardioExercises.length; k++) {
-                        let exercise = workoutList[j].cardioExercises[k];
+                    for (let k = 0; k < workoutList[j].exercises.length; k++) {
+                        let exercise = workoutList[j].exercises[k];
+                        if (exercise.muscleGroup != "Endurance") {
+                            continue;
+                        }
                         htmlString += '<tr><td>' + exercise.activity + "</td><td>" + exercise.distance + ' km</td><td>' + exercise.time + ' mins.</td></tr>';
                     }
                 }
@@ -198,9 +220,13 @@ async function renderWidgets() {
 
                 break;
 
-            case "Strength History":
+            case "Weight History":
                 htmlString += '<div class="widget widget_card size-' + widgets[i].w + 'x' + widgets[i].h + '"> <div class="widget-header">' +
                     '<h3 class="widget-title urbanist-bold">Strength History</h3>' +
+                    '<select class="form-select rounded-3" id="muscleGroupFilter" style="width: 8em;"><option value="All Weight">All</option>' +
+                    '<option value="Chest">Chest</option><option value="Shoulders">Shoulders</option>' +
+                    '<option value="Arms">Arms</option><option value="Back">Back</option><option value="Legs">Legs</option><option value="Core">Core</option>' +
+                    '<option value="Speed">Speed</option></select > ' +
                     '<button class="delete-btn delete-btn-color btn" data-index="' + i + '"><i class="fa-solid fa-x"></i></button>' +
                     '</div> <div class="widget-content"> <div id="graph-' + i + '" style="width:100%;height:100%;">' +
                     '</div ></div ></div > ';
@@ -208,8 +234,12 @@ async function renderWidgets() {
                 let gData = [];
                 
                 for (let j = 0; j < workoutList.length; j++) {
-                    for (let k = 0; k < workoutList[j].strengthExercises.length; k++) {
-                        let exercise = workoutList[j].strengthExercises[k];
+                    for (let k = 0; k < workoutList[j].exercises.length; k++) {
+                        let exercise = workoutList[j].exercises[k];
+
+                        if (exercise.weight == 0 || exercise.weight == null) {
+                            continue;
+                        }
 
                         gIndex = gData.findIndex(checkName);
                         function checkName(value, index, array) {
@@ -227,9 +257,27 @@ async function renderWidgets() {
                     }
                 }
 
+                let gLayout = {
+                    title: {
+                        text: 'All Weight Workouts'
+                    },
+                    xaxis: {
+                        title: {
+                            text: 'Weight (kg)'
+                        }
+                    },
+                    yaxis: {
+                        title: {
+                            text: 'Date'
+                        }
+                    }
+                }
+
                 graphs.push({
                     graphIndex: i,
-                    graphData: gData});
+                    graphData: gData,
+                    graphLayout: gLayout
+                });
 
                 break;
             default:
@@ -240,7 +288,6 @@ async function renderWidgets() {
                     '<p class="urbanist-medium small">Widget Not Found</p> </div></div></div>';
         }
 
-        // TODO: Implement different widget types
         /*htmlString += '<div class="widget widget_card size-' + widgets[i].w + 'x' + widgets[i].h + '">' +
             '<button class="delete-btn" data-index="' + i + '">X</button>' +
             '<p>Drag Me Around!</p></div>';*/
@@ -259,6 +306,8 @@ async function renderWidgets() {
 
     // Get all qualigying delete buttons and save to deleteBtns
     deleteBtns = document.querySelectorAll(".delete-btn", {});
+
+    specialItems = document.querySelectorAll(".special-item", {});
 
     // Get all qualifying objects from the HTML as 'elements'
     let elements = document.querySelectorAll('.widget', {});
@@ -282,8 +331,9 @@ async function renderWidgets() {
         draggies[i].setPosition(x, y);
     }
 
+    // Display graphs in widgets when applicable
     for (let i = 0; i < graphs.length; i++) {
-        Plotly.newPlot(('graph-' + graphs[i].graphIndex), graphs[i].graphData);
+        Plotly.newPlot(('graph-' + graphs[i].graphIndex), graphs[i].graphData, graphs[i].graphLayout);
     }
 }
 
@@ -339,6 +389,10 @@ function toggleDraggble() {
     // Hide/Show Delete Buttons based on draggable status
     for (let i = 0; i < deleteBtns.length; i++) {
         deleteBtns[i].hidden = draggable;
+    }
+
+    for (let i = 0; i < specialItems.length; i++) {
+        specialItems[i].hidden = draggable;
     }
 
     // Toggle draggable state
@@ -428,76 +482,277 @@ async function saveWidgets() {
     }
 }
 
-//Function that returns workouts
+// Function that returns hard coded workouts for testing
 async function getWorkouts() {
     return {
-        workouts: [
+        "workouts": [
             {
-                date: "2025-11-08",
-                strengthExercises: [
-                    { activity: "Squat", sets: 2, reps: 10, weight: 45 },
-                    { activity: "Bench Press", sets: 20, reps: 100, weight: 40 }
-                ],
-                cardioExercises: [
-                    { activity: "Running", time: 20, distance: 1.5 }
+                "date": "2025-10-25",
+                "exercises": [
+                    { "activity": "Bench Press", "muscleGroup": "Chest", "sets": 3, "reps": 8, "weight": 100, "distance": null, "time": null },
+                    { "activity": "Shoulder Press", "muscleGroup": "Shoulders", "sets": 3, "reps": 10, "weight": 50, "distance": null, "time": null },
+                    { "activity": "Triceps Extensions", "muscleGroup": "Arms", "sets": 3, "reps": 12, "weight": 30, "distance": null, "time": null },
+                    { "activity": "Running", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 20, "distance": 2 },
+                    { "activity": "Cycling", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 30, "distance": 5 },
+                    { "activity": "Stair Climber", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 10, "distance": null }
                 ]
             },
             {
-                date: "2025-11-10",
-                strengthExercises: [
-                    { activity: "Squat", sets: 2, reps: 10, weight: 45 },
-                    { activity: "Bench Press", sets: 20, reps: 100, weight: 40 }
-                ],
-                cardioExercises: [
-                    { activity: "Running", time: 20, distance: 1.5 }
+                "date": "2025-10-26",
+                "exercises": [
+                    { "activity": "Pull-up", "muscleGroup": "Back", "sets": 3, "reps": 5, "weight": 0, "distance": null, "time": null },
+                    { "activity": "Row", "muscleGroup": "Back", "sets": 3, "reps": 10, "weight": 80, "distance": null, "time": null },
+                    { "activity": "Curl", "muscleGroup": "Arms", "sets": 3, "reps": 12, "weight": 20, "distance": null, "time": null },
+                    { "activity": "Row Machine", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 15, "distance": 2000 },
+                    { "activity": "800m Sprint", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 3, "distance": 0.5 },
+                    { "activity": "Running", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 10, "distance": 1 }
                 ]
             },
             {
-                date: "2025-11-13",
-                strengthExercises: [
-                    { activity: "Squat", sets: 2, reps: 10, weight: 45 },
-                    { activity: "Bench Press", sets: 20, reps: 100, weight: 45 }
-                ],
-                cardioExercises: [
-                    { activity: "Running", time: 20, distance: 1.5 }
+                "date": "2025-10-27",
+                "exercises": [
+                    { "activity": "Squat", "muscleGroup": "Legs", "sets": 3, "reps": 8, "weight": 135, "distance": null, "time": null },
+                    { "activity": "Romanian Deadlift", "muscleGroup": "Legs", "sets": 3, "reps": 10, "weight": 95, "distance": null, "time": null },
+                    { "activity": "Calf Raises", "muscleGroup": "Legs", "sets": 3, "reps": 15, "weight": 50, "distance": null, "time": null },
+                    { "activity": "Cycling", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 35, "distance": 6 },
+                    { "activity": "Stair Climber", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 12, "distance": null },
+                    { "activity": "Row Machine", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 10, "distance": 1500 }
                 ]
             },
             {
-                date: "2025-11-14",
-                strengthExercises: [
-                    { activity: "Squat", sets: 3, reps: 11, weight: 46 },
-                    { activity: "Bench Press", sets: 3, reps: 10, weight: 50 }
-                ],
-                cardioExercises: [
-                    { activity: "Running", time: 21, distance: 1.6 }
+                "date": "2025-10-28",
+                "exercises": [
+                    { "activity": "Deadlift", "muscleGroup": "Back", "sets": 3, "reps": 5, "weight": 155, "distance": null, "time": null },
+                    { "activity": "Push-up", "muscleGroup": "Chest", "sets": 3, "reps": 15, "weight": 0, "distance": null, "time": null },
+                    { "activity": "Sit-up", "muscleGroup": "Core", "sets": 3, "reps": 20, "weight": 0, "distance": null, "time": null },
+                    { "activity": "Running", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 22, "distance": 2.2 },
+                    { "activity": "800m Sprint", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 2.9, "distance": 0.5 },
+                    { "activity": "Cycling", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 30, "distance": 5.5 }
                 ]
             },
             {
-                date: "2025-11-15",
-                strengthExercises: [
-                    { activity: "Squat", sets: 3, reps: 11, weight: 46 },
-                    { activity: "Bench Press", sets: 3, reps: 11, weight: 51 }
-                ],
-                cardioExercises: [
-                    { activity: "Running", time: 21, distance: 1.6 }
+                "date": "2025-10-30",
+                "exercises": [
+                    { "activity": "Bench Press", "muscleGroup": "Chest", "sets": 3, "reps": 8, "weight": 105, "distance": null, "time": null },
+                    { "activity": "Shoulder Press", "muscleGroup": "Shoulders", "sets": 3, "reps": 10, "weight": 55, "distance": null, "time": null },
+                    { "activity": "Triceps Extensions", "muscleGroup": "Arms", "sets": 3, "reps": 12, "weight": 35, "distance": null, "time": null },
+                    { "activity": "Running", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 21, "distance": 2.1 },
+                    { "activity": "Cycling", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 30, "distance": 5.2 },
+                    { "activity": "Stair Climber", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 11, "distance": null }
                 ]
             },
             {
-                date: "2025-11-17",
-                strengthExercises: [
-                    { activity: "Squat", sets: 3, reps: 11, weight: 46 },
-                    { activity: "Bench Press", sets: 3, reps: 11, weight: 56 }
-                ],
-                cardioExercises: [
-                    { activity: "Running", time: 21, distance: 1.6 }
+                "date": "2025-10-31",
+                "exercises": [
+                    { "activity": "Pull-up", "muscleGroup": "Back", "sets": 3, "reps": 6, "weight": 0, "distance": null, "time": null },
+                    { "activity": "Row", "muscleGroup": "Back", "sets": 3, "reps": 10, "weight": 85, "distance": null, "time": null },
+                    { "activity": "Curl", "muscleGroup": "Arms", "sets": 3, "reps": 12, "weight": 25, "distance": null, "time": null },
+                    { "activity": "Row Machine", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 15, "distance": 2100 },
+                    { "activity": "800m Sprint", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 2.9, "distance": 0.5 },
+                    { "activity": "Running", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 11, "distance": 1.1 }
+                ]
+            },
+            {
+                "date": "2025-11-01",
+                "exercises": [
+                    { "activity": "Squat", "muscleGroup": "Legs", "sets": 3, "reps": 8, "weight": 140, "distance": null, "time": null },
+                    { "activity": "Romanian Deadlift", "muscleGroup": "Legs", "sets": 3, "reps": 10, "weight": 100, "distance": null, "time": null },
+                    { "activity": "Calf Raises", "muscleGroup": "Legs", "sets": 3, "reps": 15, "weight": 55, "distance": null, "time": null },
+                    { "activity": "Cycling", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 36, "distance": 6.2 },
+                    { "activity": "Stair Climber", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 13, "distance": null },
+                    { "activity": "Row Machine", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 11, "distance": 1600 }
+                ]
+            },
+            {
+                "date": "2025-11-02",
+                "exercises": [
+                    { "activity": "Deadlift", "muscleGroup": "Back", "sets": 3, "reps": 5, "weight": 160, "distance": null, "time": null },
+                    { "activity": "Push-up", "muscleGroup": "Chest", "sets": 3, "reps": 16, "weight": 0, "distance": null, "time": null },
+                    { "activity": "Sit-up", "muscleGroup": "Core", "sets": 3, "reps": 22, "weight": 0, "distance": null, "time": null },
+                    { "activity": "Running", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 23, "distance": 2.3 },
+                    { "activity": "800m Sprint", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 2.8, "distance": 0.5 },
+                    { "activity": "Cycling", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 31, "distance": 5.7 }
+                ]
+            },
+            {
+                "date": "2025-11-04",
+                "exercises": [
+                    { "activity": "Bench Press", "muscleGroup": "Chest", "sets": 3, "reps": 8, "weight": 110, "distance": null, "time": null },
+                    { "activity": "Incline Bench Press", "muscleGroup": "Chest", "sets": 3, "reps": 10, "weight": 75, "distance": null, "time": null },
+                    { "activity": "Lateral Raises", "muscleGroup": "Shoulders", "sets": 3, "reps": 12, "weight": 15, "distance": null, "time": null },
+                    { "activity": "Running", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 22, "distance": 2.2 },
+                    { "activity": "Cycling", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 31, "distance": 5.5 },
+                    { "activity": "Stair Climber", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 12, "distance": null }
+                ]
+            },
+            {
+                "date": "2025-11-05",
+                "exercises": [
+                    { "activity": "Deadlift", "muscleGroup": "Back", "sets": 3, "reps": 5, "weight": 165, "distance": null, "time": null },
+                    { "activity": "Pull-up", "muscleGroup": "Back", "sets": 3, "reps": 7, "weight": 0, "distance": null, "time": null },
+                    { "activity": "Hammer Curl", "muscleGroup": "Arms", "sets": 3, "reps": 10, "weight": 25, "distance": null, "time": null },
+                    { "activity": "Row Machine", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 16, "distance": 2200 },
+                    { "activity": "800m Sprint", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 2.8, "distance": 0.5 },
+                    { "activity": "Running", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 12, "distance": 1.2 }
+                ]
+            },
+            {
+                "date": "2025-11-06",
+                "exercises": [
+                    { "activity": "Squat", "muscleGroup": "Legs", "sets": 3, "reps": 8, "weight": 145, "distance": null, "time": null },
+                    { "activity": "Split Squat", "muscleGroup": "Legs", "sets": 3, "reps": 10, "weight": 30, "distance": null, "time": null },
+                    { "activity": "Hamstring Curl", "muscleGroup": "Legs", "sets": 3, "reps": 12, "weight": 60, "distance": null, "time": null },
+                    { "activity": "Cycling", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 37, "distance": 6.5 },
+                    { "activity": "Stair Climber", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 14, "distance": null },
+                    { "activity": "Row Machine", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 12, "distance": 1700 }
+                ]
+            },
+            {
+                "date": "2025-11-07",
+                "exercises": [
+                    { "activity": "Row", "muscleGroup": "Back", "sets": 3, "reps": 10, "weight": 90, "distance": null, "time": null },
+                    { "activity": "Shoulder Press", "muscleGroup": "Shoulders", "sets": 3, "reps": 10, "weight": 60, "distance": null, "time": null },
+                    { "activity": "Plank", "muscleGroup": "Core", "sets": 3, "reps": 60, "weight": 0, "distance": null, "time": null },
+                    { "activity": "Running", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 24, "distance": 2.4 },
+                    { "activity": "800m Sprint", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 2.7, "distance": 0.5 },
+                    { "activity": "Cycling", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 32, "distance": 6 }
+                ]
+            },
+            {
+                "date": "2025-11-09",
+                "exercises": [
+                    { "activity": "Bench Press", "muscleGroup": "Chest", "sets": 3, "reps": 8, "weight": 115, "distance": null, "time": null },
+                    { "activity": "Push-up", "muscleGroup": "Chest", "sets": 3, "reps": 20, "weight": 0, "distance": null, "time": null },
+                    { "activity": "Triceps Extensions", "muscleGroup": "Arms", "sets": 3, "reps": 12, "weight": 40, "distance": null, "time": null },
+                    { "activity": "Running", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 23, "distance": 2.3 },
+                    { "activity": "Cycling", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 32, "distance": 5.7 },
+                    { "activity": "Stair Climber", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 13, "distance": null }
+                ]
+            },
+            {
+                "date": "2025-11-10",
+                "exercises": [
+                    { "activity": "Pull-up", "muscleGroup": "Back", "sets": 3, "reps": 8, "weight": 0, "distance": null, "time": null },
+                    { "activity": "Row", "muscleGroup": "Back", "sets": 3, "reps": 10, "weight": 95, "distance": null, "time": null },
+                    { "activity": "Curl", "muscleGroup": "Arms", "sets": 3, "reps": 12, "weight": 30, "distance": null, "time": null },
+                    { "activity": "Row Machine", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 16, "distance": 2300 },
+                    { "activity": "800m Sprint", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 2.7, "distance": 0.5 },
+                    { "activity": "Running", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 13, "distance": 1.3 }
+                ]
+            },
+            {
+                "date": "2025-11-11",
+                "exercises": [
+                    { "activity": "Squat", "muscleGroup": "Legs", "sets": 3, "reps": 8, "weight": 150, "distance": null, "time": null },
+                    { "activity": "Romanian Deadlift", "muscleGroup": "Legs", "sets": 3, "reps": 10, "weight": 105, "distance": null, "time": null },
+                    { "activity": "Quad Extension", "muscleGroup": "Legs", "sets": 3, "reps": 12, "weight": 70, "distance": null, "time": null },
+                    { "activity": "Cycling", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 38, "distance": 6.7 },
+                    { "activity": "Stair Climber", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 15, "distance": null },
+                    { "activity": "Row Machine", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 13, "distance": 1800 }
+                ]
+            },
+            {
+                "date": "2025-11-12",
+                "exercises": [
+                    { "activity": "Deadlift", "muscleGroup": "Back", "sets": 3, "reps": 5, "weight": 170, "distance": null, "time": null },
+                    { "activity": "Shoulder Press", "muscleGroup": "Shoulders", "sets": 3, "reps": 10, "weight": 65, "distance": null, "time": null },
+                    { "activity": "Leg Raises", "muscleGroup": "Core", "sets": 3, "reps": 15, "weight": 0, "distance": null, "time": null },
+                    { "activity": "Running", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 25, "distance": 2.5 },
+                    { "activity": "800m Sprint", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 2.6, "distance": 0.5 },
+                    { "activity": "Cycling", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 33, "distance": 6.2 }
+                ]
+            },
+            {
+                "date": "2025-11-14",
+                "exercises": [
+                    { "activity": "Bench Press", "muscleGroup": "Chest", "sets": 3, "reps": 8, "weight": 120, "distance": null, "time": null },
+                    { "activity": "Incline Bench Press", "muscleGroup": "Chest", "sets": 3, "reps": 10, "weight": 80, "distance": null, "time": null },
+                    { "activity": "Lateral Raises", "muscleGroup": "Shoulders", "sets": 3, "reps": 12, "weight": 20, "distance": null, "time": null },
+                    { "activity": "Running", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 24, "distance": 2.4 },
+                    { "activity": "Cycling", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 33, "distance": 6 },
+                    { "activity": "Stair Climber", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 14, "distance": null }
+                ]
+            },
+            {
+                "date": "2025-11-15",
+                "exercises": [
+                    { "activity": "Deadlift", "muscleGroup": "Back", "sets": 3, "reps": 5, "weight": 175, "distance": null, "time": null },
+                    { "activity": "Row", "muscleGroup": "Back", "sets": 3, "reps": 10, "weight": 100, "distance": null, "time": null },
+                    { "activity": "Hammer Curl", "muscleGroup": "Arms", "sets": 3, "reps": 10, "weight": 30, "distance": null, "time": null },
+                    { "activity": "Row Machine", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 17, "distance": 2400 },
+                    { "activity": "800m Sprint", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 2.6, "distance": 0.5 },
+                    { "activity": "Running", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 14, "distance": 1.4 }
+                ]
+            },
+            {
+                "date": "2025-11-16",
+                "exercises": [
+                    { "activity": "Squat", "muscleGroup": "Legs", "sets": 3, "reps": 8, "weight": 155, "distance": null, "time": null },
+                    { "activity": "Split Squat", "muscleGroup": "Legs", "sets": 3, "reps": 10, "weight": 35, "distance": null, "time": null },
+                    { "activity": "Hip Adduction", "muscleGroup": "Legs", "sets": 3, "reps": 15, "weight": 80, "distance": null, "time": null },
+                    { "activity": "Cycling", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 40, "distance": 7 },
+                    { "activity": "Stair Climber", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 16, "distance": null },
+                    { "activity": "Row Machine", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 14, "distance": 1900 }
+                ]
+            },
+            {
+                "date": "2025-11-17",
+                "exercises": [
+                    { "activity": "Shoulder Press", "muscleGroup": "Shoulders", "sets": 3, "reps": 10, "weight": 70, "distance": null, "time": null },
+                    { "activity": "Pull-up", "muscleGroup": "Back", "sets": 3, "reps": 8, "weight": 0, "distance": null, "time": null },
+                    { "activity": "Side Plank", "muscleGroup": "Core", "sets": 3, "reps": 60, "weight": 0, "distance": null, "time": null },
+                    { "activity": "Running", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 26, "distance": 2.6 },
+                    { "activity": "800m Sprint", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 2.5, "distance": 0.5 },
+                    { "activity": "Cycling", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 35, "distance": 6.5 }
+                ]
+            },
+            {
+                "date": "2025-11-18",
+                "exercises": [
+                    { "activity": "Bench Press", "muscleGroup": "Chest", "sets": 3, "reps": 8, "weight": 125, "distance": null, "time": null },
+                    { "activity": "Shoulder Press", "muscleGroup": "Shoulders", "sets": 3, "reps": 10, "weight": 70, "distance": null, "time": null },
+                    { "activity": "Triceps Extensions", "muscleGroup": "Arms", "sets": 3, "reps": 12, "weight": 45, "distance": null, "time": null },
+                    { "activity": "Running", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 25, "distance": 2.5 },
+                    { "activity": "Cycling", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 34, "distance": 6.2 },
+                    { "activity": "Stair Climber", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 15, "distance": null }
+                ]
+            },
+            {
+                "date": "2025-11-19",
+                "exercises": [
+                    { "activity": "Pull-up", "muscleGroup": "Back", "sets": 3, "reps": 9, "weight": 0, "distance": null, "time": null },
+                    { "activity": "Row", "muscleGroup": "Back", "sets": 3, "reps": 10, "weight": 105, "distance": null, "time": null },
+                    { "activity": "Curl", "muscleGroup": "Arms", "sets": 3, "reps": 12, "weight": 35, "distance": null, "time": null },
+                    { "activity": "Row Machine", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 17, "distance": 2500 },
+                    { "activity": "800m Sprint", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 2.5, "distance": 0.5 },
+                    { "activity": "Running", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 15, "distance": 1.5 }
+                ]
+            },
+            {
+                "date": "2025-11-20",
+                "exercises": [
+                    { "activity": "Squat", "muscleGroup": "Legs", "sets": 3, "reps": 8, "weight": 160, "distance": null, "time": null },
+                    { "activity": "Romanian Deadlift", "muscleGroup": "Legs", "sets": 3, "reps": 10, "weight": 110, "distance": null, "time": null },
+                    { "activity": "Calf Raises", "muscleGroup": "Legs", "sets": 3, "reps": 15, "weight": 60, "distance": null, "time": null },
+                    { "activity": "Cycling", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 41, "distance": 7.2 },
+                    { "activity": "Stair Climber", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 17, "distance": null },
+                    { "activity": "Row Machine", "muscleGroup": "Endurance", "sets": null, "reps": null, "weight": null, "time": 15, "distance": 2000 }
                 ]
             }
-    ]}
+        ]
+    }
 }
 
+/*
+*   Function to get workout data from the database, returns an array
+*   1) Call page handler to get workout data from the database
+*   2) If success, log success, then format the output for widgets
+*   3) Else, Send warning to console
+*   4) In case of error, throw error to console
+*/
 async function getWorkoutInfo(){
     try {
-        // Get widgets from te database in JSON format
+        // Get workouts from te database in JSON format
         const response = await fetch(`/Dashboard?handler=WorkoutInfo`, {
             method: 'GET',
             headers: {
@@ -510,7 +765,6 @@ async function getWorkoutInfo(){
         if (result.success) {
             console.log('Workouts loaded successfully:', result.workouts);
             console.log('Exercises:', result.workouts[0].exercises)
-            // workoutList = result.workouts; // Replace current workoutList array
 
             let exerciseList = await getExerciseList();
             let workoutsFormatted = [];
@@ -518,37 +772,22 @@ async function getWorkoutInfo(){
             for (let i = 0; i < result.workouts.length; i++) {
                 let tempWorkout = {
                     date: result.workouts[i].workoutDate,
-                    strengthExercises: [],
-                    cardioExercises: []
+                    exercises: []
                 };
 
                 for (let j = 0; j < result.workouts[i].exercises.length; j++) {
                     let tempExercise = result.workouts[i].exercises[j];
-                    if (tempExercise.distance == null) {
-                        // Strength Exercise
-                        if (tempExercise.weight == null) {
-                            tempExercise.weight = 0;
-                        }
-                        tempWorkout.strengthExercises.push(
-                            {
-                                activity: exerciseList[tempExercise.exerciseID - 1].name,
-                                muscleGroup: exerciseList[tempExercise.exerciseID - 1].muscleGroup,
-                                sets: tempExercise.sets,
-                                reps: tempExercise.reps,
-                                weight: tempExercise.weight
-                            }
-                        );
-                    }
-                    else {
-                        tempWorkout.cardioExercises.push(
-                            {
-                                activity: exerciseList[tempExercise.exerciseID - 1].name,
-                                muscleGroup: exerciseList[tempExercise.exerciseID - 1].muscleGroup,
-                                time: tempExercise.time,
-                                distance: tempExercise.distance
-                            }
-                        );
-                    }
+
+                    tempWorkout.exercises.push(
+                        {
+                            activity: exerciseList[tempExercise.exerciseID - 1].name,
+                            muscleGroup: exerciseList[tempExercise.exerciseID - 1].muscleGroup,
+                            sets: tempExercise.sets,
+                            reps: tempExercise.reps,
+                            weight: tempExercise.weight,
+                            time: tempExercise.time,
+                            distance: tempExercise.distance
+                        });
                 }
 
                 workoutsFormatted.push(tempWorkout);
@@ -567,8 +806,17 @@ async function getWorkoutInfo(){
     }
 }
 
+
+/*
+*   Function to get list of possible exercise names and muscle groups
+*   1) Calls the page handler and awaits for JSON response
+*   2) If success, then return the list of exercises
+*   3) Else, send warning to console
+*   4) In case of error, throw error to console
+*/
 async function getExerciseList() {
     try {
+        // Calls the page handler and awaits for JSON response
         const response = await fetch(`/Dashboard?handler=ExerciseInfo`, {
             method: 'GET',
             headers: {
@@ -576,15 +824,19 @@ async function getExerciseList() {
             }
         });
         const result = await response.json();
+
+        // If success, then return the list of exercises
         if (result.success) {
             console.log('Exercise List loaded successfully:', result.exercises);
             return result.exercises;
         }
+        // Else, send warning to console
         else {
             console.warn('Failed to load exercises:', result.message);
             return [];
         }
     } catch (error) {
+        // In case of error, throw error to console
         console.error('Error loading exercises: ', error);
         return [];
     }
