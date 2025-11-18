@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using ProjectMaVe.Interfaces;
 using ProjectMaVe.Models;
 
@@ -37,7 +38,7 @@ namespace ProjectMaVe.Pages.Workouts
             return RedirectToPage("/Workouts/Index");
         }
 
-        public async Task<JsonResult> OnPostSaveWorkoutExercises([FromBody] SaveWorkoutRequest? request)
+        public async Task<JsonResult> OnPostSaveWorkoutExercises([FromBody] DetailsWorkoutRequest? request)
         {
             if (request?.Exercises == null)
             {
@@ -55,6 +56,9 @@ namespace ProjectMaVe.Pages.Workouts
                 if (uid <= 0)
                     return new JsonResult(new { success = false, message = "Invalid user ID" });
 
+                
+                // -------- Save Workout ---------
+
                 // Translate Workout JSON to Model
                 Workout inputWorkout = new Workout();
                 inputWorkout.UserID = uid;
@@ -65,7 +69,28 @@ namespace ProjectMaVe.Pages.Workouts
                 // Save workout to database
                 bool workoutId = await _workoutService.UpdateWorkoutAsync(wid, inputWorkout);
                 if(!workoutId)
-                    return new JsonResult(new { success = false, message = "Error with saving new workout object" });
+                    return new JsonResult(new { success = false, message = "Error with saving workout object" });
+
+
+                // -------- Save WorkoutExercises ---------
+                
+                // For each item in request.Exercises...
+                foreach(var ex in request.Exercises) {
+                    var currentExercise = new WorkoutExercise();  // Create new instance of WorkoutExercise model
+                    
+                    // Copy all attributes in to new instance
+                    currentExercise.ExerciseID = ex.ExerciseID;
+                    currentExercise.Sets = ex.Sets;
+                    currentExercise.Reps = ex.Reps;
+                    currentExercise.Weight = ex.Weight;
+                    currentExercise.Distance = ex.Distance;
+                    currentExercise.Time = ex.Duration;         // The fields are named differently, this is not a typo
+
+                    // Send data to db with error checking
+                    bool success = await _workoutExerciseService.UpdateWorkoutExerciseAsync(ex.WorkoutExerciseID, currentExercise);
+                    if(!success) return new JsonResult(new { success = false, message = "Error saving workoutExercise" });
+                }
+
 
                 return new JsonResult(new
                 {
@@ -157,5 +182,23 @@ namespace ProjectMaVe.Pages.Workouts
                 return new JsonResult(new { success = false, message = ex.Message });
             }
         }
+    }
+
+    public class DetailsWorkoutRequest{
+        public int? WorkoutID { get; set; } 
+        public string WorkoutDate { get; set; } = string.Empty;
+        public List<DetailsExerciseData> Exercises { get; set; } = new();
+    }
+
+    public class DetailsExerciseData{
+        public int WorkoutExerciseID { get; set; }
+        public int ExerciseID { get; set; }
+        public string ExerciseName { get; set; } = string.Empty;
+        public string MuscleGroup { get; set; } = string.Empty;
+        public int? Sets { get; set; }
+        public int? Reps { get; set; }
+        public decimal? Weight { get; set; }
+        public int? Duration { get; set; }
+        public decimal? Distance { get; set; }
     }
 }

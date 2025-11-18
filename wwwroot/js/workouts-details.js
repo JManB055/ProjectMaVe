@@ -197,6 +197,8 @@ document.addEventListener("DOMContentLoaded", () => {
     function createStrengthRow(data = null) {
         const tr = document.createElement("tr");
 
+        tr.id = data.workoutExerciseID;  // Set the workoutExerciseID to the row ID so that the information can be saved to the right workoutExercise later
+
         const strengthExercises = availableExercises.filter(ex => ex.muscleGroup !== "Speed" && ex.muscleGroup !== "Endurance");
         const exerciseOptions = strengthExercises
             .map(ex => `<option value="${ex.name}" data-muscle="${ex.muscleGroup}" ${data && getExerciseName(data.exerciseID) === ex.name ? 'selected' : ''}>${ex.name}</option>`)
@@ -251,6 +253,8 @@ document.addEventListener("DOMContentLoaded", () => {
     function createCardioRow(data = null) {
         const tr = document.createElement("tr");
 
+        tr.id = data.workoutExerciseID;  // Set the workoutExerciseID to the row ID so that the information can be saved to the right workoutExercise later
+
         const cardioActivities = availableExercises.filter(ex => ex.muscleGroup == "Speed" || ex.muscleGroup == "Endurance");
         const cardioOptions = cardioActivities
             .map(activity => `<option value="${activity.name}" ${data && getExerciseName(data.exerciseID) === activity.name ? 'selected' : ''}>${activity.name}</option>`)
@@ -291,12 +295,19 @@ document.addEventListener("DOMContentLoaded", () => {
     function collectWorkoutData() {
         const exercises = [];
 
+        // Collect workout date
+        var workoutDateCollected = "2025-11-20"; // TODO get this dynamically
+
         // Strength
         strengthExerciseTableBody.querySelectorAll("tr").forEach(row => {
             const exercise = row.querySelector(".exercise-select").value;
+            const eid = getExerciseIDByName(exercise);
+            console.log("Current row: ", row);
             if (!exercise) return;
 
             exercises.push({
+                WorkoutExerciseID: row.id,
+                ExerciseID: eid,
                 ExerciseName: exercise,
                 MuscleGroup: row.querySelector(".muscle-input").value,
                 Sets: parseInt(row.querySelector(".sets-input").value) || null,
@@ -310,9 +321,13 @@ document.addEventListener("DOMContentLoaded", () => {
         // Cardio
         cardioTableBody.querySelectorAll("tr").forEach(row => {
             const activity = row.querySelector(".cardio-select").value;
+            const eid = getExerciseIDByName(activity);
+            console.log("Current row: ", row);
             if (!activity) return;
 
             exercises.push({
+                WorkoutExerciseID: row.id,
+                ExerciseID: eid,
                 ExerciseName: activity,
                 MuscleGroup: "Cardio",
                 Sets: null,
@@ -323,11 +338,15 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         });
 
-        return {
+        var payload = {
             WorkoutID: workoutId,
-            WorkoutDate: "2025-11-20", // TODO dynamically get this
+            WorkoutDate: workoutDateCollected,
             Exercises: exercises
         };
+
+        console.log("Returning payload for save: ", payload);
+
+        return payload;
     }
 
     // ===== HELPERS =====
@@ -370,6 +389,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const exercise = availableExercises.find(ex => ex.exerciseID === id);
         // console.log('Getting exercise group: ', exercise, exercise.muscleGroup);
         return exercise ? exercise.muscleGroup : null;
+    }
+
+    function getExerciseIDByName(name){
+        const exercise = availableExercises.find(ex => ex.name === name);
+        return exercise ? exercise.exerciseID : null;
     }
 
     function showSuccess(message) {
