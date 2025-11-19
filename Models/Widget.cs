@@ -3,7 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectMaVe.Models;
 
-
+/**
+ * <summary>
+ * Represents a widget on the user dashboard
+ * </summary>
+ * <remarks>
+ * Widgets contain various different features, such as recent workouts or statistic graphs
+ * </remarks>
+ */
 public class Widget
 {
     //default constructor
