@@ -198,10 +198,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     <td>
                         <ul class="mb-0 ps-3 urbanist-medium text-black small">
                             ${w.exercises.map(ex => {
-                                if (ex.muscleGroup === "Cardio") {
-                                    return `<li>${ex.exercise} - ${ex.duration || 0} min${ex.distance ? `, ${ex.distance} mi` : ""}</li>`;
+                                if (getExerciseGroup(ex.exerciseID) == "Speed" || getExerciseGroup(ex.exerciseID) == "Endurance") {
+                                    return `<li>${getExerciseName(ex.exerciseID)} - ${ex.time || 0} min${ex.distance ? `, ${ex.distance} mi` : ""}</li>`;
                                 } else {
-                                    return `<li>${ex.exercise} - ${ex.sets}×${ex.reps}${ex.weight ? ` @ ${ex.weight}lbs` : ""}</li>`;
+                                    return `<li>${getExerciseName(ex.exerciseID)} - ${ex.sets}×${ex.reps}${ex.weight ? ` @ ${ex.weight}lbs` : ""}</li>`;
                                 }
                             }).join("")}
                         </ul>
