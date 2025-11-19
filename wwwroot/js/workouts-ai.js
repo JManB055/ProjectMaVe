@@ -6,13 +6,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const aiPlanText = document.getElementById("aiPlanText");
     const actionButtons = document.getElementById("actionButtons");
     const regeneratePlanBtn = document.getElementById("regeneratePlanBtn");
-    const savePlanBtn = document.getElementById("savePlanBtn");
+    const exportImageBtn = document.getElementById("exportImageBtn");
 
     // ===== STATE =====
     let currentPlan = null;
     let userPreferences = null;
-
-    // ===== API FUNCTIONS =====
+    let userName = null; // Can be set from user profile if available
     async function generateAIPlan(formData) {
         const goal = document.getElementById("fitnessGoal")?.value.trim() || formData.fitnessGoal;
         const frequency = document.getElementById("workoutFrequency")?.value.trim() || formData.workoutFrequency;
@@ -113,18 +112,64 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    async function savePlanToDatabase(plan) {
+    // ===== IMAGE EXPORT FUNCTION =====
+    async function exportPlanAsImage() {
+        const exportCard = document.getElementById("exportablePlanCard");
+        if (!exportCard) {
+            showError("Unable to export plan. Please try again.");
+            return;
+        }
+
         try {
-            // TODO: Replace with actual API call
-            console.log("Saving plan to database:", plan);
-            showSuccess("Plan saved! You can now follow it from your workouts page.");
-            
-            setTimeout(() => {
-                window.location.href = "/Workouts";
-            }, 1500);
+            // Show loading state
+            const exportBtn = document.getElementById("exportImageBtn");
+            const originalText = exportBtn ? exportBtn.innerHTML : '';
+            if (exportBtn) {
+                exportBtn.disabled = true;
+                exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Generating Image...';
+            }
+
+            // Use html2canvas library (needs to be included in the page)
+            if (typeof html2canvas === 'undefined') {
+                throw new Error('html2canvas library not loaded');
+            }
+
+            const canvas = await html2canvas(exportCard, {
+                backgroundColor: '#ffffff',
+                scale: 2, // Higher quality
+                logging: false,
+                useCORS: true
+            });
+
+            // Convert to blob and download
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                const timestamp = new Date().toISOString().split('T')[0];
+                link.download = `FitSync-Workout-Plan-${timestamp}.png`;
+                link.href = url;
+                link.click();
+                URL.revokeObjectURL(url);
+
+                // Restore button
+                if (exportBtn) {
+                    exportBtn.disabled = false;
+                    exportBtn.innerHTML = originalText;
+                }
+
+                showSuccess("Plan exported successfully!");
+            });
+
         } catch (error) {
-            console.error("Error saving plan:", error);
-            showError("Failed to save plan. Please try again.");
+            console.error("Error exporting plan:", error);
+            showError("Failed to export plan as image. Please try again.");
+            
+            // Restore button
+            const exportBtn = document.getElementById("exportImageBtn");
+            if (exportBtn) {
+                exportBtn.disabled = false;
+                exportBtn.innerHTML = '<i class="fas fa-image me-2"></i>Export as Image';
+            }
         }
     }
 
@@ -234,6 +279,45 @@ document.addEventListener("DOMContentLoaded", () => {
         return `<${tag} class="${listClass}">\n${liItems}\n</${tag}>`;
     }
 
+    // ===== CREATE EXPORTABLE CARD =====
+    function createExportableCard(planHTML) {
+        const currentDate = new Date().toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+
+        return `
+            <div id="exportablePlanCard">
+                <div class="plan-header">
+                    <div class="logo">
+                        <i class="fas fa-dumbbell me-2"></i>FitSync
+                    </div>
+                    <div class="subtitle">Your Personalized Workout Plan</div>
+                </div>
+                
+                ${userName ? `
+                <div class="user-info">
+                    <div class="user-name">
+                        <i class="fas fa-user-circle me-2"></i>${userName}
+                    </div>
+                </div>
+                ` : ''}
+                
+                <div class="plan-content">
+                    ${planHTML}
+                </div>
+                
+                <div class="plan-footer">
+                    <div>Generated on ${currentDate}</div>
+                    <div class="mt-1">
+                        <i class="fas text-danger"></i> Made with FitSync AI
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
     // ===== FORM HANDLING =====
     async function handleFormSubmit(e) {
         if (e) e.preventDefault();
@@ -271,14 +355,17 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Calling generateAIPlan...");
             const planText = await generateAIPlan(formData);
             console.log("AI Plan received");
+            
+            currentPlan = planText;
 
             const renderedHTML = renderMarkdownToHTML(planText);
+            const exportableHTML = createExportableCard(renderedHTML);
 
             const outputElement = document.getElementById("aiPlanText");
             console.log("Output element found:", !!outputElement);
 
             if (outputElement) {
-                outputElement.innerHTML = renderedHTML;
+                outputElement.innerHTML = exportableHTML;
             } else {
                 console.error("aiPlanText element not found!");
             }
@@ -308,7 +395,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-
     // ===== HELPERS =====
     function showSuccess(message) {
         alert(message);
@@ -327,13 +413,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    savePlanBtn?.addEventListener("click", () => {
-        if (currentPlan) {
-            savePlanToDatabase({
-                plan: currentPlan,
-                preferences: userPreferences,
-                created_at: new Date().toISOString()
-            });
-        }
-    });
+    exportImageBtn?.addEventListener("click", exportPlanAsImage);
+
+    // Try to get user name from page if available
+    // This can be adapted based on your authentication system
+    const userNameElement = document.querySelector('[data-user-name]');
+    if (userNameElement) {
+        userName = userNameElement.getAttribute('data-user-name');
+    }
 });
