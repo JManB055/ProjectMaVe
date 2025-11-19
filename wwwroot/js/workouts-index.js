@@ -119,8 +119,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const typeFilter = filterType.value;
         if (typeFilter !== "all") {
             filteredWorkouts = filteredWorkouts.filter(w => {
-                const hasStrength = w.exercises.some(ex => ex.muscle !== "Cardio");
-                const hasCardio = w.exercises.some(ex => ex.muscle === "Cardio");
+                const hasStrength = w.exercises.some(ex => getExerciseGroup(ex.exerciseID) !== "Speed" && getExerciseGroup(ex.exerciseID) !== "Endurance");
+                const hasCardio = w.exercises.some(ex => getExerciseGroup(ex.exerciseID) == "Speed" || getExerciseGroup(ex.exerciseID) == "Endurance");
                 
                 if (typeFilter === "strength") return hasStrength;
                 if (typeFilter === "cardio") return hasCardio;
@@ -138,15 +138,15 @@ document.addEventListener("DOMContentLoaded", () => {
             else if (dateFilter === "month") cutoffDate.setMonth(now.getMonth() - 1);
             else if (dateFilter === "year") cutoffDate.setFullYear(now.getFullYear() - 1);
 
-            filteredWorkouts = filteredWorkouts.filter(w => new Date(w.date) >= cutoffDate);
+            filteredWorkouts = filteredWorkouts.filter(w => new Date(w.workoutDate) >= cutoffDate);
         }
 
         // Sort
         const sortOption = sortBy.value;
         if (sortOption === "date-desc") {
-            filteredWorkouts.sort((a, b) => new Date(b.date) - new Date(a.date));
+            filteredWorkouts.sort((a, b) => new Date(b.workoutDate) - new Date(a.workoutDate));
         } else if (sortOption === "date-asc") {
-            filteredWorkouts.sort((a, b) => new Date(a.date) - new Date(b.date));
+            filteredWorkouts.sort((a, b) => new Date(a.workoutDate) - new Date(b.workoutDate));
         } else if (sortOption === "exercises-desc") {
             filteredWorkouts.sort((a, b) => b.exercises.length - a.exercises.length);
         }
@@ -157,8 +157,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // ===== STATS =====
     function updateStats() {
         const total = workouts.length;
-        const strength = workouts.filter(w => w.exercises.some(ex => ex.muscle !== "Cardio")).length;
-        const cardio = workouts.filter(w => w.exercises.some(ex => ex.muscle === "Cardio")).length;
+        const strength = workouts.filter(w => w.exercises.some(ex => getExerciseGroup(ex.exerciseID) !== "Speed" && getExerciseGroup(ex.exerciseID) !== "Endurance")).length;
+        const cardio = workouts.filter(w => w.exercises.some(ex => getExerciseGroup(ex.exerciseID) == "Speed" || getExerciseGroup(ex.exerciseID) == "Endurance")).length;
 
         totalWorkouts.textContent = total;
         totalStrength.textContent = strength;
@@ -246,7 +246,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function getExerciseName(id){
         const exercise = availableExercises.find(ex => ex.exerciseID === id);
-        if(exercise) console.log("Returning Exercise Name: ", exercise.name);
         return exercise ? exercise.name : null;
     }
 
