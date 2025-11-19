@@ -172,6 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
             workoutTypeBadge.textContent = "Cardio";
             workoutTypeBadge.className = "badge bg-success";
         }
+        workoutTypeBadge.style.display = "inline-block";
 
         // Show/hide sections
         if (strengthExercises.length > 0) {
