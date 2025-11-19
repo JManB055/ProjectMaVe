@@ -9,5 +9,6 @@ public interface IExerciseStore
 
     Exercise? GetExerciseByName(string name);
 
+    Task<List<Exercise>> GetAllExercisesAsync();
     Task<List<Exercise>> GetExercisesAsync();
 }

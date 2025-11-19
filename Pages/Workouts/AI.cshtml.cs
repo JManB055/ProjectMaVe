@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProjectMaVe.Interfaces;
 using ProjectMaVe.Models;
-using ProjectMaVe.APIs.Google_AI;
+using ProjectMaVe.Services;
 
 namespace ProjectMaVe.Pages
 {
