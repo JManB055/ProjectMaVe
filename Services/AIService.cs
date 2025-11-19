@@ -3,7 +3,7 @@ using System.Net;
 using System.Text;
 using System.Text.Json;
 
-namespace ProjectMaVe.APIs.Google_AI
+namespace ProjectMaVe.Services
 {
 	public class AIService : IAIService
 	{
