@@ -1,11 +1,11 @@
 /*
 *   Initialize Global variables:
-*       'templateContainer' is the contianer for all template widgets (used for previewing and adding widgets)
+*       'templateContainer' is the container for all template widgets (used for previewing and adding widgets)
 *       'container' is the dashboard container for all the widgets; all widgets are rendered within this object.
 *       'editSaveBtn' is the button that changes the 'draggable' state.
-*       'deleteBtns' is an array storing all delete buttone (used so that we can hide the delete buttons)
+*       'deleteBtns' is an array storing all delete buttons (used so that we can hide the delete buttons)
 *       'widgets' is the array of widget metadata used to render the widgets with the right place, size, and data.
-*       'draggies' is the array of Draggabilly objects tied to the widgets. This is neccessary for draggaing capabilities.
+*       'draggies' is the array of Draggabilly objects tied to the widgets. This is necessary for dragging capabilities.
 *       'draggable' is a boolean to track the state of the dashboard (editing mode vs view mode)
 *       'workouts' is a list of workouts from the database used to display information in widgets
 */
@@ -341,7 +341,7 @@ async function renderWidgets() {
     // Set the HTML code of 'container' based on previous formatting
     container.innerHTML = htmlString;
 
-    // Get all qualigying delete buttons and save to deleteBtns
+    // Get all qualifying delete buttons and save to deleteBtns
     deleteBtns = document.querySelectorAll(".delete-btn", {});
 
     specialItems = document.querySelectorAll(".special-item", {});
@@ -350,7 +350,7 @@ async function renderWidgets() {
     let elements = document.querySelectorAll('.widget', {});
     draggies = []
 
-    // Add all 'elements' to 'draggies' as graggabilly objects
+    // Add all 'elements' to 'draggies' as Draggabilly objects
     for (var i = 0; i < elements.length; i++) {
         let draggableElem = elements[i];
         let draggie = new Draggabilly(draggableElem, {
@@ -360,7 +360,7 @@ async function renderWidgets() {
         draggies.push(draggie);
     }
 
-    // Set the postions based on saved positions
+    // Set the positions based on saved positions
     for (var i = 0; i < widgets.length; i++) {
         let draggable = widgets[i];
         x = widgets[i].x;
@@ -375,7 +375,7 @@ async function renderWidgets() {
 }
 
 /*
-*   Fucntion to toggle the draggable state of the widgets
+*   Function to toggle the draggable state of the widgets
 *       1) If they are currently draggable, then:
 *           1) Disable
 *           2) Save all widget positions locally
@@ -390,7 +390,7 @@ async function renderWidgets() {
 *       4) Hide/Show delete buttons based on draggable status
 *       5) Toggle to boolean 'draggable' variable to track state.
 */
-function toggleDraggble() {
+function toggleDraggable() {
     if (draggable) {
         // If currently draggable
         for (let i = 0; i < draggies.length; i++) {
@@ -505,7 +505,7 @@ async function getWidgets() {
             console.log('Widgets loaded successfully:', result.widgets);
             widgets = result.widgets; // Replace current widgets array
             await renderWidgets(widgets); // Render Widgets
-            toggleDraggble(); // Set draggable to false
+            toggleDraggable(); // Set draggable to false
         } else {
             console.warn('Failed to load widgets:', result.message);
         }
