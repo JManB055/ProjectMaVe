@@ -14,7 +14,16 @@ public class WorkoutStore : IWorkoutStore
         _db = dbContext;
     }
 
-// Possibly have this function return the db id for the created row?
+	/// <summary>
+	/// Adds a new workout to the database
+	/// </summary>
+	/// <param name="workout">Workout object</param>
+	/// <returns>
+	/// Boolean indicating success or failure
+	/// </returns>
+	/// <remarks>
+	/// This function adds a new workout row to the database
+	/// </remarks>
     public async Task<bool> CreateWorkoutAsync(Workout workout)
     {
         await _db.Workouts.AddAsync(workout);                 // Tells EF to stage this workout for insertion
@@ -23,6 +32,16 @@ public class WorkoutStore : IWorkoutStore
         // This function returns true if the number of affected rows is more than 0 (which means that it succeeded)
     }
 
+	/// <summary>
+	/// Removes a workout from the database
+	/// </summary>
+	/// <param name="workout_id">Workout ID</param>
+	/// <returns>
+	/// Boolean indicating success or failure
+	/// </returns>
+	/// <remarks>
+	/// This function finds a workout by the ID and removes that row from the database
+	/// </remarks>
     public async Task<bool> DeleteWorkoutAsync(int workout_id)
     {
         var currentWorkout = await _db.Workouts.FindAsync(workout_id);          // Lookup workout in db
@@ -49,11 +68,32 @@ public class WorkoutStore : IWorkoutStore
         return await _db.SaveChangesAsync() > 0;            // Same save changes as the previous function
     }
 
+	/// <summary>
+	/// Get a workout from the database
+	/// </summary>
+	/// <param name="workout_id">Workout ID</param>
+	/// <returns>
+	/// Workout object
+	/// </returns>
+	/// <remarks>
+	/// This function finds a workout by the ID and returns it from the database
+	/// </remarks>
     public async Task<Workout?> GetWorkoutAsync(int workout_id)
     {
         return await _db.Workouts.FindAsync(workout_id);              // Return the workout with that uid
     }
 
+	/// <summary>
+	/// Updates a workout in the database
+	/// </summary>
+	/// <param name="workout_id">Workout ID</param>
+	/// <param name="workout">Workout object</param>
+	/// <returns>
+	/// Boolean indicating success or failure
+	/// </returns>
+	/// <remarks>
+	/// This function finds a workout in the database, updates it and saves it
+	/// </remarks>
     public async Task<bool> UpdateWorkoutAsync(int workout_id, Workout workout)
     {
         var existingWorkout = await _db.Workouts.FindAsync(workout_id);  // Lookup workout in db
@@ -65,7 +105,16 @@ public class WorkoutStore : IWorkoutStore
         return await _db.SaveChangesAsync() > 0;            // Same save changes as the first function
     }
 
-
+	/// <summary>
+	/// Returns all the workouts associated with a specific user
+	/// </summary>
+	/// <param name="user_id">User ID</param>
+	/// <returns>
+	/// List of workout objects
+	/// </returns>
+	/// <remarks>
+	/// This function finds all workouts associated with a specific user ID and returns them
+	/// </remarks>
     public async Task<List<Workout>> GetWorkoutsByUserAsync(int user_id)
     {
         return await _db.Workouts    // Return the workouts with that uid
