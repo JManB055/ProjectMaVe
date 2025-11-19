@@ -2,6 +2,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectMaVe.Models;
 
+/**
+ * <summary>
+ * Represents a single exericse
+ * </summary>
+ * <remarks>
+ * An exercise is a component of a workout, often references by its ID
+ * </remarks>
+ */
 public class Exercise
 {
     //default constructor

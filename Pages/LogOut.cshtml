@@ -1,0 +1,32 @@
+@page
+@model ProjectMaVe.Pages.LogOutModel
+@{
+    ViewData["Title"] = "User Sign Out";
+}
+
+
+<div style="text-align:center; margin-top:50px;">
+    <h2>You have been logged out.</h2>
+
+    <p>
+        Redirecting to <strong>/LogIn</strong> in
+        <span id="countdown">5</span> seconds...
+    </p>
+
+    <p>If you are not redirected, <a href="/LogIn">click here</a>.</p>
+</div>
+
+<script>
+ let seconds = 5;
+ const countdown = document.getElementById("countdown");
+
+ const interval = setInterval(() => {
+     seconds--;
+     countdown.textContent = seconds;
+
+     if (seconds <= 0) {
+         clearInterval(interval);
+         window.location.href = "/LogIn";
+ }
+ }, 1000);
+</script>

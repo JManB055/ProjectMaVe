@@ -1,6 +1,5 @@
 ﻿@page
 @model ProjectMaVe.Pages.DashboardModel
-@inject ProjectMaVe.Interfaces.IUserStore userStore;
 @inject ProjectMaVe.Interfaces.IAuthenticationService authService;
 @{
     ViewData["Title"] = "Dashboard";
@@ -36,7 +35,7 @@
         Template Widgets
         =============================== *@
 
-        
+
         <div class="template_container">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -179,7 +178,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="tab-pane fade" id="s1x2" role="tabpanel" aria-labelledby="s1x2-tab">
                     <div class="template-widget-container thin-tem-con">
@@ -197,7 +196,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="tab-pane fade" id="s2x1" role="tabpanel" aria-labelledby="s2x1-tab">
                     <div class="template-widget-container wide-tem-con">
@@ -215,7 +214,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="tab-pane fade" id="s2x2" role="tabpanel" aria-labelledby="s2x2-tab">
                     <div class="template-widget-container wide-tem-con">
@@ -261,7 +260,7 @@
         Widget Grid Container
         =============================== *@
         <div class="dashboard_background dashboard_container"><h1>Loading Widgets...</h1></div>
-        
+
 
 		    @* Edit Mode Overlay Instructions *@
             <div class="edit-mode-banner" id="editModeBanner" style="display: none;">
