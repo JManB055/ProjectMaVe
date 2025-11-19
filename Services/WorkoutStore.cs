@@ -19,17 +19,18 @@ public class WorkoutStore : IWorkoutStore
 	/// </summary>
 	/// <param name="workout">Workout object</param>
 	/// <returns>
-	/// Boolean indicating success or failure
+	/// Workout ID
 	/// </returns>
 	/// <remarks>
 	/// This function adds a new workout row to the database
 	/// </remarks>
-    public async Task<bool> CreateWorkoutAsync(Workout workout)
+    public async Task<int> CreateWorkoutAsync(Workout workout)
     {
         await _db.Workouts.AddAsync(workout);                 // Tells EF to stage this workout for insertion
-        return await _db.SaveChangesAsync() > 0;
+        await _db.SaveChangesAsync();
         // SaveChangesAsync() commits the staged changes and returns the number of affected rows
-        // This function returns true if the number of affected rows is more than 0 (which means that it succeeded)
+        
+        return workout.WorkoutID;
     }
 
 	/// <summary>
@@ -55,7 +56,7 @@ public class WorkoutStore : IWorkoutStore
 
         using var command = connection.CreateCommand();		// Create new command
 
-        command.CommandText = "DELETE FROM workout_exercises WHERE workout_id = @WorkoutId";	// Set command text
+        command.CommandText = "DELETE FROM WorkoutExercises WHERE workout_id = @WorkoutId";	// Set command text
         var workoutParam = command.CreateParameter();						// Create parameter for variable to prevent SQL injection
         workoutParam.ParameterName = "@WorkoutId";
         workoutParam.Value = workout_id;

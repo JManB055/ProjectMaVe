@@ -84,6 +84,7 @@ public class WorkoutExerciseStore : IWorkoutExerciseStore
         var existingWorkout = await _db.WorkoutExercises.FindAsync(workout_id);  // Lookup workout in db
         if(existingWorkout == null) return false;              // If not found, return false
 
+        existingWorkout.ExerciseID = workout.ExerciseID;
         existingWorkout.Sets = workout.Sets;
         existingWorkout.Reps = workout.Reps;
         existingWorkout.Weight = workout.Weight;

@@ -9,6 +9,7 @@ namespace ProjectMaVe.Pages.Workouts
 
     public class ExerciseData
     {
+        public int ExerciseID { get; set; }
         public string ExerciseName { get; set; } = string.Empty;
         public string MuscleGroup { get; set; } = string.Empty;
         public int? Sets { get; set; }

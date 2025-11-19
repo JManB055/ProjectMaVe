@@ -45,7 +45,7 @@ public class WorkoutExercise
     public decimal? Weight { get; set; } = 0;
 
     [Column("distance")]
-    public int? Distance { get; set; } = 0;
+    public decimal? Distance { get; set; } = 0;
 
     [Column("time")]
     public int? Time { get; set; } = 0;
