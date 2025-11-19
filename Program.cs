@@ -1,20 +1,11 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using ProjectMaVe.Data;
 using ProjectMaVe.Interfaces;
-using ProjectMaVe.Middleware;
 using ProjectMaVe.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 string googleApiKey = Environment.GetEnvironmentVariable("GOOGLE_API_KEY")!;
-
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
-{
-    options.LoginPath = "/LogIn"; //This is the name of the login page to direct user if not logged in.
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(30); //Sets the Expiration Time for the cookie
-    options.SlidingExpiration = true; //each time you make an authentication request, it resets the time.
-});
 
 // Connect database service
 var connectionString = builder.Configuration.GetConnectionString("MaVe");
@@ -27,8 +18,7 @@ builder.Services.AddScoped<IAIService>(_ => new AIService(googleApiKey));
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-
-builder.Services.AddTransient<AuthenticationMiddleware>();
+builder.Services.AddControllers();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IUserStore, UserStore>();
@@ -54,8 +44,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseMaVeAuthentication();
-
 app.MapRazorPages();
+app.MapControllers();
 
 app.Run();

@@ -9,8 +9,8 @@ namespace ProjectMaVe.Pages
     public class LoginModel : PageModel
     {
         [BindProperty]
-        [Required(ErrorMessage = "Please enter your username.")]
-        public string UserName { get; set; }
+        [Required(ErrorMessage = "Please enter your email.")]
+        public string Email { get; set; }
 
         [BindProperty]
         [Required(ErrorMessage = "Please enter your password.")]
@@ -24,7 +24,7 @@ namespace ProjectMaVe.Pages
 
         public async Task<IActionResult> OnPostLogIn()
         {
-            if (UserName == null)
+            if (Email == null)
             {
                 Message = "The User Name field is empty.";
                 ModelState.AddModelError(String.Empty, "Invalid login attempt.");
@@ -39,7 +39,7 @@ namespace ProjectMaVe.Pages
 
             var loginService = HttpContext.RequestServices.GetService<IAuthenticationService>();
 
-            var nullableInfo = loginService.SignIn(UserName, Password);
+            var nullableInfo = loginService.SignIn(Email, Password);
             if (nullableInfo == null)
             {
                 Message = "Login Failed.";
