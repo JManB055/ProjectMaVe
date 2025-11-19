@@ -16,7 +16,17 @@ public class WidgetStore : IWidgetStore
         _logger = logger;
     }
 
-    // Store all widgets associated with user
+    /// <summary>
+	/// Store user widget configuration in the database
+	/// </summary>
+	/// <param name="user_id">User ID</param>
+	/// <param name="newWidgets">List of widgets</param>
+	/// <returns>
+	/// Boolean indicating success or failure
+	/// </returns>
+	/// <remarks>
+	/// This function takes the state of the widgets used by the user and updates the database accordingly
+	/// </remarks>
     public async Task<bool> StoreAllWidgetsAsync(int user_id, List<Widget> newWidgets){
         // Step 1: Pull existing widgets from the database
         var existingWidgets = await _db.Widgets
@@ -62,7 +72,16 @@ public class WidgetStore : IWidgetStore
         return await _db.SaveChangesAsync() > 0;
     }
 
-    // Get all widgets associated with user
+    /// <summary>
+	/// Return user widget configuration from the database
+	/// </summary>
+	/// <param name="user_id">User ID</param>
+	/// <returns>
+	/// List of widgets the user has on their dashboard
+	/// </returns>
+	/// <remarks>
+	/// This function gets the state of the widgets associated with a user ID and returns them as a list
+	/// </remarks>
     public async Task<List<Widget>> GetWidgetsByUserAsync(int user_id)
     {
         return await _db.Widgets

@@ -9,29 +9,21 @@ public class WorkoutExerciseStore : IWorkoutExerciseStore
 {
     private readonly DBContext _db;
 
-    /*
-
-    Consider how this differs from other store files
-
-    Think about how exercises are created
-
-    You want to add an exercise, and it will be associated with a workout. Possibly pass workout_id and uid?
-
-    These will all go to the same table. Every exercise for every workout for every user is on one table.
-    Each workout exercise will have a workout_id to tell you what workout it belongs to, and each workout exercise
-    will have a uid to tell you who that workout exercise belongs to, although the workout itself will also have a
-    uid to tell you who the full workout belongs to.
-
-    The workout table is just there to give something for exercises to point to. It does not actually contain all
-    the exercises in each workout.
-
-    */
-
     public WorkoutExerciseStore(DBContext dbContext)
     {
         _db = dbContext;
     }
 
+	/// <summary>
+	/// Add a single exercise to a workout
+	/// </summary>
+	/// <param name="workoutExercise">Workout exercise object</param>
+	/// <returns>
+	/// Boolean indicating success or failure
+	/// </returns>
+	/// <remarks>
+	/// This function adds an existing exercise to a workout
+	/// </remarks>
     public async Task<bool> CreateWorkoutExerciseAsync(WorkoutExercise workoutExercise)
     {
         // check if workout exists
@@ -42,6 +34,16 @@ public class WorkoutExerciseStore : IWorkoutExerciseStore
         // This function returns true if the number of affected rows is more than 0 (which means that it succeeded)
     }
 
+	/// <summary>
+	/// Removes a single exercise from a workout
+	/// </summary>
+	/// <param name="workout_exercise_id">Workout exercise ID</param>
+	/// <returns>
+	/// Boolean indicating success or failure
+	/// </returns>
+	/// <remarks>
+	/// This function removes an exercise from a workout by the workout exercise ID
+	/// </remarks>
     public async Task<bool> DeleteWorkoutExerciseAsync(int workout_exercise_id)
     {
         var currentWorkout = await _db.WorkoutExercises.FindAsync(workout_exercise_id);          // Lookup workout in db
@@ -51,11 +53,32 @@ public class WorkoutExerciseStore : IWorkoutExerciseStore
         return await _db.SaveChangesAsync() > 0;            // Same save changes as the previous function
     }
 
+	/// <summary>
+	/// Gets a single exercise from a workout
+	/// </summary>
+	/// <param name="workout_exercise_id">Workout exercise ID</param>
+	/// <returns>
+	/// Workout exercise object
+	/// </returns>
+	/// <remarks>
+	/// This function gets an existing exercise from a workout and returns it by the workout exercise ID
+	/// </remarks>
     public async Task<WorkoutExercise?> GetWorkoutExerciseAsync(int workout_exercise_id)
     {
         return await _db.WorkoutExercises.FindAsync(workout_exercise_id);              // Return the workout with that uid
     }
 
+	/// <summary>
+	/// Updates a single exercise from a workout
+	/// </summary>
+	/// <param name="workout_id">Workout ID</param>
+	/// <param name="workout">Workout exercise object</param>
+	/// <returns>
+	/// Boolean indicating success or failure
+	/// </returns>
+	/// <remarks>
+	/// This function finds a workout by the ID and uses a workout exercise object to update an exercise within the workout
+	/// </remarks>
     public async Task<bool> UpdateWorkoutExerciseAsync(int workout_id, WorkoutExercise workout)
     {
         var existingWorkout = await _db.WorkoutExercises.FindAsync(workout_id);  // Lookup workout in db
@@ -73,7 +96,17 @@ public class WorkoutExerciseStore : IWorkoutExerciseStore
         return await _db.SaveChangesAsync() > 0;            // Same save changes as the first function
     }
 
-        // --- Bulk save for all exercises of a workout / Used in for database workout exercise interaction ---
+	/// <summary>
+	/// Saves a workout to database
+	/// </summary>
+	/// <param name="workout_id">Workout ID</param>
+	/// <param name="newExercises">List of workout exercise objects</param>
+	/// <returns>
+	/// Boolean indicating success or failure
+	/// </returns>
+	/// <remarks>
+	/// This function saves an entire set of exercises for a workout at once
+	/// </remarks>
     public async Task<bool> StoreWorkoutExercisesAsync(int workoutId, List<WorkoutExercise> newExercises)
     {
         // Step 1: Pull existing exercises for this workout
@@ -121,7 +154,16 @@ public class WorkoutExerciseStore : IWorkoutExerciseStore
         return await _db.SaveChangesAsync() > 0;
     }
 
-    // --- Get all exercises for a workout / Used in for database workout exercise interaction ---
+	/// <summary>
+	/// Gets a workout from database
+	/// </summary>
+	/// <param name="workoutId">Workout ID</param>
+	/// <returns>
+	/// List of workout exercise objects
+	/// </returns>
+	/// <remarks>
+	/// This function returns an entire workout by the workout ID as a list of workout exercise objects
+	/// </remarks>
     public async Task<List<WorkoutExercise>> GetWorkoutExercisesAsync(int workoutId)
     {
         return await _db.WorkoutExercises
