@@ -28,12 +28,31 @@ public class AuthenticationService : IAuthenticationService
         .Concat(Enumerable.Range('a', 26).Select(i => (char)i))
         .ToArray();
 
+	/// <summary>
+	/// Generate random authentication token
+	/// </summary>
+	/// <returns>
+	/// Token used for sign in
+	/// </returns>
+	/// <remarks>
+	/// This function generates a random token
+	/// </remarks>
     Token GenerateRandomToken()
     {
         const int TOKEN_LENGTH = 32;
         return RandomNumberGenerator.GetString(_tokenChars, TOKEN_LENGTH);
     }
 
+	/// <summary>
+	/// Get authentication token for user 
+	/// </summary>
+	/// <param name="uid">User UID</param>
+	/// <returns>
+	/// Token used for sign in
+	/// </returns>
+	/// <remarks>
+	/// This function provides a random token for a specific user
+	/// </remarks>
     public Token GetAuthToken(Int32 uid)
     {
         if (_userTokenTable.ContainsKey(uid)) return _userTokenTable[uid];
@@ -42,14 +61,50 @@ public class AuthenticationService : IAuthenticationService
         return token;
     }
 
-    public (Int32 uid, Token token)? GetCookieInfo()
+    private (Int32 uid, Token token)? GetCookieInfo()
     {
+        /*
+          var cookies = _accessor.HttpContext?.Request.Cookies;
+          if (cookies is null) return null;
+          if (!cookies.TryGetValue(Constants.COOKIE_ID_FIELD, out string uidString)) return null;
+          if (!cookies.TryGetValue(Constants.COOKIE_TOKEN_FIELD, out string token)) return null;
+          var uid = Int32.Parse(uidString);
+          if (!IsSignedIn(uid, token)) return null;
+          return (uid, token);
+        */
+
         var cookies = _accessor.HttpContext?.Request.Cookies;
-        if (cookies is null) return null;
-        if (!cookies.TryGetValue(Constants.COOKIE_ID_FIELD, out string uidString)) return null;
-        if (!cookies.TryGetValue(Constants.COOKIE_TOKEN_FIELD, out string token)) return null;
-        var uid = Int32.Parse(uidString);
-        if (!IsSignedIn(uid, token)) return null;
+        if (cookies is null)
+        {
+            _logger.LogWarning("No HttpContext or Cookies available.");
+            return null;
+        }
+
+        if (!cookies.TryGetValue(Constants.COOKIE_ID_FIELD, out string uidString))
+        {
+            _logger.LogWarning("Missing UID cookie.");
+            return null;
+        }
+
+        if (!cookies.TryGetValue(Constants.COOKIE_TOKEN_FIELD, out string token))
+        {
+            _logger.LogWarning("Missing token cookie.");
+            return null;
+        }
+
+        if (!int.TryParse(uidString, out int uid))
+        {
+            _logger.LogWarning($"Invalid UID cookie value: {uidString}");
+            return null;
+        }
+
+        if (!IsSignedIn(uid, token))
+        {
+            _logger.LogWarning($"IsSignedIn failed for UID {uid}");
+            return null;
+        }
+
+        _logger.LogInformation($"Successfully retrieved cookie info for UID {uid}");
         return (uid, token);
     }
 
@@ -60,16 +115,48 @@ public class AuthenticationService : IAuthenticationService
         return await _userStore.GetUserAsync(info.Value.uid);
     }
 
+	/// <summary>
+	/// Check if any user is signed in
+	/// </summary>
+	/// <returns>
+	/// Boolean indicating success or failure
+	/// </returns>
+	/// <remarks>
+	/// This function checks whether any user is signed in by checking for cookie info
+	/// </remarks>
     public bool IsCurrentSignedIn()
     {
         return !(GetCookieInfo() is null);
     }
 
+	/// <summary>
+	/// Check if a specific user is signed in
+	/// </summary>
+	/// <param name="uid">User UID</param>
+	/// <param name="token">Authentication token</param>
+	/// <returns>
+	/// Boolean indicating success or failure
+	/// </returns>
+	/// <remarks>
+	/// This function checks whether a given user is signed in based on the UID
+	/// </remarks>
     public bool IsSignedIn(Int32 uid, Token token)
     {
         return _userTokenTable.ContainsKey(uid) && (_userTokenTable[uid] == token);
     }
 
+	/// <summary>
+	/// Sign in to account
+	/// </summary>
+	/// <param name="email">User email</param>
+	/// <param name="password">Plaintext password</param>
+	/// <returns>
+	/// User UID and authentication token needed for sign in
+	/// </returns>
+	/// <remarks>
+	/// This function uses the user email to find the user, then hashes the given password
+	/// and compares it with the user password using the salt. If there is a match, a token is generated
+	/// </remarks>
     public async Task<(Int32, Token)?> SignInAsync(string email, string password)
     {
         UserInfo? user = _userStore.GetUserByEmail(email);
@@ -84,6 +171,17 @@ public class AuthenticationService : IAuthenticationService
         return (user.UserID, GetAuthToken(user.UserID));
     }
 
+	/// <summary>
+	/// Sign in to account
+	/// </summary>
+	/// <param name="email">User email</param>
+	/// <param name="password">Plaintext password</param>
+	/// <returns>
+	/// Boolean indicating success or failure
+	/// </returns>
+	/// <remarks>
+	/// This function uses SignInAsync and allows 1000 milliseconds before returning success or failure
+	/// </remarks>
     public (Int32, Token)? SignIn(string email, string password)
     {
         var task = SignInAsync(email, password);
@@ -91,11 +189,16 @@ public class AuthenticationService : IAuthenticationService
         return task.IsCompletedSuccessfully ? task.Result : null;
     }
 
-    /**
-     * <remarks>
-     *   For registration, UserID is unknown
-     * </remarks>
-     */
+	/// <summary>
+	/// Register new user
+	/// </summary>
+	/// <param name="userInfo">User Info object</param>
+	/// <returns>
+	/// Boolean indicating success or failure
+	/// </returns>
+	/// <remarks>
+	/// This function checks if a user already exists by searching for the email, and creates a new user if the email isn't found
+	/// </remarks>
     public async Task<bool> RegisterAsync(UserInfo userInfo)
     {
         UserInfo? user = _userStore.GetUserByEmail(userInfo.Email);
@@ -104,6 +207,17 @@ public class AuthenticationService : IAuthenticationService
         return await _userStore.CreateUserAsync(userInfo);
     }
 
+	/// <summary>
+	/// Allow user to set a new password
+	/// </summary>
+	/// <param name="uid">User UID</param>
+	/// <param name="password">Plaintext password</param>
+	/// <returns>
+	/// Boolean indicating success or failure
+	/// </returns>
+	/// <remarks>
+	/// This function securely stores passwords based on the UID using salting and hashing
+	/// </remarks>
     public async Task<bool> SetPassword(Int32 uid, string password)
     {
         byte[] passSalt = new byte[64];

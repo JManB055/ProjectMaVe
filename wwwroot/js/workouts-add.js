@@ -8,7 +8,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const cardioTableBody = document.getElementById("cardioTableBody");
 
     // ===== AVAILABLE EXERCISES (will be fetched from DB) =====
-    const availableExercises = [
+    var availableExercises = [];
+    /* Static test variables:
+    var availableExercises = [
         { name: "Bench Press", muscle: "Chest" },
         { name: "Incline Press", muscle: "Chest" },
         { name: "Shoulder Press", muscle: "Shoulders" },
@@ -35,9 +37,13 @@ document.addEventListener("DOMContentLoaded", () => {
         "Jump Rope",
         "Walking",
     ];
+    */
 
     // ===== INITIALIZE =====
-    function init() {
+    async function init() {
+        // Fetch exercises from database
+        await fetchExercisesFromDB();
+        
         // Set default date to today
         if (workoutDateInput) {
             const today = new Date().toISOString().split('T')[0];
@@ -46,15 +52,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Add one default strength exercise row
         createStrengthRow();
-
-        // TODO: Fetch exercises from database
-        // fetchExercisesFromDB();
     }
 
     // ===== API FUNCTIONS =====
     async function fetchExercisesFromDB() {
         try {
-            // TODO: Replace with actual API call
+            // Get the anti-forgery token (handle if it doesn't exist)
+            const tokenInput = document.querySelector('input[name="__RequestVerificationToken"]');
+            const headers = { 'Content-Type': 'application/json' };
+            
+            if (tokenInput) {
+                headers['RequestVerificationToken'] = tokenInput.value;
+            }
+
+            const response = await fetch(`/Workouts/Add?handler=Exercises`, {
+                method: 'GET',
+                headers: headers
+            });
+
+            const result = await response.json();
+            // console.log("Raw Response: ", result);
+
+            if (result.success) {
+                console.log('Workouts loaded successfully:', result.exercises);
+                availableExercises = result.exercises; // Replace current availableExercises array
+            } else {
+                console.warn('Failed to load workouts:', result.message);
+            }
+
         } catch (error) {
             console.error("Error fetching exercises:", error);
         }
@@ -104,7 +129,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const tr = document.createElement("tr");
 
         const exerciseOptions = availableExercises
-            .map(ex => `<option value="${ex.name}" data-muscle="${ex.muscle}">${ex.name}</option>`)
+            .filter(ex => ex.muscleGroup !== "Speed" && ex.muscleGroup !== "Endurance")
+            .map(ex => `<option value="${ex.exerciseID}" data-muscle="${ex.muscleGroup}">${ex.name}</option>`)
             .join("");
 
         tr.innerHTML = `
@@ -130,7 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const muscleInput = tr.querySelector(".muscle-input");
         select.addEventListener("change", (e) => {
             const selected = e.target.selectedOptions[0];
-            muscleInput.value = selected.dataset.muscle || "";
+            muscleInput.value = selected.dataset.muscleGroup || "";
         });
 
         // Remove row
@@ -144,8 +170,9 @@ document.addEventListener("DOMContentLoaded", () => {
     function createCardioRow() {
         const tr = document.createElement("tr");
 
-        const cardioOptions = cardioActivities
-            .map(activity => `<option value="${activity}">${activity}</option>`)
+        const cardioOptions = availableExercises
+            .filter(ex => ex.muscleGroup == "Speed" || ex.muscleGroup == "Endurance")
+            .map(activity => `<option value="${activity.exerciseID}">${activity.name}</option>`)
             .join("");
 
         tr.innerHTML = `
@@ -179,8 +206,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Collect strength exercises
         strengthExerciseTableBody.querySelectorAll("tr").forEach(row => {
-            const exercise = row.querySelector(".exercise-select").value;
-            if (!exercise) return;
+            const select = row.querySelector(".exercise-select");
+            const exerciseID = parseInt(select.value);
+            if (!exerciseID) return;
 
             const muscle = row.querySelector(".muscle-input").value;
             const sets = parseInt(row.querySelector(".sets-input").value) || 0;
@@ -189,7 +217,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (sets > 0 && reps > 0) {
                 exercises.push({
-                    exercise_name: exercise,
+                    exerciseID: exerciseID,
                     muscle_group: muscle,
                     sets: sets,
                     reps: reps,
@@ -202,15 +230,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Collect cardio activities
         cardioTableBody.querySelectorAll("tr").forEach(row => {
-            const activity = row.querySelector(".cardio-select").value;
-            if (!activity) return;
+            const activity = row.querySelector(".cardio-select");
+            const exerciseID = parseInt(activity.value);
+            if (!exerciseID) return;
 
             const duration = parseInt(row.querySelector(".duration-input").value) || 0;
             const distance = parseFloat(row.querySelector(".distance-input").value) || 0;
 
             if (duration > 0) {
                 exercises.push({
-                    exercise_name: activity,
+                    exerciseID: exerciseID,
                     muscle_group: "Cardio",
                     sets: null,
                     reps: null,

@@ -13,40 +13,59 @@ document.addEventListener("DOMContentLoaded", () => {
     // ===== STATE =====
     let workouts = [];
     let filteredWorkouts = [];
+    let availableExercises = [];
 
-    // ===== API FUNCTIONS =====
+    fetchExercisesFromDB();
+
+    // ===== API FUNCTIONS =====    
+    async function fetchExercisesFromDB() {
+        try {
+            // Get the anti-forgery token (handle if it doesn't exist)
+            const tokenInput = document.querySelector('input[name="__RequestVerificationToken"]');
+            const headers = { 'Content-Type': 'application/json' };
+            
+            if (tokenInput) {
+                headers['RequestVerificationToken'] = tokenInput.value;
+            }
+
+            const response = await fetch(`/Workouts?handler=Exercises`, {
+                method: 'GET',
+                headers: headers
+            });
+
+            const result = await response.json();
+            // console.log("Raw Response: ", result);
+
+            if (result.success) {
+                console.log('Exercises loaded successfully:', result.exercises);
+                availableExercises = result.exercises; // Replace current availableExercises array
+            } else {
+                console.warn('Failed to load exercises:', result.message);
+            }
+
+        } catch (error) {
+            console.error("Error fetching exercises:", error);
+        }
+    }
+
     async function fetchWorkouts() {
         try {
-            // TODO: Replace with actual API call
-            
-            // Mock data for now
-            workouts = [
-                {
-                    id: 1,
-                    date: "2025-11-06",
-                    exercises: [
-                        { exercise: "Bench Press", muscle: "Chest", sets: 4, reps: 8, weight: 185 },
-                        { exercise: "Shoulder Press", muscle: "Shoulders", sets: 3, reps: 10, weight: 95 },
-                        { exercise: "Running", muscle: "Cardio", duration: 30, distance: 5 }
-                    ]
-                },
-                {
-                    id: 2,
-                    date: "2025-11-05",
-                    exercises: [
-                        { exercise: "Cycling", muscle: "Cardio", duration: 45, distance: 15 }
-                    ]
-                },
-                {
-                    id: 3,
-                    date: "2025-11-03",
-                    exercises: [
-                        { exercise: "Pull-ups", muscle: "Back", sets: 3, reps: 8, weight: 0 },
-                        { exercise: "Bicep Curl", muscle: "Arms", sets: 3, reps: 12, weight: 30 },
-                    ]
+            // Get workouts from te database in JSON format
+            const response = await fetch(`/Workouts?handler=WorkoutInfo`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
                 }
-            ];
-
+            });
+    
+            const result = await response.json();
+    
+            if (result.success) {
+                console.log('Workouts loaded successfully:', result.workouts);
+                workouts = result.workouts; // Replace current workouts array
+            } else {
+                console.warn('Failed to load workouts:', result.message);
+            }
             filteredWorkouts = [...workouts];
             updateStats();
             renderWorkouts();
@@ -59,9 +78,29 @@ document.addEventListener("DOMContentLoaded", () => {
     async function deleteWorkout(workoutId) {
         if (!confirm("Are you sure you want to delete this workout?")) return;
 
+        if(!workoutId){
+            console.error("Undefined workoutid. Save failed");
+            return;
+        }
+
         try {
-            // TODO: Replace with actual API call
+            const response = await fetch(`/Workouts?handler=DeleteWorkout`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ wid: workoutId })
+            });
             
+            const result = await response.json();
+            
+            if (result.success) {
+                console.log('Workout deleted successfully: ', result.message);
+            } else {
+                console.warn('Failed to delete workout:', result.message);
+            }
+
+            fetchWorkouts();
             workouts = workouts.filter(w => w.id !== workoutId);
             filteredWorkouts = filteredWorkouts.filter(w => w.id !== workoutId);
             updateStats();
@@ -138,6 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ===== RENDER =====
     function renderWorkouts() {
+
         if (!workoutTableBody) return;
 
         if (filteredWorkouts.length === 0) {
@@ -160,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <td>
                         <ul class="mb-0 ps-3 urbanist-medium text-black small">
                             ${w.exercises.map(ex => {
-                                if (ex.muscle === "Cardio") {
+                                if (ex.muscleGroup === "Cardio") {
                                     return `<li>${ex.exercise} - ${ex.duration || 0} min${ex.distance ? `, ${ex.distance} mi` : ""}</li>`;
                                 } else {
                                     return `<li>${ex.exercise} - ${ex.sets}×${ex.reps}${ex.weight ? ` @ ${ex.weight}lbs` : ""}</li>`;
@@ -170,10 +210,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     </td>
                     <td>
                         <div class="btn-group btn-group-sm" role="group">
-                            <a href="/Workouts/Details/${w.id}" class="btn btn-outline-primary">
+                            <a href="/Workouts/Details/${w.workoutID}" class="btn btn-outline-primary">
                                 <i class="fas fa-eye"></i>
                             </a>
-                            <button class="btn btn-outline-danger" onclick="deleteWorkout(${w.id})">
+                            <button class="btn btn-outline-danger" onclick="deleteWorkout(${w.workoutID})">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
