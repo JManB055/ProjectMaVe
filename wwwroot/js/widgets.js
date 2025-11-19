@@ -452,13 +452,24 @@ function addWidget(width, height, widgetType) {
 
     if (widgetType == "Weight History") {
         let metricFilterMenu = document.getElementById("metricHistoryFilter");
+        let filterMenu = document.getElementById("weightHistoryFilter");
+        
         let metricFilter = metricFilterMenu.value;
         widgetType += "," + metricFilter
-
-        let filterMenu = document.getElementById("weightHistoryFilter");
         let muscleGroupFilter = filterMenu.value;
         widgetType = widgetType + "," + muscleGroupFilter;
         console.log ("Widget Type Added: ", widgetType);
+    }
+    else if (widgetType == "Weight History-2") {
+        widgetType = "Weight History";
+        let filterMenu = document.getElementById("weightHistoryFilter-2");
+        let metricFilterMenu = document.getElementById("metricHistoryFilter-2");
+
+        let metricFilter = metricFilterMenu.value;
+        widgetType += "," + metricFilter
+        let muscleGroupFilter = filterMenu.value;
+        widgetType = widgetType + "," + muscleGroupFilter;
+        console.log("Widget Type Added: ", widgetType);
     }
 
     // Push new widget to widgets array
