@@ -85,6 +85,7 @@ namespace ProjectMaVe.Pages.Workouts
                     var currentExercise = new WorkoutExercise();  // Create new instance of WorkoutExercise model
                     
                     // Copy all attributes in to new instance
+                    currentExercise.WorkoutExerciseID = ex.WorkoutExerciseID;
                     currentExercise.WorkoutID = wid;
                     currentExercise.ExerciseID = ex.ExerciseID;
                     currentExercise.Sets = ex.Sets;
@@ -109,8 +110,7 @@ namespace ProjectMaVe.Pages.Workouts
 
                 // Figure out which exercises have been added or need to be changed
                 foreach(var ex in newExercises) {
-                    bool exists = oldExercises.Any(el => el.WorkoutExerciseID == ex.WorkoutExerciseID);
-                    if(!exists){
+                    if(ex.WorkoutExerciseID == 0){
                         toAddExercises.Add(ex);
                         break;
                     }

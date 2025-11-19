@@ -409,13 +409,39 @@ document.addEventListener("DOMContentLoaded", () => {
     // ===== EVENT LISTENERS =====
     addStrengthExerciseBtn.addEventListener("click", () => {
         strengthSection.style.display = "block";
-        createStrengthRow();
+        
+        // Make an empty exercise to pass, or the createStrengthRow doesn't create anything. Defaults to empty pushup session
+        var newExercise = {
+            workoutExerciseID: 0,
+            exerciseID: 1,
+            sets: null,
+            reps: null,
+            weight: null,
+            time: null,
+            distance: null,
+            isCompleted: false
+        }
+
+        createStrengthRow(newExercise);
         markAsChanged();
     });
 
     addCardioActivityBtn.addEventListener("click", () => {
         cardioSection.style.display = "block";
-        createCardioRow();
+
+        // Make an empty exercise to pass, or the createCardioRow doesn't create anything. Defaults to empty running session
+        var newExercise = {
+            workoutExerciseID: 0,
+            exerciseID: 31,
+            sets: null,
+            reps: null,
+            weight: null,
+            time: null,
+            distance: null,
+            isCompleted: false
+        }
+
+        createCardioRow(newExercise);
         markAsChanged();
     });
 
