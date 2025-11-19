@@ -78,15 +78,29 @@ async function renderWidgets() {
     // Initialize string variable to store HTML code
     let htmlString = '';
 
+    graphs = [];
+
     // Write HTML code to 'htmlString' based on widget metadata (in 'widgets' array)
-    let data = await getWorkoutInfo()
-    //let data = await getWorkouts();
+    //let data = await getWorkoutInfo()
+    let data = await getWorkouts();
     workoutList = data.workouts;
 
     let todayDate = new Date();
 
     for (var i = 0; i < widgets.length; i++) {
-        switch (widgets[i].type) {
+        let widgetType = widgets[i].type;
+        let filterValue = "";
+        let metricValue = "";
+        console.log("Checking Filter:", widgetType);
+        if (widgetType.startsWith("Weight History")) {
+            let temp = widgetType.split(",");
+            widgetType = temp[0];
+            metricValue = temp[1];
+            filterValue = temp[2];
+            console.log("Widget Type:", widgetType, "\nFilterValue:", filterValue);
+        }
+
+        switch (widgetType) {
             case "Test Widget":
                 htmlString += '<div class="widget widget_card size-' + widgets[i].w + 'x' + widgets[i].h + '"> <div class="widget-header">' +
                     '<h3 class="widget-title urbanist-bold">Today\'s Goal</h3>' +
@@ -221,23 +235,46 @@ async function renderWidgets() {
                 break;
 
             case "Weight History":
+                let metricTitleCase = metricValue.charAt(0).toUpperCase() + metricValue.slice(1);
+
+                console.log("Ln 238 Metric Value: ", metricValue);
+
                 htmlString += '<div class="widget widget_card size-' + widgets[i].w + 'x' + widgets[i].h + '"> <div class="widget-header">' +
-                    '<h3 class="widget-title urbanist-bold">Strength History</h3>' +
-                    '<select class="form-select rounded-3" id="muscleGroupFilter" style="width: 8em;"><option value="All Weight">All</option>' +
-                    '<option value="Chest">Chest</option><option value="Shoulders">Shoulders</option>' +
-                    '<option value="Arms">Arms</option><option value="Back">Back</option><option value="Legs">Legs</option><option value="Core">Core</option>' +
-                    '<option value="Speed">Speed</option></select > ' +
+                    '<h3 class="widget-title urbanist-bold">' + metricTitleCase + ' History</h3>' +
                     '<button class="delete-btn delete-btn-color btn" data-index="' + i + '"><i class="fa-solid fa-x"></i></button>' +
                     '</div> <div class="widget-content"> <div id="graph-' + i + '" style="width:100%;height:100%;">' +
                     '</div ></div ></div > ';
 
                 let gData = [];
+
+                let units;
+                switch (metricValue) {
+                    case "weight":
+                        units = " (lbs)";
+                        break;
+                    case "time":
+                        units = " (minutes)";
+                        break;
+                    case "distance":
+                        units = " (miles)";
+                        break;
+                    case "reps":
+                        units = "";
+                        break;
+                    case "sets":
+                        units = "";
+                        break;
+                }
                 
                 for (let j = 0; j < workoutList.length; j++) {
                     for (let k = 0; k < workoutList[j].exercises.length; k++) {
                         let exercise = workoutList[j].exercises[k];
 
-                        if (exercise.weight == 0 || exercise.weight == null) {
+                        if (exercise[metricValue] == 0 || exercise[metricValue] == null) {
+                            continue;
+                        }
+
+                        if ((filterValue != "All") && (exercise.muscleGroup != filterValue)) {
                             continue;
                         }
 
@@ -253,22 +290,22 @@ async function renderWidgets() {
                         }
 
                         gData[gIndex].x.push(workoutList[j].date);
-                        gData[gIndex].y.push(exercise.weight);
+                        gData[gIndex].y.push(exercise[metricValue]);
                     }
                 }
 
                 let gLayout = {
                     title: {
-                        text: 'All Weight Workouts'
+                        text: filterValue + ' ' + metricTitleCase + ' Workouts'
                     },
                     xaxis: {
                         title: {
-                            text: 'Weight (kg)'
+                            text: 'Date'
                         }
                     },
                     yaxis: {
                         title: {
-                            text: 'Date'
+                            text: metricTitleCase + units
                         }
                     }
                 }
@@ -411,6 +448,17 @@ function addWidget(width, height, widgetType) {
     for (let i = 0; i < draggies.length; i++) {
         widgets[i].x = draggies[i].position.x;
         widgets[i].y = draggies[i].position.y;
+    }
+
+    if (widgetType == "Weight History") {
+        let metricFilterMenu = document.getElementById("metricHistoryFilter");
+        let metricFilter = metricFilterMenu.value;
+        widgetType += "," + metricFilter
+
+        let filterMenu = document.getElementById("weightHistoryFilter");
+        let muscleGroupFilter = filterMenu.value;
+        widgetType = widgetType + "," + muscleGroupFilter;
+        console.log ("Widget Type Added: ", widgetType);
     }
 
     // Push new widget to widgets array
