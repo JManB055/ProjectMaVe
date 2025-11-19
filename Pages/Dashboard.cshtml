@@ -1,6 +1,5 @@
 ﻿@page
 @model ProjectMaVe.Pages.DashboardModel
-@inject ProjectMaVe.Interfaces.IUserStore userStore;
 @inject ProjectMaVe.Interfaces.IAuthenticationService authService;
 @{
     ViewData["Title"] = "Dashboard";
@@ -40,7 +39,7 @@
         Template Widgets
         =============================== *@
 
-        
+
         <div class="template_container">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
@@ -66,20 +65,6 @@
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <div class="template-widget-container thin-tem-con">
-                        <div class="widget-template size-1x1">
-                            <div class="widget-header">
-                                <h3 class="widget-title urbanist-bold">Today's Goal</h3>
-                                <button onClick="addWidget(1, 1, 'Test Widget')" class="add-btn btn btn-blue-no-pad">
-                                    <i class="fa-solid fa-plus"></i>
-                                </button>
-                            </div>
-                            <div class="widget-content mt-4 pt-4">
-                                <div class="placeholder-content">
-                                    <i class="fas fa-bullseye fa-2x text-blue mb-2"></i>
-                                    <p class="urbanist-medium small">Widget Template</p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="widget-template size-1x1">
                             <div class="widget-header">
                                 <h3 class="widget-title urbanist-bold">Today's Strength </h3>
@@ -119,36 +104,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="widget-template size-1x2">
-                            <div class="widget-header">
-                                <h3 class="widget-title urbanist-bold">Today's Goal</h3>
-                                <button onClick="addWidget(1, 2, 'Test Widget')" class="add-btn btn btn-blue-no-pad">
-                                    <i class="fa-solid fa-plus"></i>
-                                </button>
-                            </div>
-                            <div class="widget-content mt-4 pt-4">
-                                <div class="placeholder-content">
-                                    <i class="fas fa-bullseye fa-2x text-blue mb-2"></i>
-                                    <p class="urbanist-medium small">Widget Template</p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="template-widget-container wide-tem-con">
-                        <div class="widget-template size-2x1">
-                            <div class="widget-header">
-                                <h3 class="widget-title urbanist-bold">Today's Goal</h3>
-                                <button onClick="addWidget(2, 1, 'Test Widget')" class="add-btn btn btn-blue-no-pad">
-                                    <i class="fa-solid fa-plus"></i>
-                                </button>
-                            </div>
-                            <div class="widget-content mt-4 pt-4">
-                                <div class="placeholder-content">
-                                    <i class="fas fa-bullseye fa-2x text-blue mb-2"></i>
-                                    <p class="urbanist-medium small">Widget Template</p>
-                                </div>
-                            </div>
-                        </div>
                         <div class="widget-template size-2x1">
                             <div class="widget-header">
                                 <h3 class="widget-title urbanist-bold">Today's Workouts</h3>
@@ -164,22 +121,26 @@
                         </div>
                         <div class="widget-template size-2x2">
                             <div class="widget-header">
-                                <h3 class="widget-title urbanist-bold">Today's Goal</h3>
-                                <button onClick="addWidget(2, 2, 'Test Widget')" class="add-btn btn btn-blue-no-pad">
-                                    <i class="fa-solid fa-plus"></i>
-                                </button>
-                            </div>
-                            <div class="widget-content mt-4 pt-4">
-                                <div class="placeholder-content">
-                                    <i class="fas fa-bullseye fa-2x text-blue mb-2"></i>
-                                    <p class="urbanist-medium small">Widget Template</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="widget-template size-2x2">
-                            <div class="widget-header">
                                 <h3 class="widget-title urbanist-bold">Workout History</h3>
-                                <button onClick="addWidget(2, 2, 'Workout History')" class="add-btn btn btn-blue-no-pad">
+                                <select class="form-select rounded-3" id="weightHistoryFilter" style="width: 8em;">
+                                    <option value="All">All Muscle Groups</option>
+                                    <option value="Chest">Chest</option>
+                                    <option value="Shoulders">Shoulders</option>
+                                    <option value="Arms">Arms</option>
+                                    <option value="Back">Back</option>
+                                    <option value="Legs">Legs</option>
+                                    <option value="Core">Core</option>
+                                    <option value="Speed">Speed</option>
+                                    <option value="Endurance">Endurance</option>
+                                </select>
+                                <select class="form-select rounded-3" id="metricHistoryFilter" style="width: 8em;">
+                                    <option value="weight">Weight</option>
+                                    <option value="reps">Reps</option>
+                                    <option value="sets">Sets</option>
+                                    <option value="time">Duration</option>
+                                    <option value="distance">Distance</option>
+                                </select>
+                                <button onClick="addWidget(2, 2, 'Weight History')" class="add-btn btn btn-blue-no-pad">
                                     <i class="fa-solid fa-plus"></i>
                                 </button>
                             </div>
@@ -195,86 +156,105 @@
                 <div class="tab-pane fade" id="s1x1" role="tabpanel" aria-labelledby="s1x1-tab">
                     <div class="template-widget-container thin-tem-con">
                         <div class="widget-template size-1x1">
-                            <button onClick="addWidget(1, 1, 'Test Widget')" class="add-btn" data-index="0">+</button>
-                            <p>Template Widget</p>
+                            <div class="widget-header">
+                                <h3 class="widget-title urbanist-bold">Today's Strength </h3>
+                                <button onClick="addWidget(1, 1, 'Daily Strength')" class="add-btn btn btn-blue-no-pad ml-1">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="widget-content mt-4 pt-4">
+                                <div>
+                                    <p>Daily Strength Workouts go here.</p>
+                                </div>
+                            </div>
                         </div>
                         <div class="widget-template size-1x1">
-                            <button onClick="addWidget(1, 1, 'Test Widget')" class="add-btn" data-index="0">+</button>
-                            <p>Template Widget</p>
-                        </div>
-                        <div class="widget-template size-1x1">
-                            <button onClick="addWidget(1, 1, 'Test Widget')" class="add-btn" data-index="0">+</button>
-                            <p>Template Widget</p>
-                        </div>
-                        <div class="widget-template size-1x1">
-                            <button onClick="addWidget(1, 1, 'Test Widget')" class="add-btn" data-index="0">+</button>
-                            <p>Template Widget</p>
+                            <div class="widget-header">
+                                <h3 class="widget-title urbanist-bold">Today's Cardio</h3>
+                                <button onClick="addWidget(1, 1, 'Daily Cardio')" class="add-btn btn btn-blue-no-pad">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="widget-content mt-4 pt-4">
+                                <div>
+                                    <p>Daily Cardio Workouts go here.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="tab-pane fade" id="s1x2" role="tabpanel" aria-labelledby="s1x2-tab">
                     <div class="template-widget-container thin-tem-con">
                         <div class="widget-template size-1x2">
-                            <button onClick="addWidget(1, 2, 'Test Widget')" class="add-btn" data-index="1">+</button>
-                            <p>Template Widget</p>
-                        </div>
-                        <div class="widget-template size-1x2">
-                            <button onClick="addWidget(1, 2, 'Test Widget')" class="add-btn" data-index="1">+</button>
-                            <p>Template Widget</p>
-                        </div>
-                        <div class="widget-template size-1x2">
-                            <button onClick="addWidget(1, 2, 'Test Widget')" class="add-btn" data-index="1">+</button>
-                            <p>Template Widget</p>
-                        </div>
-                        <div class="widget-template size-1x2">
-                            <button onClick="addWidget(1, 2, 'Test Widget')" class="add-btn" data-index="1">+</button>
-                            <p>Template Widget</p>
+                            <div class="widget-header">
+                                <h3 class="widget-title urbanist-bold">Today's Workouts</h3>
+                                <button onClick="addWidget(1, 2, 'Daily Workout 1x2')" class="add-btn btn btn-blue-no-pad">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="widget-content mt-4 pt-4">
+                                <div>
+                                    <p>Daily Workouts go here.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="tab-pane fade" id="s2x1" role="tabpanel" aria-labelledby="s2x1-tab">
                     <div class="template-widget-container wide-tem-con">
                         <div class="widget-template size-2x1">
-                            <button onClick="addWidget(2, 1, 'Test Widget')" class="add-btn" data-index="2">+</button>
-                            <p>Template Widget</p>
-                        </div>
-                        <div class="widget-template size-2x1">
-                            <button onClick="addWidget(2, 1, 'Test Widget')" class="add-btn" data-index="2">+</button>
-                            <p>Template Widget</p>
-                        </div>
-                        <div class="widget-template size-2x1">
-                            <button onClick="addWidget(2, 1, 'Test Widget')" class="add-btn" data-index="2">+</button>
-                            <p>Template Widget</p>
-                        </div>
-                        <div class="widget-template size-2x1">
-                            <button onClick="addWidget(2, 1, 'Test Widget')" class="add-btn" data-index="2">+</button>
-                            <p>Template Widget</p>
+                            <div class="widget-header">
+                                <h3 class="widget-title urbanist-bold">Today's Workouts</h3>
+                                <button onClick="addWidget(2, 1, 'Daily Workout 2x1')" class="add-btn btn btn-blue-no-pad">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="widget-content mt-4 pt-4">
+                                <div>
+                                    <p>Daily Workouts go here.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="tab-pane fade" id="s2x2" role="tabpanel" aria-labelledby="s2x2-tab">
                     <div class="template-widget-container wide-tem-con">
                         <div class="widget-template size-2x2">
-                            <button onClick="addWidget(2, 2, 'Test Widget')" class="add-btn" data-index="3">+</button>
-                            <p>Template Widget</p>
-                        </div>
-                        <div class="widget-template size-2x2">
-                            <button onClick="addWidget(2, 2, 'Test Widget')" class="add-btn" data-index="3">+</button>
-                            <p>Template Widget</p>
-                        </div>
-                        <div class="widget-template size-2x2">
-                            <button onClick="addWidget(2, 2, 'Test Widget')" class="add-btn" data-index="3">+</button>
-                            <p>Template Widget</p>
-                        </div>
-                        <div class="widget-template size-2x2">
-                            <button onClick="addWidget(2, 2, 'Test Widget')" class="add-btn" data-index="3">+</button>
-                            <p>Template Widget</p>
+                            <div class="widget-header">
+                                <h3 class="widget-title urbanist-bold">Workout History</h3>
+                                <select class="form-select rounded-3" id="weightHistoryFilter-2" style="width: 8em;">
+                                    <option value="All">All Muscle Groups</option>
+                                    <option value="Chest">Chest</option>
+                                    <option value="Shoulders">Shoulders</option>
+                                    <option value="Arms">Arms</option>
+                                    <option value="Back">Back</option>
+                                    <option value="Legs">Legs</option>
+                                    <option value="Core">Core</option>
+                                    <option value="Speed">Speed</option>
+                                    <option value="Endurance">Endurance</option>
+                                </select>
+                                <select class="form-select rounded-3" id="metricHistoryFilter-2" style="width: 8em;">
+                                    <option value="weight">Weight</option>
+                                    <option value="reps">Reps</option>
+                                    <option value="sets">Sets</option>
+                                    <option value="time">Duration</option>
+                                    <option value="distance">Distance</option>
+                                </select>
+                                <button onClick="addWidget(2, 2, 'Weight History-2')" class="add-btn btn btn-blue-no-pad">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="widget-content mt-4 pt-4">
+                                <div class="placeholder-content">
+                                    <i class="fas fa-bullseye fa-2x text-blue mb-2"></i>
+                                    <p class="urbanist-medium small">Widget History Goes Here</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    
                 </div>
                 <div class="tab-pane fade show active" id="hide" role="tabpanel" aria-labelledby="hide-tab"></div>
             </div>
@@ -284,19 +264,19 @@
         Widget Grid Container
         =============================== *@
         <div class="dashboard_background dashboard_container"><h1>Loading Widgets...</h1></div>
-        
 
-		    @* Edit Mode Overlay Instructions *@
-		    <div class="edit-mode-banner" id="editModeBanner" style="display: none;">
-		        <div class="container-fluid">
-		            <p class="mb-0 urbanist-bold">
-		                <i class="fas fa-info-circle me-2"></i>
-		                Edit Mode: Drag widgets to reorder. Click "Done" when finished.
-		                <button class="btn btn-yellow btn-sm ms-3" id="doneEditingBtn">Done</button>
-		            </p>
-		        </div>
-		    </div>
-	</main>
+
+                    @* Edit Mode Overlay Instructions *@
+                    <div class="edit-mode-banner" id="editModeBanner" style="display: none;">
+                        <div class="container-fluid">
+                            <p class="mb-0 urbanist-bold">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Edit Mode: Drag widgets to reorder. Click "Done" when finished.
+                                <button class="btn btn-yellow btn-sm ms-3" id="doneEditingBtn">Done</button>
+                            </p>
+                        </div>
+                    </div>
+        </main>
 </div>
 
 

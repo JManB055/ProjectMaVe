@@ -32,21 +32,21 @@
                 @* --- Validation Summary --- *@
                 <div asp-validation-summary="ModelOnly" class="text-danger text-center mb-3" role="alert"></div>
 
-                @* --- Username Field --- *@
-                <div class="mb-2">
-                    <label asp-for="UserName" class="form-label urbanist-medium text-blue mb-1">Username</label>
-                    <input asp-for="UserName"
-                        type="text"
-                        class="form-control form-control-lg rounded-3"
-                        placeholder="Choose a username"
-                        autocomplete="username new-password"
-                        required
-                        aria-required="true"
-                        aria-describedby="username-error" />
-                    <span asp-validation-for="UserName" 
-                        id="username-error" 
-                        class="text-danger d-block mt-1 small" 
-                        role="alert"></span>
+                @* --- Email Field --- *@
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label urbanist-medium text-blue mb-1">Email</label>
+                    <input asp-for="Email"
+                           type="email"
+                           class="form-control form-control-lg rounded-3"
+                           placeholder="Enter your email"
+                           autocomplete="email"
+                           required
+                           aria-required="true"
+                           aria-describedby="email-error" />
+                    <span asp-validation-for="Email"
+                          id="email-error"
+                          class="text-danger d-block mt-1 small"
+                          role="alert"></span>
                 </div>
 
                 @* --- Password Field --- *@
@@ -60,9 +60,9 @@
                         required
                         aria-required="true"
                         aria-describedby="password-error" />
-                    <span asp-validation-for="Password" 
-                        id="password-error" 
-                        class="text-danger d-block mt-1 small" 
+                    <span asp-validation-for="Password"
+                        id="password-error"
+                        class="text-danger d-block mt-1 small"
                         role="alert"></span>
                 </div>
 
@@ -77,9 +77,9 @@
                         required
                         aria-required="true"
                         aria-describedby="firstname-error" />
-                    <span asp-validation-for="FirstName" 
-                        id="firstname-error" 
-                        class="text-danger d-block mt-1 small" 
+                    <span asp-validation-for="FirstName"
+                        id="firstname-error"
+                        class="text-danger d-block mt-1 small"
                         role="alert"></span>
                 </div>
 
@@ -94,26 +94,9 @@
                         required
                         aria-required="true"
                         aria-describedby="lastname-error" />
-                    <span asp-validation-for="LastName" 
-                        id="lastname-error" 
-                        class="text-danger d-block mt-1 small" 
-                        role="alert"></span>
-                </div>
-
-                @* --- Email Field --- *@
-                <div class="mb-3">
-                    <label asp-for="Email" class="form-label urbanist-medium text-blue mb-1">Email</label>
-                    <input asp-for="Email"
-                        type="email"
-                        class="form-control form-control-lg rounded-3"
-                        placeholder="Enter your email"
-                        autocomplete="email"
-                        required
-                        aria-required="true"
-                        aria-describedby="email-error" />
-                    <span asp-validation-for="Email" 
-                        id="email-error" 
-                        class="text-danger d-block mt-1 small" 
+                    <span asp-validation-for="LastName"
+                        id="lastname-error"
+                        class="text-danger d-block mt-1 small"
                         role="alert"></span>
                 </div>
 
@@ -129,7 +112,7 @@
                 @* --- Login Redirect Link --- *@
                 <div class="text-center mt-3">
                     <span class="urbanist-medium">Already have an account? </span>
-                    <a asp-page="/LogIn" 
+                    <a asp-page="/LogIn"
                         class="urbanist-medium text-blue text-decoration-none">
                         Sign In
                     </a>

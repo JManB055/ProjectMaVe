@@ -31,27 +31,27 @@ namespace ProjectMaVe.Pages.Workouts
         {
             try
             {
-                var cookieInfo = _auth.GetCookieInfo();
-        
-                if (cookieInfo == null)
+                var user = await _auth.GetCurrentUser();
+
+                if (user == null)
                     return new JsonResult(new { success = false, message = "Error with User identification" });
-        
-                var uid = cookieInfo.Value.uid;
-        
+
+                var uid = user.UserID;
+
                 if (uid <= 0)
                     return new JsonResult(new { success = false, message = "Invalid user ID" });
-        
+
                 var exercises = await _exerciseService.GetAllExercisesAsync();
-        
+
                 if (exercises == null)
                     return new JsonResult(new { success = false, message = "Error retrieving exercises" });
-        
+
                 var exerciseResults = exercises.Select(e => new {
                     e.ExerciseID,
                     e.Name,
                     e.MuscleGroup
                 });
-        
+
                 return new JsonResult(new { success = true, exercises = exerciseResults });
             }
             catch (Exception ex)
@@ -59,18 +59,18 @@ namespace ProjectMaVe.Pages.Workouts
                 return new JsonResult(new { success = false, message = ex.Message });
             }
         }
-        
+
         // Handler to save a new workout with exercises
         public async Task<IActionResult> OnPostSaveWorkoutExercisesAsync([FromBody] SaveWorkoutRequest request)
         {
             try
             {
                 // Verify user is authenticated
-                var cookieInfo = _auth.GetCookieInfo();
-                if (cookieInfo == null)
+                var user = await _auth.GetCurrentUser();
+                if (user == null)
                     return new JsonResult(new { success = false, message = "Error with User identification" });
 
-                var uid = cookieInfo.Value.uid;
+                var uid = user.UserID;
                 if (uid <= 0)
                     return new JsonResult(new { success = false, message = "Invalid user ID" });
 
@@ -99,7 +99,7 @@ namespace ProjectMaVe.Pages.Workouts
                     c.Weight = e.Weight;
                     c.Distance = e.Distance;
                     c.Time = e.Duration;
-                    
+
                     newExercises.Add(c);
                 }
 
@@ -108,7 +108,7 @@ namespace ProjectMaVe.Pages.Workouts
                 if(!workoutExerciseStoreSuccess)
                     return new JsonResult(new { success = false, message = "Error with saving new workout exercise objects" });
 
-                
+
 
                 // Return JSON result status if everything worked
                 return new JsonResult(new { success = true });
@@ -129,11 +129,11 @@ namespace ProjectMaVe.Pages.Workouts
         {
             try
             {
-                var cookieInfo = _auth.GetCookieInfo();
-                if (cookieInfo == null)
+                var user = await _auth.GetCurrentUser();
+                if (user == null)
                     return new JsonResult(new { success = false, message = "Error with User identification" });
 
-                var uid = cookieInfo.Value.uid;
+                var uid = user.UserID;
                 if (uid <= 0)
                     return new JsonResult(new { success = false, message = "Invalid user ID" });
 

@@ -32,12 +32,12 @@ namespace ProjectMaVe.Pages.Workouts
         {
             try
             {
-                var cookieInfo = _auth.GetCookieInfo();
+                var user = await _auth.GetCurrentUser();
 
-                if (cookieInfo == null)
+                if (user == null)
                     return new JsonResult(new { success = false, message = "Error with User identification" });
 
-                var uid = cookieInfo.Value.uid;
+                var uid = user.UserID;
 
                 if (uid <= 0)
                     return new JsonResult(new { success = false, message = "Invalid user ID" });
@@ -65,11 +65,11 @@ namespace ProjectMaVe.Pages.Workouts
         {
             try
             {
-                var cookieInfo = _auth.GetCookieInfo();
-                if (cookieInfo == null)
+                var user = await _auth.GetCurrentUser();
+                if (user == null)
                     return new JsonResult(new { success = false, message = "Error with User identification" });
 
-                var uid = cookieInfo.Value.uid;
+                var uid = user.UserID;
                 if (uid <= 0)
                     return new JsonResult(new { success = false, message = "Invalid user ID" });
 
