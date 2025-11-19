@@ -74,11 +74,18 @@ namespace ProjectMaVe.Pages.Workouts
 
                 // -------- Save WorkoutExercises ---------
                 
-                // For each item in request.Exercises...
+                // Get old workoutExercises to know what needs to be added or deleted vs just changed
+                var oldExercises = await _workoutExerciseService.GetWorkoutExercisesAsync(wid);
+                if(oldExercises == null) return new JsonResult(new { success = false, message = "Error retrieving old workoutExercise list" });
+                
+                var newExercises = new List<WorkoutExercise>();
+                
+                // Change the input list to instances of the WorkoutExercise model
                 foreach(var ex in request.Exercises) {
                     var currentExercise = new WorkoutExercise();  // Create new instance of WorkoutExercise model
                     
                     // Copy all attributes in to new instance
+                    currentExercise.WorkoutID = wid;
                     currentExercise.ExerciseID = ex.ExerciseID;
                     currentExercise.Sets = ex.Sets;
                     currentExercise.Reps = ex.Reps;
@@ -86,12 +93,51 @@ namespace ProjectMaVe.Pages.Workouts
                     currentExercise.Distance = ex.Distance;
                     currentExercise.Time = ex.Duration;         // The fields are named differently, this is not a typo
 
-                    // Send data to db with error checking
-                    bool success = await _workoutExerciseService.UpdateWorkoutExerciseAsync(ex.WorkoutExerciseID, currentExercise);
-                    if(!success) return new JsonResult(new { success = false, message = "Error saving workoutExercise" });
+                    newExercises.Add(currentExercise);
                 }
 
+                // Arrays to store each of the 3 cases in
+                var toDeleteExercises = new List<WorkoutExercise>();
+                var toChangeExercises = new List<WorkoutExercise>();
+                var toAddExercises = new List<WorkoutExercise>();
 
+                // Figure out which exercises have been removed
+                foreach(var ex in oldExercises) {
+                    bool exists = newExercises.Any(el => el.WorkoutExerciseID == ex.WorkoutExerciseID);
+                    if(!exists) toDeleteExercises.Add(ex);
+                }
+
+                // Figure out which exercises have been added or need to be changed
+                foreach(var ex in newExercises) {
+                    bool exists = oldExercises.Any(el => el.WorkoutExerciseID == ex.WorkoutExerciseID);
+                    if(!exists){
+                        toAddExercises.Add(ex);
+                        break;
+                    }
+                    
+                    toChangeExercises.Add(ex);
+                }
+
+                
+                // Delete workouts that are no longer part of this workout
+                foreach(var ex in toDeleteExercises){
+                    bool success = await _workoutExerciseService.DeleteWorkoutExerciseAsync(ex.WorkoutExerciseID);
+                    if(!success) return new JsonResult(new { success = false, message = "Error deleting old workoutExercise" });
+                }
+                
+                // Add workouts that have been added from the details page
+                foreach(var ex in toAddExercises){
+                    bool success = await _workoutExerciseService.CreateWorkoutExerciseAsync(ex);
+                    if(!success) return new JsonResult(new { success = false, message = "Error adding new workoutExercise" });
+                }
+                
+                // Update all other workouts
+                foreach(var ex in toChangeExercises){
+                    bool success = await _workoutExerciseService.UpdateWorkoutExerciseAsync(ex.WorkoutExerciseID, ex);
+                    if(!success) return new JsonResult(new { success = false, message = "Error deleting old workoutExercise" });
+                }
+
+                
                 return new JsonResult(new
                 {
                     success = true,
