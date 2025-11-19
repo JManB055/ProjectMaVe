@@ -4,7 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProjectMaVe.Models;
 
-
+/**
+ * <summary>
+ * Represents an exercise as part of a workout
+ * </summary>
+ * <remarks>
+ * Weight based and duration based exercises have different fields, this object can produce either one
+ * </remarks>
+ */
 public class WorkoutExercise
 {
     //default constructor
