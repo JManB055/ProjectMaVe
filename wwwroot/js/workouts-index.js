@@ -15,8 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let filteredWorkouts = [];
     let availableExercises = [];
 
-    fetchExercisesFromDB();
-
     // ===== API FUNCTIONS =====    
     async function fetchExercisesFromDB() {
         try {
@@ -189,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (emptyState) emptyState.style.display = "none";
 
         workoutTableBody.innerHTML = filteredWorkouts.map(w => {
-            const formattedDate = formatDate(w.date);
+            const formattedDate = formatDate(w.workoutDate);
             const workoutType = determineWorkoutType(w.exercises);
             
             return `
@@ -225,8 +223,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ===== HELPERS =====
     function determineWorkoutType(exercises) {
-        const hasStrength = exercises.some(ex => ex.muscle !== "Cardio");
-        const hasCardio = exercises.some(ex => ex.muscle === "Cardio");
+        const hasCardio = exercises.some(ex => getExerciseGroup(ex.exerciseID) == "Speed" || getExerciseGroup(ex.exerciseID) == "Endurance");
+        const hasStrength = exercises.some(ex => getExerciseGroup(ex.exerciseID) !== "Speed" && getExerciseGroup(ex.exerciseID) !== "Endurance");
         
         if (hasStrength && hasCardio) {
             return '<span class="badge bg-info">Mixed</span>';
@@ -246,6 +244,17 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    function getExerciseName(id){
+        const exercise = availableExercises.find(ex => ex.exerciseID === id);
+        if(exercise) console.log("Returning Exercise Name: ", exercise.name);
+        return exercise ? exercise.name : null;
+    }
+
+    function getExerciseGroup(id){
+        const exercise = availableExercises.find(ex => ex.exerciseID === id);
+        return exercise ? exercise.muscleGroup : null;
+    }
+
     function showSuccess(message) {
         // TODO: Implement toast notification
         alert(message);
@@ -263,5 +272,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.deleteWorkout = deleteWorkout;
 
     // ===== INITIALIZE =====
+    fetchExercisesFromDB();
     fetchWorkouts();
 });
