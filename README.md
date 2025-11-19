@@ -21,7 +21,7 @@ It integrates **Google AI Studio** to help users generate personalized workouts 
 |----------------|-------------|
 | **Backend** | ASP.NET Core (Razor Pages) |
 | **Database** | MariaDB |
-| **AI Integration** | Google AI Studio |
+| **AI Integration** | Google Gemini 2.5 Flash |
 | **Containerization** | Docker |
 | **Language** | C# |
 | **Frontend** | Razor + HTML/CSS (via ASP.NET) |
