@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let availableExercises = [];
 
     // ===== INITIALIZE =====
-    function init() {
+    async function init() {
         // Parse workoutId from URL
         const pathParts = window.location.pathname.split('/').filter(Boolean); // removes empty segments
         workoutId = parseInt(pathParts[pathParts.length - 1]);
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
         
-        fetchExercisesFromDB();
+        await fetchExercisesFromDB();
         fetchWorkoutExercises(workoutId);
     }
 
