@@ -23,59 +23,59 @@ namespace ProjectMaVe.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            if (!_auth.IsCurrentSignedIn()) return Redirect("~/");
+            if (!_auth.IsCurrentSignedIn()) return Redirect("~/LogOut");
             return Page();
         }
 
         public async Task<JsonResult> OnPostSaveWidgetsAsync([FromBody] List<Widget> widgets)
         {
-            var cookieInfo = _auth.GetCookieInfo();
-            
-            if(cookieInfo != null){
-                var uid = cookieInfo.Value.uid;
-		            
-		            if (uid <= 0)
-		            {
-		                return new JsonResult(new { success = false, message = "Invalid user ID" });
-		            }
-                
+            var user = await _auth.GetCurrentUser();
+
+            if(user != null){
+                var uid = user.UserID;
+
+                if (uid <= 0)
+                {
+                    return new JsonResult(new { success = false, message = "Invalid user ID" });
+                }
+
                 if (widgets == null || widgets.Count == 0)
-		            {
-		                return new JsonResult(new { success = false, message = "No widgets provided." });
-		            }
-		
-		            bool success = await _widgetService.StoreAllWidgetsAsync(uid, widgets);
-		
-		            return new JsonResult(new { success });
+                {
+                    return new JsonResult(new { success = false, message = "No widgets provided." });
+                }
+
+                bool success = await _widgetService.StoreAllWidgetsAsync(uid, widgets);
+
+                return new JsonResult(new { success });
             }
             else{
-		            return new JsonResult(new { success = false, message = $"Error with User identification" });
+                return new JsonResult(new { success = false, message = $"Error with User identification" });
             }
         }
 
         public async Task<JsonResult> OnGetWidgetsAsync()
         {
-            var cookieInfo = _auth.GetCookieInfo();
+            var user = await _auth.GetCurrentUser();
 
-            if(cookieInfo != null){
-                var uid = cookieInfo.Value.uid;
-            
-		            if (uid <= 0)
-		            {
-		                return new JsonResult(new { success = false, message = "Invalid user ID" });
-		            }
-		
-		            var widgets = await _widgetService.GetWidgetsByUserAsync(uid);
-		
-		            if (widgets == null || widgets.Count == 0)
-		            {
-		                return new JsonResult(new { success = true, widgets = new List<Widget>() });
-		            }
-		
-		            return new JsonResult(new { success = true, widgets });
+            if (user != null) {
+                var uid = user.UserID;
+
+                if (uid <= 0)
+                {
+                    return new JsonResult(new { success = false, message = "Invalid user ID" });
+                }
+
+                var widgets = await _widgetService.GetWidgetsByUserAsync(uid);
+
+                if (widgets == null || widgets.Count == 0)
+                {
+                    return new JsonResult(new { success = true, widgets = new List<Widget>() });
+                }
+
+                return new JsonResult(new { success = true, widgets });
             }
             else{
-		            return new JsonResult(new { success = false, message = $"Error with User identification" });
+                return new JsonResult(new { success = false, message = $"Error with User identification" });
             }
         }
 
@@ -83,27 +83,27 @@ namespace ProjectMaVe.Pages
         {
             try
             {
-                var cookieInfo = _auth.GetCookieInfo();
-                if (cookieInfo == null)
+                var user = await _auth.GetCurrentUser();
+                if (user == null)
                     return new JsonResult(new { success = false, message = "Error with User identification" });
-        
-                var uid = cookieInfo.Value.uid;
+
+                var uid = user.UserID;
                 if (uid <= 0)
                     return new JsonResult(new { success = false, message = "Invalid user ID" });
-        
+
                 // Step 1: get all workouts for the user
                 var workouts = await _workoutService.GetWorkoutsByUserAsync(uid);
-        
+
                 // Handle case of no workouts
                 if (workouts == null || workouts.Count == 0)
                     return new JsonResult(new { success = true, workouts = new List<object>() });
-        
+
                 // Step 2: fetch exercises for each workout
                 var workoutResults = new List<object>();
                 foreach (var workout in workouts)
                 {
                     var exercises = await _workoutExerciseService.GetWorkoutExercisesAsync(workout.WorkoutID);
-        
+
                     workoutResults.Add(new
                     {
                         workout.WorkoutID,
@@ -121,7 +121,7 @@ namespace ProjectMaVe.Pages
                         }).ToList()
                     });
                 }
-        
+
                 // Step 3: return JSON
                 return new JsonResult(new { success = true, workouts = workoutResults });
             }

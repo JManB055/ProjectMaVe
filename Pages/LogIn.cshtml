@@ -32,19 +32,19 @@
                 @* --- Validation Summary --- *@
                 <div asp-validation-summary="ModelOnly" class="text-danger text-center mb-3" role="alert"></div>
 
-                @* --- Username Field --- *@
+                @* --- Email Field --- *@
                 <div class="mb-3">
-                    <label asp-for="UserName" class="form-label urbanist-medium text-blue mb-1">Username</label>
-                    <input asp-for="UserName"
+                    <label asp-for="Email" class="form-label urbanist-medium text-blue mb-1">Email</label>
+                    <input asp-for="Email"
                         type="text"
                         class="form-control form-control-lg rounded-3"
-                        placeholder="Enter your username"
-                        autocomplete="username"
+                        placeholder="Enter your email"
+                        autocomplete="email"
                         required
                         aria-required="true"
                         aria-describedby="username-error" />
-                    <span asp-validation-for="UserName"
-                        id="username-error"
+                    <span asp-validation-for="Email"
+                        id="email-error"
                         class="text-danger d-block mt-1 small"
                         role="alert"></span>
                 </div>
