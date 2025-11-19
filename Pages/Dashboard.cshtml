@@ -1,6 +1,7 @@
 ﻿@page
 @model ProjectMaVe.Pages.DashboardModel
 @inject ProjectMaVe.Interfaces.IAuthenticationService authService;
+
 @{
     ViewData["Title"] = "Dashboard";
     // Load the currently authenticated user
@@ -14,6 +15,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-8">
+                    <!-- User greeting -->
                     <h1 class="urbanist-bold text-blue mb-2">
                         Welcome back, @(user.FirstName) @(user.LastName)
                     </h1>
@@ -21,8 +23,10 @@
                         Here's your fitness overview for today
                     </p>
                 </div>
+
+                <!-- Edit toggler -->
                 <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                    <button class="btn btn-blue" onclick="toggleDraggable()" id="editSaveBtn">
+                    <button class="btn btn-blue" onclick="toggleDraggable()" id="editSaveBtn" aria-label="Toggle edit mode">
                         <i class="fas fa-edit me-2"></i>Edit
                     </button>
                 </div>
@@ -31,49 +35,52 @@
     </header>
 
     <main class="container">
-        @* ===============================
-        Template Widgets
-        =============================== *@
 
-
+        <!-- Widget Template Tabs -->
         <div class="template_container">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <!-- Each tab corresponds to a widget size or category -->
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Add Widgets</button>
+                    <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home">Add Widgets</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="s1x1-tab" data-bs-toggle="tab" data-bs-target="#s1x1" type="button" role="tab" aria-controls="s1x1" aria-selected="true">1x1 Widgets</button>
+                    <button class="nav-link" id="s1x1-tab" data-bs-toggle="tab" data-bs-target="#s1x1" type="button" role="tab" aria-controls="s1x1">1x1 Widgets</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="s1x2-tab" data-bs-toggle="tab" data-bs-target="#s1x2" type="button" role="tab" aria-controls="s1x2" aria-selected="false">1x2 Widgets</button>
+                    <button class="nav-link" id="s1x2-tab" data-bs-toggle="tab" data-bs-target="#s1x2" type="button" role="tab" aria-controls="s1x2">1x2 Widgets</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="s2x1-tab" data-bs-toggle="tab" data-bs-target="#s2x1" type="button" role="tab" aria-controls="s2x1" aria-selected="false">2x1 Widgets</button>
+                    <button class="nav-link" id="s2x1-tab" data-bs-toggle="tab" data-bs-target="#s2x1" type="button" role="tab" aria-controls="s2x1">2x1 Widgets</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="s2x2-tab" data-bs-toggle="tab" data-bs-target="#s2x2" type="button" role="tab" aria-controls="s2x2" aria-selected="false">2x2 Widgets</button>
+                    <button class="nav-link" id="s2x2-tab" data-bs-toggle="tab" data-bs-target="#s2x2" type="button" role="tab" aria-controls="s2x2">2x2 Widgets</button>
                 </li>
+                <!-- Hidden widgets tab -->
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="hide-tab" data-bs-toggle="tab" data-bs-target="#hide" type="button" role="tab" aria-controls="hide" aria-selected="false">Minimize</button>
+                    <button class="nav-link active" id="hide-tab" data-bs-toggle="tab" data-bs-target="#hide" type="button" role="tab" aria-controls="hide">Minimize</button>
                 </li>
             </ul>
 
             <div class="tab-content" id="myTabContent">
+
+                <!-- Add Widgets (All Sizes) -->
                 <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <div class="template-widget-container thin-tem-con">
+
+                        <!-- 1x1 examples -->
                         <div class="widget-template size-1x1">
                             <div class="widget-header">
-                                <h3 class="widget-title urbanist-bold">Today's Strength </h3>
+                                <h3 class="widget-title urbanist-bold">Today's Strength</h3>
+                                <!-- Passing widget size and label to JS -->
                                 <button onClick="addWidget(1, 1, 'Daily Strength')" class="add-btn btn btn-blue-no-pad ml-1">
                                     <i class="fa-solid fa-plus"></i>
                                 </button>
                             </div>
                             <div class="widget-content mt-4 pt-4">
-                                <div>
-                                    <p>Daily Strength Workouts go here.</p>
-                                </div>
+                                <p>Daily Strength Workouts go here.</p>
                             </div>
                         </div>
+
                         <div class="widget-template size-1x1">
                             <div class="widget-header">
                                 <h3 class="widget-title urbanist-bold">Today's Cardio</h3>
@@ -82,11 +89,11 @@
                                 </button>
                             </div>
                             <div class="widget-content mt-4 pt-4">
-                                <div>
-                                    <p>Daily Cardio Workouts go here.</p>
-                                </div>
+                                <p>Daily Cardio Workouts go here.</p>
                             </div>
                         </div>
+
+                        <!-- 1x2 example -->
                         <div class="widget-template size-1x2">
                             <div class="widget-header">
                                 <h3 class="widget-title urbanist-bold">Today's Workouts</h3>
@@ -95,13 +102,16 @@
                                 </button>
                             </div>
                             <div class="widget-content mt-4 pt-4">
-                                <div>
-                                    <p>Daily Workouts go here.</p>
-                                </div>
+                                <p>Daily Workouts go here.</p>
                             </div>
                         </div>
+
                     </div>
+
+                    <!-- Wider widget samples -->
                     <div class="template-widget-container wide-tem-con">
+
+                        <!-- 2x1 example -->
                         <div class="widget-template size-2x1">
                             <div class="widget-header">
                                 <h3 class="widget-title urbanist-bold">Today's Workouts</h3>
@@ -110,14 +120,16 @@
                                 </button>
                             </div>
                             <div class="widget-content mt-4 pt-4">
-                                <div>
-                                    <p>Daily Workouts go here.</p>
-                                </div>
+                                <p>Daily Workouts go here.</p>
                             </div>
                         </div>
+
+                        <!-- 2x2 example -->
                         <div class="widget-template size-2x2">
                             <div class="widget-header">
                                 <h3 class="widget-title urbanist-bold">Workout History</h3>
+
+                                <!-- Filters shown inside template but not functional here -->
                                 <select class="form-select rounded-3" id="weightHistoryFilter" style="width: 8em;">
                                     <option value="All">All Muscle Groups</option>
                                     <option value="Chest">Chest</option>
@@ -129,6 +141,7 @@
                                     <option value="Speed">Speed</option>
                                     <option value="Endurance">Endurance</option>
                                 </select>
+
                                 <select class="form-select rounded-3" id="metricHistoryFilter" style="width: 8em;">
                                     <option value="weight">Weight</option>
                                     <option value="reps">Reps</option>
@@ -136,10 +149,12 @@
                                     <option value="time">Duration</option>
                                     <option value="distance">Distance</option>
                                 </select>
+
                                 <button onClick="addWidget(2, 2, 'Weight History')" class="add-btn btn btn-blue-no-pad">
                                     <i class="fa-solid fa-plus"></i>
                                 </button>
                             </div>
+
                             <div class="widget-content mt-4 pt-4">
                                 <div class="placeholder-content">
                                     <i class="fas fa-bullseye fa-2x text-blue mb-2"></i>
@@ -147,23 +162,28 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
+
+                <!-- 1x1 Tab -->
                 <div class="tab-pane fade" id="s1x1" role="tabpanel" aria-labelledby="s1x1-tab">
                     <div class="template-widget-container thin-tem-con">
+
+                        <!-- Strength 1x1 -->
                         <div class="widget-template size-1x1">
                             <div class="widget-header">
-                                <h3 class="widget-title urbanist-bold">Today's Strength </h3>
+                                <h3 class="widget-title urbanist-bold">Today's Strength</h3>
                                 <button onClick="addWidget(1, 1, 'Daily Strength')" class="add-btn btn btn-blue-no-pad ml-1">
                                     <i class="fa-solid fa-plus"></i>
                                 </button>
                             </div>
                             <div class="widget-content mt-4 pt-4">
-                                <div>
-                                    <p>Daily Strength Workouts go here.</p>
-                                </div>
+                                <p>Daily Strength Workouts go here.</p>
                             </div>
                         </div>
+
+                        <!-- Cardio 1x1 -->
                         <div class="widget-template size-1x1">
                             <div class="widget-header">
                                 <h3 class="widget-title urbanist-bold">Today's Cardio</h3>
@@ -172,14 +192,14 @@
                                 </button>
                             </div>
                             <div class="widget-content mt-4 pt-4">
-                                <div>
-                                    <p>Daily Cardio Workouts go here.</p>
-                                </div>
+                                <p>Daily Cardio Workouts go here.</p>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
+
+                <!-- 1x2 Tab -->
                 <div class="tab-pane fade" id="s1x2" role="tabpanel" aria-labelledby="s1x2-tab">
                     <div class="template-widget-container thin-tem-con">
                         <div class="widget-template size-1x2">
@@ -190,14 +210,13 @@
                                 </button>
                             </div>
                             <div class="widget-content mt-4 pt-4">
-                                <div>
-                                    <p>Daily Workouts go here.</p>
-                                </div>
+                                <p>Daily Workouts go here.</p>
                             </div>
                         </div>
                     </div>
-
                 </div>
+
+                <!-- 2x1 Tab -->
                 <div class="tab-pane fade" id="s2x1" role="tabpanel" aria-labelledby="s2x1-tab">
                     <div class="template-widget-container wide-tem-con">
                         <div class="widget-template size-2x1">
@@ -208,19 +227,20 @@
                                 </button>
                             </div>
                             <div class="widget-content mt-4 pt-4">
-                                <div>
-                                    <p>Daily Workouts go here.</p>
-                                </div>
+                                <p>Daily Workouts go here.</p>
                             </div>
                         </div>
                     </div>
-
                 </div>
+
+                <!-- 2x2 Tab -->
                 <div class="tab-pane fade" id="s2x2" role="tabpanel" aria-labelledby="s2x2-tab">
                     <div class="template-widget-container wide-tem-con">
                         <div class="widget-template size-2x2">
                             <div class="widget-header">
                                 <h3 class="widget-title urbanist-bold">Workout History</h3>
+
+                                <!-- Filters duplicated from main All tab -->
                                 <select class="form-select rounded-3" id="weightHistoryFilter-2" style="width: 8em;">
                                     <option value="All">All Muscle Groups</option>
                                     <option value="Chest">Chest</option>
@@ -232,6 +252,7 @@
                                     <option value="Speed">Speed</option>
                                     <option value="Endurance">Endurance</option>
                                 </select>
+
                                 <select class="form-select rounded-3" id="metricHistoryFilter-2" style="width: 8em;">
                                     <option value="weight">Weight</option>
                                     <option value="reps">Reps</option>
@@ -239,10 +260,12 @@
                                     <option value="time">Duration</option>
                                     <option value="distance">Distance</option>
                                 </select>
+
                                 <button onClick="addWidget(2, 2, 'Weight History-2')" class="add-btn btn btn-blue-no-pad">
                                     <i class="fa-solid fa-plus"></i>
                                 </button>
                             </div>
+
                             <div class="widget-content mt-4 pt-4">
                                 <div class="placeholder-content">
                                     <i class="fas fa-bullseye fa-2x text-blue mb-2"></i>
@@ -252,27 +275,29 @@
                         </div>
                     </div>
                 </div>
+                
+                <!-- Hidden/minimized widgets -->
                 <div class="tab-pane fade show active" id="hide" role="tabpanel" aria-labelledby="hide-tab"></div>
             </div>
         </div>
 
-        @* ===============================
-        Widget Grid Container
-        =============================== *@
-        <div class="dashboard_background dashboard_container"><h1>Loading Widgets...</h1></div>
+        <!-- User Grid Area -->
+        <div class="dashboard_background dashboard_container">
+            <h1>Loading Widgets...</h1>
+        </div>
 
-
-		    @* Edit Mode Overlay Instructions *@
-            <div class="edit-mode-banner" id="editModeBanner" style="display: none;">
-                <div class="container-fluid">
-                    <p class="mb-0 urbanist-bold">
-                        <i class="fas fa-info-circle me-2"></i>
-                        Edit Mode: Drag widgets to reorder. Click "Done" when finished.
-                        <button class="btn btn-yellow btn-sm ms-3" id="doneEditingBtn">Done</button>
-                    </p>
-                </div>
+        <!-- Edit Mode Banner -->
+        <div class="edit-mode-banner" id="editModeBanner" style="display: none;">
+            <div class="container-fluid">
+                <p class="mb-0 urbanist-bold">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Edit Mode: Drag widgets to reorder. Click "Done" when finished.
+                    <button class="btn btn-yellow btn-sm ms-3" id="doneEditingBtn">Done</button>
+                </p>
             </div>
-	</main>
+        </div>
+
+    </main>
 </div>
 
 @section Scripts {
