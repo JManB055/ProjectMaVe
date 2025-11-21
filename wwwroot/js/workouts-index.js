@@ -18,6 +18,14 @@ document.addEventListener("DOMContentLoaded", () => {
     let availableExercises = [];
 
     // ===== API FUNCTIONS =====    
+	/**
+	* Use SQL query to retrieve exercises from database, aided by Workouts handler
+	*
+	* @async
+	* @function fetchExerciseFromDB
+	* @returns {void} Function exits when the operation is complete
+	* @throws {error} Error thrown if the operation fails
+	*/
     async function fetchExercisesFromDB() {
         try {
             // Get the anti-forgery token (handle if it doesn't exist)
@@ -48,6 +56,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+	/**
+	* Use SQL query to retrieve workouts from database, aided by Workouts handler
+	*
+	* @async
+	* @function fetchWorkouts
+	* @returns {void} Function exits when the operation is complete
+	* @throws {error} Error thrown if the operation fails
+	*/
     async function fetchWorkouts() {
         // Show loading, hide table and empty state
         if (loadingState) loadingState.style.display = "block";
@@ -55,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (emptyState) emptyState.style.display = "none";
 
         try {
-            // Get workouts from te database in JSON format
+            // Get workouts from the database in JSON format
             const response = await fetch(`/Workouts?handler=WorkoutInfo`, {
                 method: 'GET',
                 headers: {
@@ -74,6 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
             filteredWorkouts = [...workouts];
             updateStats();
             renderWorkouts();
+            applyFilters();
         } catch (error) {
             console.error("Error fetching workouts:", error);
             showError("Failed to load workouts. Please try again.");
@@ -83,7 +100,15 @@ document.addEventListener("DOMContentLoaded", () => {
             if (workoutsTableContainer) workoutsTableContainer.style.display = "block";
         }
     }
-
+	
+	/**
+	* Use SQL query to delete a workout from database, aided by Workouts handler
+	*
+	* @async
+	* @function deleteWorkouts
+	* @returns {void} Function exits when the operation is complete
+	* @throws {error} Error thrown if the operation fails
+	*/	
     async function deleteWorkout(workoutId) {
         if (!confirm("Are you sure you want to delete this workout?")) return;
 
@@ -123,6 +148,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ===== FILTER & SORT =====
+	/**
+	* Filter or sort workouts based on user-specified filter type
+	*
+	* @function applyFilters
+	* @returns {void} Function exits when the operation is complete
+	*/	
     function applyFilters() {
         filteredWorkouts = [...workouts];
 
@@ -166,6 +197,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ===== STATS =====
+	/**
+	* Update user workout statistics into user workout history
+	*
+	* @function updateStats
+	* @returns {void} Function exits upon completion, it updates the stats directly
+	*/	
     function updateStats() {
         const total = workouts.length;
         const strength = workouts.filter(w => w.exercises.some(ex => getExerciseGroup(ex.exerciseID) !== "Speed" && getExerciseGroup(ex.exerciseID) !== "Endurance")).length;
@@ -185,6 +222,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ===== RENDER =====
+	/**
+	* Render user workouts into the workouts table
+	*
+	* @function renderWorkouts
+	* @returns {void} Function exits upon completion, it updates the table directly
+	*/	
     function renderWorkouts() {
 
         if (!workoutTableBody) return;
@@ -233,6 +276,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ===== HELPERS =====
+	/**
+	* Separate workouts into cardio and strength types
+	*
+	* @function determineWorkoutTypes
+	* @param {Array<Exercise>} exercises - List of exercise objects
+	* @returns {string} HTML string showing a badge that specifies the workout type
+	*/
     function determineWorkoutType(exercises) {
         const hasCardio = exercises.some(ex => getExerciseGroup(ex.exerciseID) == "Speed" || getExerciseGroup(ex.exerciseID) == "Endurance");
         const hasStrength = exercises.some(ex => getExerciseGroup(ex.exerciseID) !== "Speed" && getExerciseGroup(ex.exerciseID) !== "Endurance");
@@ -246,6 +296,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+	/**
+	* Format dates to Mon DD YY format
+	* 
+	* @function formatDate
+	* @param {string} dateString - Date in YYYY-MM-DD format
+	* @returns {string} Date in Mon DD YY format
+	*/
     function formatDate(dateString) {
         const date = new Date(dateString + 'T00:00');
         return date.toLocaleDateString("en-US", { 
@@ -255,23 +312,49 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+	/**
+	* Return exercise name by exercise ID
+	* 
+	* @function getExerciseName
+	* @param {number} id - Exercise ID
+	* @returns {string|null} The exercise name, or null
+	*/
     function getExerciseName(id){
         const exercise = availableExercises.find(ex => ex.exerciseID === id);
         return exercise ? exercise.name : null;
     }
 
+	/**
+	* Return exercise group by exercise ID
+	* 
+	* @function getExerciseGroup
+	* @param {number} id - Exercise ID
+	* @returns {string|null} The exercise group name, or null
+	*/
     function getExerciseGroup(id){
         const exercise = availableExercises.find(ex => ex.exerciseID === id);
         return exercise ? exercise.muscleGroup : null;
     }
 
+	/**
+	* Display operation success window
+	* 
+	* @function showSuccess
+	* @param {string} message - success message
+	* @returns {void} The function returns after completion
+	*/
     function showSuccess(message) {
-        // TODO: Implement toast notification
         alert(message);
     }
 
+	/**
+	* Display operation error window
+	* 
+	* @function showError
+	* @param {string} message - error message
+	* @returns {void} The function returns after completion
+	*/
     function showError(message) {
-        // TODO: Implement toast notification
         alert(message);
     }
 

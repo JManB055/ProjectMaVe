@@ -185,7 +185,7 @@ namespace ProjectMaVe.Pages.Workouts
                 return new JsonResult(new
                 {
                     success = true,
-                    workoutDate = DateTime.Today.ToString("yyyy-MM-dd"),
+                    workoutDate = workout.WorkoutDate.ToString("yyyy-MM-dd"),
                     exercises = Exercises
                 });
             }
