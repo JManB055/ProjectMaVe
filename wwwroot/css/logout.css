@@ -1,0 +1,26 @@
+/* Matches the layout of login.css */
+.login-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.login-page {
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+}
+
+.login-card {
+    background: #fff;
+}
+
+/* Typography adjustments if needed */
+.fit-sync {
+    font-size: 2.2rem;
+}
+
+#countdown {
+    font-weight: 700;
+}

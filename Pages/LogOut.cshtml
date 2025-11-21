@@ -4,29 +4,51 @@
     ViewData["Title"] = "User Sign Out";
 }
 
+<main class="login-main">
+    <div class="login-page bg-light-orange">
+        <div class="card login-card shadow-lg border-0 p-4 rounded-4">
 
-<div style="text-align:center; margin-top:50px;">
-    <h2>You have been logged out.</h2>
+            <!-- Header -->
+            <header class="text-center mb-4">
+                <h1 class="archivo-black-regular text-blue mb-2 fit-sync">FitSync</h1>
+                <p class="urbanist-bold text-blue mb-0">Signed Out</p>
+            </header>
 
-    <p>
-        Redirecting to <strong>/LogIn</strong> in
-        <span id="countdown">5</span> seconds...
-    </p>
+            <!-- Message -->
+            <div class="text-center urbanist-medium mb-3">
+                <p class="mb-1">You have been logged out.</p>
+                <p class="mb-0">
+                    Redirecting to <strong>/LogIn</strong> in
+                    <span id="countdown">5</span> seconds.
+                </p>
+            </div>
 
-    <p>If you are not redirected, <a href="/LogIn">click here</a>.</p>
-</div>
+            <!-- Manual redirect link -->
+            <div class="text-center mt-3">
+                <a href="/LogIn" class="urbanist-medium text-blue text-decoration-none">
+                    Click here if you're not redirected
+                </a>
+            </div>
+
+        </div>
+    </div>
+</main>
 
 <script>
- let seconds = 5;
- const countdown = document.getElementById("countdown");
+    let seconds = 5;
+    const countdown = document.getElementById("countdown");
 
- const interval = setInterval(() => {
-     seconds--;
-     countdown.textContent = seconds;
+    const timer = setInterval(() => {
+        seconds--;
+        countdown.textContent = seconds;
 
-     if (seconds <= 0) {
-         clearInterval(interval);
-         window.location.href = "/LogIn";
- }
- }, 1000);
+        if (seconds <= 0) {
+            clearInterval(timer);
+            window.location.href = "/LogIn";
+        }
+    }, 1000);
 </script>
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/logout.css" asp-append-version="true" />
+}

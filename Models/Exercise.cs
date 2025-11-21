@@ -4,7 +4,7 @@ namespace ProjectMaVe.Models;
 
 /**
  * <summary>
- * Represents a single exericse
+ * Represents a single exercise
  * </summary>
  * <remarks>
  * An exercise is a component of a workout, often references by its ID
