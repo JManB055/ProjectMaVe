@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function init() {
         // Fetch exercises from database
         await fetchExercisesFromDB();
-        
+
         // Set default date to today
         if (workoutDateInput) {
             const today = new Date().toISOString().split('T')[0];
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Get the anti-forgery token (handle if it doesn't exist)
             const tokenInput = document.querySelector('input[name="__RequestVerificationToken"]');
             const headers = { 'Content-Type': 'application/json' };
-            
+
             if (tokenInput) {
                 headers['RequestVerificationToken'] = tokenInput.value;
             }
@@ -88,15 +88,15 @@ document.addEventListener("DOMContentLoaded", () => {
     async function saveWorkout(workoutData) {
         try {
             console.log("Sending data:", workoutData);
-            
+
             // Get the anti-forgery token (handle if it doesn't exist)
             const tokenInput = document.querySelector('input[name="__RequestVerificationToken"]');
             const headers = { 'Content-Type': 'application/json' };
-            
+
             if (tokenInput) {
                 headers['RequestVerificationToken'] = tokenInput.value;
             }
-            
+
             const response = await fetch('/Workouts/Add?handler=SaveWorkoutExercises', {
                 method: 'POST',
                 headers: headers,
