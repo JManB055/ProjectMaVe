@@ -27,12 +27,12 @@
     --feature-card-hover-translate: -5px;
 
     /* Call-to-Action */
-    --cta-padding-vertical: 3rem;
-    --cta-btn-padding: 0.75rem 2rem;
-    --cta-hr-margin: 5rem;
+    --call-to-action-padding-vertical: 3rem;
+    --call-to-action-btn-padding: 0.75rem 2rem;
+    --call-to-action-hr-margin: 5rem;
 
     /* How It Works */
-    --hiw-padding-vertical: 3rem;
+    --how-it-works-padding-vertical: 3rem;
 
     /* Images */
     --image-radius: 0.5rem;
@@ -137,7 +137,7 @@ main.landing-main {
 ==================================== */
 .call-to-action {
     width: 100%;
-    padding: var(--cta-padding-vertical) var(--section-padding-horizontal);
+    padding: var(--call-to-action-padding-vertical) var(--section-padding-horizontal);
     text-align: center;
     box-sizing: border-box;
 }
@@ -148,11 +148,11 @@ main.landing-main {
 }
 
 .call-to-action hr {
-    margin: var(--cta-hr-margin) 0;
+    margin: var(--call-to-action-hr-margin) 0;
 }
 
 .call-to-action .btn {
-    padding: var(--cta-btn-padding);
+    padding: var(--call-to-action-btn-padding);
 }
 
 /* ====================================
@@ -189,7 +189,7 @@ main.landing-main {
 =================================== */
 .how-it-works-section {
     width: 100%;
-    padding: var(--hiw-padding-vertical) var(--section-padding-horizontal);
+    padding: var(--how-it-works-padding-vertical) var(--section-padding-horizontal);
 }
 
 .step-card {

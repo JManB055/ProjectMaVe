@@ -176,18 +176,18 @@ textarea {
   margin-bottom: 2em;
 }
 
-.template-widget-container {
+.template-container {
   display: grid;
   padding: 1em;
   gap: 1em;
   justify-content: space-evenly;
 }
 
-.thin-tem-con {
+.thin-template-container {
   grid-template-columns: repeat(4, 16em);
 }
 
-.wide-tem-con {
+.wide-template-container {
   grid-template-columns: repeat(2, 34em);
 }
 
