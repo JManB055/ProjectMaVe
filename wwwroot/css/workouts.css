@@ -119,6 +119,34 @@
 }
 
 /* ====================================
+   Feature Cards (How It Works)
+==================================== */
+.feature-card {
+    background-color: #ffffff;
+    /* Match Index Page Spacing/Radius */
+    padding: 2rem; 
+    border-radius: 1rem;
+    
+    /* Match Index Page Shadow */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    
+    /* Base Border (Subtle gray) */
+    border: 1px solid #eaeaea;
+    
+    /* Ensure height is equal in grid */
+    height: 100%; 
+    
+    /* Smooth physics for Lift, Shadow, and Border color */
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; 
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: var(--color-blue); 
+}
+
+/* ====================================
    Responsive Adjustments
 ==================================== */
 @media (max-width: 768px) {

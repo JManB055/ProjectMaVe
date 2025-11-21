@@ -112,15 +112,22 @@ main.landing-main {
 }
 
 .feature-card {
+    background-color: #fff;
     padding: var(--feature-card-padding);
     border-radius: var(--feature-card-radius);
     box-shadow: var(--feature-card-shadow);
-    transition: transform 0.2s, box-shadow 0.2s;
+    
+    /* Add subtle border */
+    border: 1px solid #eaeaea; 
+    
+    /* Add border-color to transition */
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
 }
 
 .feature-card:hover {
     transform: translateY(var(--feature-card-hover-translate));
     box-shadow: var(--feature-card-hover-shadow);
+    border-color: var(--color-blue);
 }
 
 /* ====================================
