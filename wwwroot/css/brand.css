@@ -11,7 +11,7 @@
   --color-blue-hover: #3765a0;
 
   /* Subtle Gradients */
-  --gradient-yellow-subtle: linear-gradient(145deg, #fff671, #f0e960);
+  --gradient-yellow-subtle: linear-gradient(145deg, #fff671, #eee76a);
   --gradient-blue-subtle: linear-gradient(145deg, #1478f1, #1370e0);
 
   --focus-outline-inner: white;
