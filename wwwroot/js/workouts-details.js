@@ -164,8 +164,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!workoutData) return;
 
         // Update header info
-        const formattedDate = formatDate(workoutData.date);
-        workoutDateDisplay.textContent = formattedDate;
+        // const formattedDate = formatDate(workoutData.date);
+        workoutDateDisplay.textContent = "View and edit your past workouts details";
         editWorkoutDate.value = workoutData.date;
 
         // Separate exercises by type
