@@ -32,17 +32,8 @@
         <form id="antiForgeryForm" style="display:none;">
             @Html.AntiForgeryToken()
         </form>
-
-        <!-- Loading State -->
-        <div id="loadingState" class="text-center py-5">
-            <div class="spinner-border text-blue mb-3" role="status" style="width: 3rem; height: 3rem;">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-            <h5 class="urbanist-bold text-blue">Loading Workout Details...</h5>
-        </div>
-
         <!-- Workout Info Card -->
-        <section class="workout-info-section mb-4" style="display:none;">
+        <section class="workout-info-section mb-4">
             <div class="card shadow-sm border-0 rounded-4">
                 <div class="card-header bg-blue text-light-orange urbanist-bold">
                     <i class="fas fa-info-circle me-2"></i>Workout Information
