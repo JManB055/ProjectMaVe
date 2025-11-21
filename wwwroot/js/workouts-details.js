@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let availableExercises = [];
 
     // ===== INITIALIZE =====
-    function init() {
+    async function init() {
         // Parse workoutId from URL
         const pathParts = window.location.pathname.split('/').filter(Boolean); // removes empty segments
         workoutId = parseInt(pathParts[pathParts.length - 1]);
@@ -32,8 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
         
-        fetchExercisesFromDB();
-        fetchWorkoutExercises(workoutId);
+        await fetchExercisesFromDB();
+        await fetchWorkoutExercises(workoutId);
     }
 
     // ===== API FUNCTIONS =====
@@ -82,6 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             workoutData = { id, date: result.workoutDate, exercises: result.exercises };
+            
             console.log("Workout Exercises loaded successfully: ", workoutData);
             renderWorkoutDetails();
         } catch (error) {
@@ -298,7 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const exercises = [];
 
         // Collect workout date
-        var workoutDateCollected = "2025-11-20"; // TODO get this dynamically
+        var workoutDateCollected = editWorkoutDate.value;
 
         // Strength
         strengthExerciseTableBody.querySelectorAll("tr").forEach(row => {

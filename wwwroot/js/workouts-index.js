@@ -67,6 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
             filteredWorkouts = [...workouts];
             updateStats();
             renderWorkouts();
+            applyFilters();
         } catch (error) {
             console.error("Error fetching workouts:", error);
             showError("Failed to load workouts. Please try again.");
