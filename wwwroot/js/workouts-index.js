@@ -15,8 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let filteredWorkouts = [];
     let availableExercises = [];
 
-    fetchExercisesFromDB();
-
     // ===== API FUNCTIONS =====    
     async function fetchExercisesFromDB() {
         try {
@@ -121,8 +119,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const typeFilter = filterType.value;
         if (typeFilter !== "all") {
             filteredWorkouts = filteredWorkouts.filter(w => {
-                const hasStrength = w.exercises.some(ex => ex.muscle !== "Cardio");
-                const hasCardio = w.exercises.some(ex => ex.muscle === "Cardio");
+                const hasStrength = w.exercises.some(ex => getExerciseGroup(ex.exerciseID) !== "Speed" && getExerciseGroup(ex.exerciseID) !== "Endurance");
+                const hasCardio = w.exercises.some(ex => getExerciseGroup(ex.exerciseID) == "Speed" || getExerciseGroup(ex.exerciseID) == "Endurance");
                 
                 if (typeFilter === "strength") return hasStrength;
                 if (typeFilter === "cardio") return hasCardio;
@@ -140,15 +138,15 @@ document.addEventListener("DOMContentLoaded", () => {
             else if (dateFilter === "month") cutoffDate.setMonth(now.getMonth() - 1);
             else if (dateFilter === "year") cutoffDate.setFullYear(now.getFullYear() - 1);
 
-            filteredWorkouts = filteredWorkouts.filter(w => new Date(w.date) >= cutoffDate);
+            filteredWorkouts = filteredWorkouts.filter(w => new Date(w.workoutDate) >= cutoffDate);
         }
 
         // Sort
         const sortOption = sortBy.value;
         if (sortOption === "date-desc") {
-            filteredWorkouts.sort((a, b) => new Date(b.date) - new Date(a.date));
+            filteredWorkouts.sort((a, b) => new Date(b.workoutDate) - new Date(a.workoutDate));
         } else if (sortOption === "date-asc") {
-            filteredWorkouts.sort((a, b) => new Date(a.date) - new Date(b.date));
+            filteredWorkouts.sort((a, b) => new Date(a.workoutDate) - new Date(b.workoutDate));
         } else if (sortOption === "exercises-desc") {
             filteredWorkouts.sort((a, b) => b.exercises.length - a.exercises.length);
         }
@@ -159,8 +157,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // ===== STATS =====
     function updateStats() {
         const total = workouts.length;
-        const strength = workouts.filter(w => w.exercises.some(ex => ex.muscle !== "Cardio")).length;
-        const cardio = workouts.filter(w => w.exercises.some(ex => ex.muscle === "Cardio")).length;
+        const strength = workouts.filter(w => w.exercises.some(ex => getExerciseGroup(ex.exerciseID) !== "Speed" && getExerciseGroup(ex.exerciseID) !== "Endurance")).length;
+        const cardio = workouts.filter(w => w.exercises.some(ex => getExerciseGroup(ex.exerciseID) == "Speed" || getExerciseGroup(ex.exerciseID) == "Endurance")).length;
 
         totalWorkouts.textContent = total;
         totalStrength.textContent = strength;
@@ -189,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (emptyState) emptyState.style.display = "none";
 
         workoutTableBody.innerHTML = filteredWorkouts.map(w => {
-            const formattedDate = formatDate(w.date);
+            const formattedDate = formatDate(w.workoutDate);
             const workoutType = determineWorkoutType(w.exercises);
             
             return `
@@ -200,10 +198,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     <td>
                         <ul class="mb-0 ps-3 urbanist-medium text-black small">
                             ${w.exercises.map(ex => {
-                                if (ex.muscleGroup === "Cardio") {
-                                    return `<li>${ex.exercise} - ${ex.duration || 0} min${ex.distance ? `, ${ex.distance} mi` : ""}</li>`;
+                                if (getExerciseGroup(ex.exerciseID) == "Speed" || getExerciseGroup(ex.exerciseID) == "Endurance") {
+                                    return `<li>${getExerciseName(ex.exerciseID)} - ${ex.time || 0} min${ex.distance ? `, ${ex.distance} mi` : ""}</li>`;
                                 } else {
-                                    return `<li>${ex.exercise} - ${ex.sets}×${ex.reps}${ex.weight ? ` @ ${ex.weight}lbs` : ""}</li>`;
+                                    return `<li>${getExerciseName(ex.exerciseID)} - ${ex.sets}×${ex.reps}${ex.weight ? ` @ ${ex.weight}lbs` : ""}</li>`;
                                 }
                             }).join("")}
                         </ul>
@@ -225,8 +223,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ===== HELPERS =====
     function determineWorkoutType(exercises) {
-        const hasStrength = exercises.some(ex => ex.muscle !== "Cardio");
-        const hasCardio = exercises.some(ex => ex.muscle === "Cardio");
+        const hasCardio = exercises.some(ex => getExerciseGroup(ex.exerciseID) == "Speed" || getExerciseGroup(ex.exerciseID) == "Endurance");
+        const hasStrength = exercises.some(ex => getExerciseGroup(ex.exerciseID) !== "Speed" && getExerciseGroup(ex.exerciseID) !== "Endurance");
         
         if (hasStrength && hasCardio) {
             return '<span class="badge bg-info">Mixed</span>';
@@ -246,6 +244,16 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
+    function getExerciseName(id){
+        const exercise = availableExercises.find(ex => ex.exerciseID === id);
+        return exercise ? exercise.name : null;
+    }
+
+    function getExerciseGroup(id){
+        const exercise = availableExercises.find(ex => ex.exerciseID === id);
+        return exercise ? exercise.muscleGroup : null;
+    }
+
     function showSuccess(message) {
         // TODO: Implement toast notification
         alert(message);
@@ -263,5 +271,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.deleteWorkout = deleteWorkout;
 
     // ===== INITIALIZE =====
+    fetchExercisesFromDB();
     fetchWorkouts();
 });

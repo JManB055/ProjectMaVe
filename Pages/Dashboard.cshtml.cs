@@ -25,7 +25,7 @@ namespace ProjectMaVe.Pages
 
         public async Task<IActionResult> OnGetAsync()
         {
-            if (!_auth.IsCurrentSignedIn()) return Redirect("~/");
+            if (!_auth.IsCurrentSignedIn()) return Redirect("~/LogOut");
             return Page();
         }
 
