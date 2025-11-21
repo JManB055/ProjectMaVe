@@ -48,3 +48,113 @@
         transform: translateY(0);
     }
 }
+
+/* ====================================
+   AI Plan Output Styling
+==================================== */
+/* Container for AI plan - no border, just holds the plan */
+.ai-plan-output {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0;
+    /* No padding on container */
+    background: transparent;
+    /* No background on container */
+}
+
+/* The exportable plan card */
+#exportablePlanCard {
+    background: white;
+    border-radius: 12px;
+    border: 2px solid #e0e0e0;
+    padding: 2rem;
+    width: 100%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#exportablePlanCard .plan-header {
+    text-align: center;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid #f0f0f0;
+    margin-bottom: 1.5rem;
+}
+
+#exportablePlanCard .plan-header .logo {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--color-blue);
+    margin-bottom: 0.5rem;
+}
+
+#exportablePlanCard .plan-header .subtitle {
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
+#exportablePlanCard .plan-content {
+    min-height: 200px;
+}
+
+#exportablePlanCard .plan-footer {
+    text-align: center;
+    padding-top: 1.5rem;
+    border-top: 2px solid #f0f0f0;
+    margin-top: 1.5rem;
+    color: #9ca3af;
+    font-size: 0.85rem;
+}
+
+#exportablePlanCard .user-info {
+    background: #f8fafc;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+#exportablePlanCard .user-info .user-name {
+    font-weight: 600;
+    color: #1e293b;
+    font-size: 1.1rem;
+}
+
+/* ====================================
+   Feature Cards (How It Works)
+==================================== */
+.feature-card {
+    background-color: #ffffff;
+    /* Match Index Page Spacing/Radius */
+    padding: 2rem; 
+    border-radius: 1rem;
+    
+    /* Match Index Page Shadow */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    
+    /* Base Border (Subtle gray) */
+    border: 1px solid #eaeaea;
+    
+    /* Ensure height is equal in grid */
+    height: 100%; 
+    
+    /* Smooth physics for Lift, Shadow, and Border color */
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s; 
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: var(--color-blue); 
+}
+
+/* ====================================
+   Responsive Adjustments
+==================================== */
+@media (max-width: 768px) {
+    .ai-plan-output {
+        margin: 1rem;
+    }
+
+    #exportablePlanCard {
+        padding: 1.5rem;
+    }
+}

@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let availableExercises = [];
 
     // ===== INITIALIZE =====
-    function init() {
+    async function init() {
         // Parse workoutId from URL
         const pathParts = window.location.pathname.split('/').filter(Boolean); // removes empty segments
         workoutId = parseInt(pathParts[pathParts.length - 1]);
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
         
-        fetchExercisesFromDB();
+        await fetchExercisesFromDB();
         fetchWorkoutExercises(workoutId);
     }
 
@@ -172,6 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
             workoutTypeBadge.textContent = "Cardio";
             workoutTypeBadge.className = "badge bg-success";
         }
+        workoutTypeBadge.style.display = "inline-block";
 
         // Show/hide sections
         if (strengthExercises.length > 0) {
