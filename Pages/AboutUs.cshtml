@@ -1,5 +1,76 @@
 ﻿@page
 @model ProjectMaVe.Pages.AboutUsModel
 @{
-    ViewData["Title"] = "About FitSync";
+    ViewData["Title"] = "About Us";
 }
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/about-us.css" asp-append-version="true" />
+}
+
+<div class="about-hero">
+    <div class="container">
+        <h1 class="urbanist-bold">Meet the Team</h1>
+        <p class="lead">
+            We are a passionate group of developers dedicated to help contribute to your fitness journey. 
+            Get to know the minds behind FitSync.
+        </p>
+    </div>
+</div>
+
+<section class="team-section">
+    <div class="container">
+        <div class="team-grid">
+            <!-- Aiden Carrera -->
+            <div class="team-card">
+                <div class="member-avatar urbanist-bold">AC</div>
+                <h3 class="member-name urbanist-bold">Aiden Carrera</h3>
+                <div class="member-role">Frontend</div>
+                <p class="member-bio">
+                    Aiden handled the frontend design and built the user interface, focusing on a clean modern layout and smooth interaction.
+                    He also created the site's CSS and developed the JavaScript for the core pages, ensuring responsive behavior and a consistent user experience.
+                </p>
+            </div>
+
+            <!-- Joshua Wyckoff -->
+            <div class="team-card">
+                <div class="member-avatar urbanist-bold">JW</div>
+                <h3 class="member-name urbanist-bold">Joshua Wyckoff</h3>
+                <div class="member-role">Frontend</div>
+                <p class="member-bio">
+                    Joshua focused on Frontend Development, helping develop the widget user interface and javascript functionality.
+                </p>
+            </div>
+
+            <!-- Haoran Yue -->
+            <div class="team-card">
+                <div class="member-avatar urbanist-bold">HY</div>
+                <h3 class="member-name urbanist-bold">Haoran Yue</h3>
+                <div class="member-role">Backend</div>
+                <p class="member-bio">
+                    Haoran managed the backend functionality including user authentication and secruity as well as database.
+                </p>
+            </div>
+
+            <!-- Tyler Clayton -->
+            <div class="team-card">
+                <div class="member-avatar urbanist-bold">TC</div>
+                <h3 class="member-name urbanist-bold">Tyler Clayton</h3>
+                <div class="member-role">Backend</div>
+                <p class="member-bio">
+                    Tyler managed the backend and artifical intelligence services.
+                </p>
+            </div>
+
+            <!-- Alex Seda -->
+            <div class="team-card">
+                <div class="member-avatar urbanist-bold">AS</div>
+                <h3 class="member-name urbanist-bold">Alex Seda</h3>
+                <div class="member-role">Database</div>
+                <p class="member-bio">
+                    Alex managed the database and created backend and middleware services, helping tie together the frontend and backend.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>

@@ -69,7 +69,7 @@
                     </div>
                 </div>
                 <div class="card-body bg-light-orange">
-                    <div class="table-responsive">
+                    <div class="table-responsive" id="strengthTableContainer" style="display:none;">
                         <table class="table align-middle mb-0" id="strengthExerciseTable">
                             <thead class="urbanist-bold text-blue small">
                                 <tr>
@@ -85,6 +85,13 @@
                                 <!-- Filled dynamically by JS -->
                             </tbody>
                         </table>
+                    </div>
+                    <!-- Loading State -->
+                    <div id="strengthLoadingState" class="text-center py-5">
+                        <div class="spinner-border text-blue mb-3" role="status" style="width: 3rem; height: 3rem;">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <h5 class="urbanist-bold text-blue">Loading Exercises...</h5>
                     </div>
                 </div>
             </div>
@@ -102,20 +109,27 @@
                     </div>
                 </div>
                 <div class="card-body bg-light-orange">
-                    <div class="table-responsive">
+                    <div class="table-responsive" id="cardioTableContainer" style="display:none;">
                         <table class="table align-middle mb-0" id="cardioTable">
                             <thead class="urbanist-bold text-blue small">
-                                <tr>
-                                    <th style="width: 40%;">Activity</th>
-                                    <th style="width: 30%;">Duration (min)</th>
-                                    <th style="width: 25%;">Distance (mi)</th>
-                                    <th style="width: 5%;"></th>
-                                </tr>
+                                 <tr>
+                                     <th style="width: 40%;">Activity</th>
+                                     <th style="width: 30%;">Duration (min)</th>
+                                     <th style="width: 25%;">Distance (mi)</th>
+                                     <th style="width: 5%;"></th>
+                                 </tr>
                             </thead>
                             <tbody id="cardioTableBody" class="urbanist-medium text-black">
                                 <!-- Filled dynamically by JS -->
                             </tbody>
                         </table>
+                    </div>
+                    <!-- Loading State -->
+                    <div id="cardioLoadingState" class="text-center py-5">
+                        <div class="spinner-border text-blue mb-3" role="status" style="width: 3rem; height: 3rem;">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <h5 class="urbanist-bold text-blue">Loading Activities...</h5>
                     </div>
                 </div>
             </div>

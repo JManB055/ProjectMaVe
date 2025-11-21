@@ -1,6 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
     // ===== DOM ELEMENTS =====
     const workoutTableBody = document.getElementById("workoutTableBody");
+    const workoutsTableContainer = document.getElementById("workoutsTableContainer");
+    const loadingState = document.getElementById("loadingState");
     const emptyState = document.getElementById("emptyState");
     const filterType = document.getElementById("filterType");
     const filterDate = document.getElementById("filterDate");
@@ -63,6 +65,11 @@ document.addEventListener("DOMContentLoaded", () => {
 	* @throws {error} Error thrown if the operation fails
 	*/
     async function fetchWorkouts() {
+        // Show loading, hide table and empty state
+        if (loadingState) loadingState.style.display = "block";
+        if (workoutsTableContainer) workoutsTableContainer.style.display = "none";
+        if (emptyState) emptyState.style.display = "none";
+
         try {
             // Get workouts from the database in JSON format
             const response = await fetch(`/Workouts?handler=WorkoutInfo`, {
@@ -87,6 +94,10 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (error) {
             console.error("Error fetching workouts:", error);
             showError("Failed to load workouts. Please try again.");
+        } finally {
+            // Hide loading, show table
+            if (loadingState) loadingState.style.display = "none";
+            if (workoutsTableContainer) workoutsTableContainer.style.display = "block";
         }
     }
 	
