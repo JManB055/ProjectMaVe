@@ -347,9 +347,6 @@ textarea {
 /* -------------------------
     Utility Padding Classes
 ------------------------- */
-/* -------------------------
-    Utility Padding Classes
-------------------------- */
 .py-6 {
   padding-top: clamp(3rem, 5vw, 6rem);
   padding-bottom: clamp(3rem, 5vw, 6rem);
@@ -367,25 +364,4 @@ textarea {
     padding-top: 3rem;
     padding-bottom: 3rem;
   }
-}
-
-/* -------------------------
-    Landing Page Tweaks
-------------------------- */
-.how-it-works-section h2,
-.faq-section h2.text-center {
-  font-size: 2.5rem;
-  /* Larger subtitle font */
-  margin-bottom: 3rem !important;
-  /* Increased spacing */
-}
-
-.how-it-works-section {
-  padding: 5rem 0;
-  /* Increased vertical padding */
-}
-
-.faq-section {
-  margin-top: 4rem;
-  margin-bottom: 4rem;
 }

@@ -27,12 +27,12 @@
     --feature-card-hover-translate: -5px;
 
     /* Call-to-Action */
-    --cta-padding-vertical: 4rem;
+    --cta-padding-vertical: 3rem;
     --cta-btn-padding: 0.75rem 2rem;
     --cta-hr-margin: 5rem;
 
     /* How It Works */
-    --hiw-padding-vertical: 4rem;
+    --hiw-padding-vertical: 3rem;
 
     /* Images */
     --image-radius: 0.5rem;
@@ -80,7 +80,8 @@ main.landing-main {
 .image-text-section {
     width: 100%;
     padding: var(--section-padding-vertical) var(--section-padding-horizontal);
-    padding-bottom: 2rem; /* Reduced bottom padding */
+    padding-bottom: 2rem;
+    /* Reduced bottom padding */
     box-sizing: border-box;
 }
 
@@ -102,7 +103,8 @@ main.landing-main {
 .features-section {
     width: 100%;
     padding: var(--section-padding-vertical) var(--section-padding-horizontal);
-    padding-top: 2rem; /* Reduced top padding */
+    padding-top: 2rem;
+    /* Reduced top padding */
     box-sizing: border-box;
 }
 
@@ -116,10 +118,10 @@ main.landing-main {
     padding: var(--feature-card-padding);
     border-radius: var(--feature-card-radius);
     box-shadow: var(--feature-card-shadow);
-    
+
     /* Add subtle border */
-    border: 1px solid #eaeaea; 
-    
+    border: 1px solid #eaeaea;
+
     /* Add border-color to transition */
     transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
 }
@@ -197,7 +199,8 @@ main.landing-main {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    background: transparent; /* Ensure card background doesn't block gradient */
+    background: transparent;
+    /* Ensure card background doesn't block gradient */
 }
 
 .step-icon {
@@ -207,7 +210,8 @@ main.landing-main {
 .step-arrow {
     position: absolute;
     top: 50%;
-    right: -15px; /* Position between columns */
+    right: -15px;
+    /* Position between columns */
     transform: translateY(-50%);
     z-index: 1;
 }
@@ -217,8 +221,10 @@ main.landing-main {
 =================================== */
 .faq-section {
     width: 100%;
-    padding-top: 2rem; /* Reduced top padding */
-    padding-bottom: 2rem; /* Reduced bottom padding */
+    padding-top: 2rem;
+    /* Reduced top padding */
+    padding-bottom: 2rem;
+    /* Reduced bottom padding */
     padding-left: var(--section-padding-horizontal);
     padding-right: var(--section-padding-horizontal);
 }
@@ -227,7 +233,7 @@ main.landing-main {
     border: none;
     margin-bottom: 1rem;
     border-radius: 0.5rem !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     overflow: hidden;
 }
 
@@ -246,7 +252,7 @@ main.landing-main {
 
 .faq-section .accordion-button:focus {
     box-shadow: none;
-    border-color: rgba(0,0,0,0.1);
+    border-color: rgba(0, 0, 0, 0.1);
 }
 
 .faq-section .accordion-body {
