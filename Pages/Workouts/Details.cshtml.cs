@@ -48,15 +48,15 @@ namespace ProjectMaVe.Pages.Workouts
             try
             {
                 // Verify user is authenticated
-                var cookieInfo = _auth.GetCookieInfo();
-                if (cookieInfo == null)
+                var user = await _auth.GetCurrentUser();
+                if (user == null)
                     return new JsonResult(new { success = false, message = "Error with User identification" });
 
-                var uid = cookieInfo.Value.uid;
+                var uid = user.UserID;
                 if (uid <= 0)
                     return new JsonResult(new { success = false, message = "Invalid user ID" });
 
-                
+
                 // -------- Save Workout ---------
 
                 // Translate Workout JSON to Model
@@ -73,17 +73,17 @@ namespace ProjectMaVe.Pages.Workouts
 
 
                 // -------- Save WorkoutExercises ---------
-                
+
                 // Get old workoutExercises to know what needs to be added or deleted vs just changed
                 var oldExercises = await _workoutExerciseService.GetWorkoutExercisesAsync(wid);
                 if(oldExercises == null) return new JsonResult(new { success = false, message = "Error retrieving old workoutExercise list" });
-                
+
                 var newExercises = new List<WorkoutExercise>();
-                
+
                 // Change the input list to instances of the WorkoutExercise model
                 foreach(var ex in request.Exercises) {
                     var currentExercise = new WorkoutExercise();  // Create new instance of WorkoutExercise model
-                    
+
                     // Copy all attributes in to new instance
                     currentExercise.WorkoutExerciseID = ex.WorkoutExerciseID;
                     currentExercise.WorkoutID = wid;
@@ -114,30 +114,30 @@ namespace ProjectMaVe.Pages.Workouts
                         toAddExercises.Add(ex);
                         break;
                     }
-                    
+
                     toChangeExercises.Add(ex);
                 }
 
-                
+
                 // Delete workouts that are no longer part of this workout
                 foreach(var ex in toDeleteExercises){
                     bool success = await _workoutExerciseService.DeleteWorkoutExerciseAsync(ex.WorkoutExerciseID);
                     if(!success) return new JsonResult(new { success = false, message = "Error deleting old workoutExercise" });
                 }
-                
+
                 // Add workouts that have been added from the details page
                 foreach(var ex in toAddExercises){
                     bool success = await _workoutExerciseService.CreateWorkoutExerciseAsync(ex);
                     if(!success) return new JsonResult(new { success = false, message = "Error adding new workoutExercise" });
                 }
-                
+
                 // Update all other workouts
                 foreach(var ex in toChangeExercises){
                     bool success = await _workoutExerciseService.UpdateWorkoutExerciseAsync(ex.WorkoutExerciseID, ex);
                     if(!success) return new JsonResult(new { success = false, message = "Error deleting old workoutExercise" });
                 }
 
-                
+
                 return new JsonResult(new
                 {
                     success = true,
@@ -200,12 +200,12 @@ namespace ProjectMaVe.Pages.Workouts
         {
             try
             {
-                var cookieInfo = _auth.GetCookieInfo();
+                var user = await _auth.GetCurrentUser();
 
-                if (cookieInfo == null)
+                if (user == null)
                     return new JsonResult(new { success = false, message = "Error with User identification" });
 
-                var uid = cookieInfo.Value.uid;
+                var uid = user.UserID;
 
                 if (uid <= 0)
                     return new JsonResult(new { success = false, message = "Invalid user ID" });
@@ -231,7 +231,7 @@ namespace ProjectMaVe.Pages.Workouts
     }
 
     public class DetailsWorkoutRequest{
-        public int? WorkoutID { get; set; } 
+        public int? WorkoutID { get; set; }
         public string WorkoutDate { get; set; } = string.Empty;
         public List<DetailsExerciseData> Exercises { get; set; } = new();
     }

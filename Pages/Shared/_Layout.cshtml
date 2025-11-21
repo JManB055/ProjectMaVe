@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Razor
+@inject ProjectMaVe.Interfaces.IAuthenticationService authService;
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,10 +15,10 @@
     <link rel="stylesheet" href="~/ProjectMaVe.styles.css" asp-append-version="true" />
 
     <!-- Font Awesome -->
-    <link rel="stylesheet" 
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" 
-        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" 
-        crossorigin="anonymous" 
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous"
         referrerpolicy="no-referrer" />
 
     <!-- Fonts -->
@@ -46,9 +47,18 @@
                         <li class="nav-item"><a class="nav-link" asp-area="" asp-page="/Workouts/Index">Workouts</a></li>
                         <li class="nav-item"><a class="nav-link" asp-area="" asp-page="/AboutUs">About Us</a></li>
                     </ul>
+                    @if (authService.IsCurrentSignedIn())
+                    {
+                    <div class="d-flex">
+                        <a class="btn btn-yellow" asp-area="" asp-page="/LogOut" role="button">Sign Out</a>
+                    </div>
+                    }
+                    else
+                    {
                     <div class="d-flex">
                         <a class="btn btn-yellow" asp-area="" asp-page="/LogIn" role="button">Sign In</a>
                     </div>
+                    }
                 </div>
             </div>
         </nav>

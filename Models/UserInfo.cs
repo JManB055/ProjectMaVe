@@ -5,10 +5,10 @@ namespace ProjectMaVe.Models;
 
 /**
  * <summary>
- *   Represents a user of MaVe
+ * Represents a user of FitSync
  * </summary>
  * <remarks>
- *   In other API, especially when interact with DB, a user is often identified by their id
+ * When interacting with database and other services, a user is often identified by their User ID
  * </remarks>
  */
 public class UserInfo
