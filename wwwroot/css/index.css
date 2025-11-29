@@ -27,9 +27,12 @@
     --feature-card-hover-translate: -5px;
 
     /* Call-to-Action */
-    --cta-padding-vertical: 4rem;
-    --cta-btn-padding: 0.75rem 2rem;
-    --cta-hr-margin: 5rem;
+    --call-to-action-padding-vertical: 3rem;
+    --call-to-action-btn-padding: 0.75rem 2rem;
+    --call-to-action-hr-margin: 5rem;
+
+    /* How It Works */
+    --how-it-works-padding-vertical: 3rem;
 
     /* Images */
     --image-radius: 0.5rem;
@@ -77,6 +80,8 @@ main.landing-main {
 .image-text-section {
     width: 100%;
     padding: var(--section-padding-vertical) var(--section-padding-horizontal);
+    padding-bottom: 2rem;
+    /* Reduced bottom padding */
     box-sizing: border-box;
 }
 
@@ -98,6 +103,8 @@ main.landing-main {
 .features-section {
     width: 100%;
     padding: var(--section-padding-vertical) var(--section-padding-horizontal);
+    padding-top: 2rem;
+    /* Reduced top padding */
     box-sizing: border-box;
 }
 
@@ -107,15 +114,22 @@ main.landing-main {
 }
 
 .feature-card {
+    background-color: #fff;
     padding: var(--feature-card-padding);
     border-radius: var(--feature-card-radius);
     box-shadow: var(--feature-card-shadow);
-    transition: transform 0.2s, box-shadow 0.2s;
+
+    /* Add subtle border */
+    border: 1px solid #eaeaea;
+
+    /* Add border-color to transition */
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
 }
 
 .feature-card:hover {
     transform: translateY(var(--feature-card-hover-translate));
     box-shadow: var(--feature-card-hover-shadow);
+    border-color: var(--color-blue);
 }
 
 /* ====================================
@@ -123,7 +137,7 @@ main.landing-main {
 ==================================== */
 .call-to-action {
     width: 100%;
-    padding: var(--cta-padding-vertical) var(--section-padding-horizontal);
+    padding: var(--call-to-action-padding-vertical) var(--section-padding-horizontal);
     text-align: center;
     box-sizing: border-box;
 }
@@ -134,11 +148,11 @@ main.landing-main {
 }
 
 .call-to-action hr {
-    margin: var(--cta-hr-margin) 0;
+    margin: var(--call-to-action-hr-margin) 0;
 }
 
 .call-to-action .btn {
-    padding: var(--cta-btn-padding);
+    padding: var(--call-to-action-btn-padding);
 }
 
 /* ====================================
@@ -168,4 +182,81 @@ main.landing-main {
     .feature-card {
         padding: 1rem;
     }
+}
+
+/* ====================================
+   How It Works Section
+=================================== */
+.how-it-works-section {
+    width: 100%;
+    padding: var(--how-it-works-padding-vertical) var(--section-padding-horizontal);
+}
+
+.step-card {
+    padding: 4rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background: transparent;
+    /* Ensure card background doesn't block gradient */
+}
+
+.step-icon {
+    margin-bottom: 1.5rem;
+}
+
+.step-arrow {
+    position: absolute;
+    top: 50%;
+    right: -15px;
+    /* Position between columns */
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+/* ====================================
+   FAQ Section
+=================================== */
+.faq-section {
+    width: 100%;
+    padding-top: 2rem;
+    /* Reduced top padding */
+    padding-bottom: 2rem;
+    /* Reduced bottom padding */
+    padding-left: var(--section-padding-horizontal);
+    padding-right: var(--section-padding-horizontal);
+}
+
+.faq-section .accordion-item {
+    border: none;
+    margin-bottom: 1rem;
+    border-radius: 0.5rem !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+.faq-section .accordion-button {
+    background-color: #fff;
+    color: var(--color-blue);
+    font-weight: 700;
+    box-shadow: none;
+}
+
+.faq-section .accordion-button:not(.collapsed) {
+    background-color: var(--color-yellow);
+    color: var(--color-blue);
+    box-shadow: none;
+}
+
+.faq-section .accordion-button:focus {
+    box-shadow: none;
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+.faq-section .accordion-body {
+    background-color: #fff;
+    color: var(--color-black);
+    line-height: 1.6;
 }
