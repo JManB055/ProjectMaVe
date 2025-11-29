@@ -579,7 +579,7 @@ async function getWidgets() {
             console.log('Widgets loaded successfully:', result.widgets);
             widgets = result.widgets; // Replace current widgets array
             await renderWidgets(widgets); // Render Widgets
-            toggleDraggable(); // Set draggable to false
+            toggleDraggble(true); // Set draggable to false
         } else {
             console.warn('Failed to load widgets:', result.message);
         }
