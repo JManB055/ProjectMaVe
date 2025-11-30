@@ -130,7 +130,7 @@ Before running locally, ensure a .env file is present at the root.
 
 ```bash
 ASPNETCORE_ENVIRONMENT=Development
-ConnectionStrings__MaVe=server=localhost;port=3306;database=mave;user=root;password=password
+ConnectionStrings__MaVe=server=localhost;port=3306;database=mave;uid=uid;password=password
 AI_API_KEY=your-google-ai-studio-key
 ```
 
