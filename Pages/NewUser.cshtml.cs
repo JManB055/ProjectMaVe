@@ -47,12 +47,6 @@ namespace ProjectMaVe.Pages
 
         public async Task<IActionResult> OnPostNewUser()
         {
-            if (UserName == null)
-            {
-                Message = "Please enter your username.";
-                ModelState.AddModelError(String.Empty, "Invalid newuser attempt.");
-                return Page();
-            }
             if (Password == null)
             {
                 Message = "Please enter your password.";
