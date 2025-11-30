@@ -14,6 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const deleteWorkoutBtn = document.getElementById("deleteWorkoutBtn");
     const lastSaved = document.getElementById("lastSaved");
 
+    // Loading States
+    const strengthLoadingState = document.getElementById("strengthLoadingState");
+    const cardioLoadingState = document.getElementById("cardioLoadingState");
+    const strengthTableContainer = document.getElementById("strengthTableContainer");
+    const cardioTableContainer = document.getElementById("cardioTableContainer");
+
     // ===== STATE =====
     let workoutId = null;
     let workoutData = [];
@@ -21,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let availableExercises = [];
 
     // ===== INITIALIZE =====
-    function init() {
+    async function init() {
         // Parse workoutId from URL
         const pathParts = window.location.pathname.split('/').filter(Boolean); // removes empty segments
         workoutId = parseInt(pathParts[pathParts.length - 1]);
@@ -31,9 +37,9 @@ document.addEventListener("DOMContentLoaded", () => {
             console.warn("Invalid workout ID in URL, defaulting to 1 for testing");
             return;
         }
-        
-        fetchExercisesFromDB();
-        fetchWorkoutExercises(workoutId);
+
+        await fetchExercisesFromDB();
+        await fetchWorkoutExercises(workoutId);
     }
 
     // ===== API FUNCTIONS =====
@@ -42,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Get the anti-forgery token (handle if it doesn't exist)
             const tokenInput = document.querySelector('input[name="__RequestVerificationToken"]');
             const headers = { 'Content-Type': 'application/json' };
-            
+
             if (tokenInput) {
                 headers['RequestVerificationToken'] = tokenInput.value;
             }
@@ -53,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             const result = await response.json();
-            // console.log("Raw Response: ", result);
 
             if (result.success) {
                 console.log('Exercises loaded successfully:', result.exercises);
@@ -69,12 +74,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function fetchWorkoutExercises(id) {
         try {
+            // Set loading state
+            if (strengthLoadingState) strengthLoadingState.style.display = "block";
+            if (cardioLoadingState) cardioLoadingState.style.display = "block";
+            if (strengthTableContainer) strengthTableContainer.style.display = "none";
+            if (cardioTableContainer) cardioTableContainer.style.display = "none";
+
             let result;
             try {
                 const response = await fetch(`/Workouts/Details/${workoutId}?handler=WorkoutExercises&workoutId=${id}`, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-            });
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                });
                 result = await response.json(); // might fail if 404
             } catch {
                 result = { success: false }; // fallback to mock
@@ -82,6 +93,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             workoutData = { id, date: result.workoutDate, exercises: result.exercises };
+
             console.log("Workout Exercises loaded successfully: ", workoutData);
             renderWorkoutDetails();
         } catch (error) {
@@ -111,6 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 hasUnsavedChanges = false;
                 updateLastSaved();
                 showSuccess(result.message || "Changes saved successfully!");
+                setTimeout(() => window.location.href = "/Workouts", 1500);
             } else {
                 showError(result.message || "Failed to save changes");
             }
@@ -142,11 +155,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ===== RENDER =====
     function renderWorkoutDetails() {
+        // Clear loading state
+        if (strengthLoadingState) strengthLoadingState.style.display = "none";
+        if (cardioLoadingState) cardioLoadingState.style.display = "none";
+        if (strengthTableContainer) strengthTableContainer.style.display = "block";
+        if (cardioTableContainer) cardioTableContainer.style.display = "block";
+
         if (!workoutData) return;
 
         // Update header info
-        const formattedDate = formatDate(workoutData.date);
-        workoutDateDisplay.textContent = formattedDate;
+        // const formattedDate = formatDate(workoutData.date);
+        workoutDateDisplay.textContent = "View and edit your past workouts details";
         editWorkoutDate.value = workoutData.date;
 
         // Separate exercises by type
@@ -154,13 +173,12 @@ document.addEventListener("DOMContentLoaded", () => {
         strengthExercises = workoutData.exercises.filter(ex => getExerciseGroup(ex.exerciseID) !== "Speed" && getExerciseGroup(ex.exerciseID) !== "Endurance");
         var cardioExercises = [];
         cardioExercises = workoutData.exercises.filter(ex => getExerciseGroup(ex.exerciseID) == "Speed" || getExerciseGroup(ex.exerciseID) == "Endurance");
-//        console.log("Raw workoutData: ", workoutData);
-//        console.log("Strength exercises: ", strengthExercises);
-//        console.log("Cardio exercises: ", cardioExercises);
+        // console.log("Raw workoutData: ", workoutData);
+        // console.log("Strength exercises: ", strengthExercises);
+        // console.log("Cardio exercises: ", cardioExercises);
 
         // Update stats
         totalExercisesCount.textContent = workoutData.exercises.length;
-        
         // Update workout type badge
         if (strengthExercises.length > 0 && cardioExercises.length > 0) {
             workoutTypeBadge.textContent = "Mixed";
@@ -172,6 +190,7 @@ document.addEventListener("DOMContentLoaded", () => {
             workoutTypeBadge.textContent = "Cardio";
             workoutTypeBadge.className = "badge bg-success";
         }
+        workoutTypeBadge.style.display = "inline-block";
 
         // Show/hide sections
         if (strengthExercises.length > 0) {
@@ -298,7 +317,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const exercises = [];
 
         // Collect workout date
-        var workoutDateCollected = "2025-11-20"; // TODO get this dynamically
+        var workoutDateCollected = editWorkoutDate.value;
 
         // Strength
         strengthExerciseTableBody.querySelectorAll("tr").forEach(row => {
@@ -364,36 +383,37 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function updateLastSaved() {
-        const now = new Date().toLocaleTimeString("en-US", { 
-            hour: "2-digit", 
-            minute: "2-digit" 
+        const now = new Date().toLocaleTimeString("en-US", {
+            hour: "2-digit",
+
+            minute: "2-digit"
         });
         lastSaved.textContent = `Last saved: ${now}`;
     }
 
     function formatDate(dateString) {
         const date = new Date(dateString + 'T00:00');
-        return date.toLocaleDateString("en-US", { 
+        return date.toLocaleDateString("en-US", {
             weekday: "long",
-            month: "long", 
-            day: "numeric", 
-            year: "numeric" 
+            month: "long",
+            day: "numeric",
+            year: "numeric"
         });
     }
 
-    function getExerciseName(id){
+    function getExerciseName(id) {
         const exercise = availableExercises.find(ex => ex.exerciseID === id);
         // console.log('Getting exercise name: ', exercise, exercise.name);
         return exercise ? exercise.name : null;
     }
 
-    function getExerciseGroup(id){
+    function getExerciseGroup(id) {
         const exercise = availableExercises.find(ex => ex.exerciseID === id);
         // console.log('Getting exercise group: ', exercise, exercise.muscleGroup);
         return exercise ? exercise.muscleGroup : null;
     }
 
-    function getExerciseIDByName(name){
+    function getExerciseIDByName(name) {
         const exercise = availableExercises.find(ex => ex.name === name);
         return exercise ? exercise.exerciseID : null;
     }
@@ -409,7 +429,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ===== EVENT LISTENERS =====
     addStrengthExerciseBtn.addEventListener("click", () => {
         strengthSection.style.display = "block";
-        
+
         // Make an empty exercise to pass, or the createStrengthRow doesn't create anything. Defaults to empty pushup session
         var newExercise = {
             workoutExerciseID: 0,

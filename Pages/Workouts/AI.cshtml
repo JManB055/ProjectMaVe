@@ -188,71 +188,64 @@
 
         <!-- AI Plan Result -->
         <section id="aiPlanResult" class="ai-result-section" style="display:none;">
-            <div class="card shadow-sm border-0 rounded-4">
-                <div class="card-header bg-blue text-light-orange urbanist-bold">
-                    <i class="fas fa-clipboard-list me-2"></i>Your Personalized Plan
+            <!-- Loading State -->
+            <div id="loadingState" class="text-center py-5" style="display:none;">
+                <div class="spinner-border text-blue mb-3" role="status" style="width: 3rem; height: 3rem;">
+                    <span class="visually-hidden">Loading...</span>
                 </div>
-                <div class="card-body bg-light-orange">
-                    <!-- Loading State -->
-                    <div id="loadingState" class="text-center py-5" style="display:none;">
-                        <div class="spinner-border text-blue mb-3" role="status" style="width: 3rem; height: 3rem;">
-                            <span class="visually-hidden">Loading...</span>
-                        </div>
-                        <h5 class="urbanist-bold text-blue">Generating Your Plan...</h5>
-                        <p class="urbanist-medium text-black">Our AI is creating a personalized workout routine just for you.</p>
-                    </div>
+                <h5 class="urbanist-bold text-blue">Generating Your Plan...</h5>
+                <p class="urbanist-medium text-black">Our AI is creating a personalized workout routine just for you.</p>
+            </div>
 
-                    <!-- AI Output -->
-                    <div id="aiPlanText" class="ai-plan-output px-4 py-3" style="display:none;"></div>
+            <!-- AI Output -->
+            <div id="aiPlanText" class="ai-plan-output" style="display:none;"></div>
 
-                    <!-- Action Buttons -->
-                    <div id="actionButtons" class="d-flex justify-content-end gap-2 mt-4" style="display:none;">
-                        <button class="btn btn-outline-secondary" id="regeneratePlanBtn">
-                            <i class="fas fa-redo me-2"></i>Regenerate Plan
-                        </button>
-                        <button class="btn btn-yellow" id="savePlanBtn">
-                            <i class="fas fa-save me-2"></i>Save This Plan
-                        </button>
-                    </div>
-                </div>
+            <!-- Action Buttons -->
+            <div id="actionButtons" class="d-flex justify-content-center gap-2 mt-4" style="display:none;">
+                <button class="btn btn-outline-secondary" id="regeneratePlanBtn">
+                    <i class="fas fa-redo me-2"></i>Regenerate Plan
+                </button>
+                <button class="btn btn-yellow" id="exportImageBtn">
+                    <i class="fas fa-file-image me-2"></i>Export as PNG
+                </button>
             </div>
         </section>
 
         <!-- How It Works -->
         <section class="info-section mt-5">
-            <div class="card border-0 rounded-4 shadow-sm">
-                <div class="card-body bg-light-orange">
-                    <h5 class="urbanist-bold text-blue mb-3">
-                        <i class="fas fa-question-circle me-2"></i>How It Works
-                    </h5>
-                    <div class="row g-4">
-                        <div class="col-md-4">
-                            <div class="text-center">
-                                <i class="fas fa-user-check text-blue fs-2 mb-2"></i>
-                                <h6 class="urbanist-bold text-blue mb-2">1. Tell Us About You</h6>
-                                <p class="urbanist-medium text-black small mb-0">
-                                    Share your fitness goals, experience level, and available equipment.
-                                </p>
-                            </div>
+            <h2 class="text-center urbanist-bold text-blue mb-5">How It Works</h2>
+            <div class="row text-center g-4">
+                <div class="col-md-4">
+                    <div class="feature-card h-100">
+                        <div class="text-blue mb-3" aria-hidden="true">
+                            <i class="fas fa-user-check fa-3x"></i>
                         </div>
-                        <div class="col-md-4">
-                            <div class="text-center">
-                                <i class="fas fa-brain text-blue fs-2 mb-2"></i>
-                                <h6 class="urbanist-bold text-blue mb-2">2. AI Analysis</h6>
-                                <p class="urbanist-medium text-black small mb-0">
-                                    Our AI analyzes your profile and generates a customized workout plan.
-                                </p>
-                            </div>
+                        <h3 class="h4 urbanist-bold text-blue mb-3">1. Tell Us About You</h3>
+                        <p class="urbanist-medium mb-0">
+                            Share your fitness goals, experience level, and available equipment.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card h-100">
+                        <div class="text-blue mb-3" aria-hidden="true">
+                            <i class="fas fa-brain fa-3x"></i>
                         </div>
-                        <div class="col-md-4">
-                            <div class="text-center">
-                                <i class="fas fa-calendar-check text-blue fs-2 mb-2"></i>
-                                <h6 class="urbanist-bold text-blue mb-2">3. Start Training</h6>
-                                <p class="urbanist-medium text-black small mb-0">
-                                    Follow your personalized plan and track your progress over time.
-                                </p>
-                            </div>
+                        <h3 class="h4 urbanist-bold text-blue mb-3">2. AI Analysis</h3>
+                        <p class="urbanist-medium mb-0">
+                            Our AI analyzes your profile and generates a customized workout plan.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card h-100">
+                        <div class="text-blue mb-3" aria-hidden="true">
+                            <i class="fas fa-calendar-check fa-3x"></i>
                         </div>
+                        <h3 class="h4 urbanist-bold text-blue mb-3">3. Start Training</h3>
+                        <p class="urbanist-medium mb-0">
+                            Follow your personalized plan and track your progress over time.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -261,7 +254,9 @@
 </div>
 
 @section Scripts {
-    <script src="~/js/workouts-ai.js" asp-append-version="true" defer></script>
+    <!-- html2canvas library for image export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script type="module" src="~/js/workouts-ai/main.js" asp-append-version="true"></script>
 }
 
 @section Styles {

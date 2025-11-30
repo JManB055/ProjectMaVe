@@ -1,11 +1,11 @@
 /*
 *   Initialize Global variables:
-*       'templateContainer' is the contianer for all template widgets (used for previewing and adding widgets)
+*       'templateContainer' is the container for all template widgets (used for previewing and adding widgets)
 *       'container' is the dashboard container for all the widgets; all widgets are rendered within this object.
 *       'editSaveBtn' is the button that changes the 'draggable' state.
-*       'deleteBtns' is an array storing all delete buttone (used so that we can hide the delete buttons)
+*       'deleteBtns' is an array storing all delete buttons (used so that we can hide the delete buttons)
 *       'widgets' is the array of widget metadata used to render the widgets with the right place, size, and data.
-*       'draggies' is the array of Draggabilly objects tied to the widgets. This is neccessary for draggaing capabilities.
+*       'draggies' is the array of Draggabilly objects tied to the widgets. This is necessary for dragging capabilities.
 *       'draggable' is a boolean to track the state of the dashboard (editing mode vs view mode)
 *       'workouts' is a list of workouts from the database used to display information in widgets
 */
@@ -37,6 +37,11 @@ var graphs = [];
 document.addEventListener("DOMContentLoaded", async function(){
     await getWidgets();
 });
+
+window.onresize = async function () {
+    await renderWidgets();
+    toggleDraggble(true);
+};
 
 /*
 *   Adds EventListener for the delete button. On Click:
@@ -78,11 +83,14 @@ async function renderWidgets() {
     // Initialize string variable to store HTML code
     let htmlString = '';
 
+    let viewportWidth = window.innerWidth;
+    //let viewportWidth = 1000;
+
     graphs = [];
 
     // Write HTML code to 'htmlString' based on widget metadata (in 'widgets' array)
-    //let data = await getWorkoutInfo()
-    let data = await getWorkouts();
+    let data = await getWorkoutInfo()
+    //let data = await getWorkouts();
     workoutList = data.workouts;
 
     let todayDate = new Date();
@@ -91,13 +99,11 @@ async function renderWidgets() {
         let widgetType = widgets[i].type;
         let filterValue = "";
         let metricValue = "";
-        console.log("Checking Filter:", widgetType);
         if (widgetType.startsWith("Weight History")) {
             let temp = widgetType.split(",");
             widgetType = temp[0];
             metricValue = temp[1];
             filterValue = temp[2];
-            console.log("Widget Type:", widgetType, "\nFilterValue:", filterValue);
         }
 
         switch (widgetType) {
@@ -307,7 +313,8 @@ async function renderWidgets() {
                         title: {
                             text: metricTitleCase + units
                         }
-                    }
+                    },
+                    showlegend: (viewportWidth > 770)
                 }
 
                 graphs.push({
@@ -317,6 +324,53 @@ async function renderWidgets() {
                 });
 
                 break;
+
+            case "Type Pie Chart":
+                htmlString += '<div class="widget widget_card size-' + widgets[i].w + 'x' + widgets[i].h + '"> <div class="widget-header">' +
+                    '<h3 class="widget-title urbanist-bold">Exercise Types</h3>' +
+                    '<button class="delete-btn delete-btn-color btn" data-index="' + i + '"><i class="fa-solid fa-x"></i></button>' +
+                    '</div> <div class="widget-content"> <div id="graph-' + i + '" style="width:100%;height:100%;">' +
+                    '</div ></div ></div > ';
+
+
+                let pgData = [{
+                    values: [],
+                    labels: [],
+                    type: "pie"
+                }];
+
+                for (let j = 0; j < workoutList.length; j++) {
+                    for (let k = 0; k < workoutList[j].exercises.length; k++) {
+                        let exercise = workoutList[j].exercises[k];
+
+                        gIndex = pgData[0].values.indexOf(exercise.activity);
+
+                        if (gIndex == -1) {
+                            pgData[0].labels.push(exercise.activity);
+                            pgData[0].values.push(1);
+                            gIndex = pgData[0].values.length - 1;
+                        }
+
+                        else {
+                            pgData[0].values[gIndex] = pgData[0].values[gIndex] + 1;
+                        }
+                    }
+                }
+
+                let pgLayout = {
+                    title: {
+                        text: "Workout Types"
+                    },
+                    showlegend: (viewportWidth > 770)
+                }
+
+                graphs.push({
+                    graphIndex: i,
+                    graphData: pgData,
+                    graphLayout: pgLayout
+                });
+                break;
+
             default:
                 htmlString += '<div class="widget widget_card size-' + widgets[i].w + 'x' + widgets[i].h + '"> <div class="widget-header">' +
                     '<h3 class="widget-title urbanist-bold">Today\'s Goal</h3>' +
@@ -341,7 +395,7 @@ async function renderWidgets() {
     // Set the HTML code of 'container' based on previous formatting
     container.innerHTML = htmlString;
 
-    // Get all qualigying delete buttons and save to deleteBtns
+    // Get all qualifying delete buttons and save to deleteBtns
     deleteBtns = document.querySelectorAll(".delete-btn", {});
 
     specialItems = document.querySelectorAll(".special-item", {});
@@ -350,22 +404,25 @@ async function renderWidgets() {
     let elements = document.querySelectorAll('.widget', {});
     draggies = []
 
-    // Add all 'elements' to 'draggies' as graggabilly objects
-    for (var i = 0; i < elements.length; i++) {
-        let draggableElem = elements[i];
-        let draggie = new Draggabilly(draggableElem, {
-            grid: [8, 8],
-            containment: ".dashboard_container"
-        });
-        draggies.push(draggie);
-    }
+    console.log("Screen Width: ", viewportWidth);
+    if (viewportWidth >= 1400) {
+        // Add all 'elements' to 'draggies' as graggabilly objects
+        for (var i = 0; i < elements.length; i++) {
+            let draggableElem = elements[i];
+            let draggie = new Draggabilly(draggableElem, {
+                grid: [8, 8],
+                containment: ".dashboard_container"
+            });
+            draggies.push(draggie);
+        }
 
-    // Set the postions based on saved positions
-    for (var i = 0; i < widgets.length; i++) {
-        let draggable = widgets[i];
-        x = widgets[i].x;
-        y = widgets[i].y;
-        draggies[i].setPosition(x, y);
+        // Set the postions based on saved positions
+        for (var i = 0; i < widgets.length; i++) {
+            let draggable = widgets[i];
+            x = widgets[i].x;
+            y = widgets[i].y;
+            draggies[i].setPosition(x, y);
+        }
     }
 
     // Display graphs in widgets when applicable
@@ -375,7 +432,7 @@ async function renderWidgets() {
 }
 
 /*
-*   Fucntion to toggle the draggable state of the widgets
+*   Function to toggle the draggable state of the widgets
 *       1) If they are currently draggable, then:
 *           1) Disable
 *           2) Save all widget positions locally
@@ -390,7 +447,24 @@ async function renderWidgets() {
 *       4) Hide/Show delete buttons based on draggable status
 *       5) Toggle to boolean 'draggable' variable to track state.
 */
-function toggleDraggble() {
+function toggleDraggble(forceNotDraggable = false) {
+    let viewportWidth = window.innerWidth;
+
+    if (viewportWidth < 1400) {
+        for (let i = 0; i < deleteBtns.length; i++) {
+            deleteBtns[i].hidden = true;
+        }
+
+        for (let i = 0; i < specialItems.length; i++) {
+            specialItems[i].hidden = true;
+        }
+        return;
+    }
+
+    if (forceNotDraggable) {
+        draggable = true;
+    }
+
     if (draggable) {
         // If currently draggable
         for (let i = 0; i < draggies.length; i++) {
@@ -505,7 +579,7 @@ async function getWidgets() {
             console.log('Widgets loaded successfully:', result.widgets);
             widgets = result.widgets; // Replace current widgets array
             await renderWidgets(widgets); // Render Widgets
-            toggleDraggble(); // Set draggable to false
+            toggleDraggble(true); // Set draggable to false
         } else {
             console.warn('Failed to load widgets:', result.message);
         }

@@ -29,39 +29,47 @@
 
 /* Yellow Button */
 .btn-yellow {
-  background-color: var(--color-yellow);
+  background: var(--gradient-yellow-subtle);
   color: var(--color-blue);
   border-radius: 50px;
   padding: 0.5rem 2rem;
   white-space: nowrap;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .btn-yellow:hover {
-  background-color: var(--color-yellow-hover);
+  background: var(--gradient-yellow-subtle);
   color: var(--color-blue);
   text-decoration: none;
+  transform: translateY(-2px);
+  /* More subtle glow: reduced blur to 10px and opacity to 0.3 */
+  box-shadow: 0 0 10px rgba(255, 246, 113, 0.3);
 }
 
 /* Blue Button */
 .btn-blue {
-  background-color: var(--color-blue);
+  background: var(--gradient-blue-subtle);
   color: var(--color-light-orange);
   border-radius: 0.5rem;
   padding: 0.75rem;
   letter-spacing: 0.5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .btn-blue-no-pad {
-    background-color: var(--color-blue);
-    color: var(--color-light-orange);
-    border-radius: 0.5rem;
-    letter-spacing: 0.5px;
+  background: var(--gradient-blue-subtle);
+  color: var(--color-light-orange);
+  border-radius: 0.5rem;
+  letter-spacing: 0.5px;
 }
 
 .btn-blue:hover,
 .btn-blue:focus {
-  background-color: var(--color-blue-hover);
+  background: var(--gradient-blue-subtle);
   color: var(--color-light-orange);
+  transform: translateY(-2px);
+  /* More subtle glow: reduced blur to 10px and opacity to 0.3 */
+  box-shadow: 0 0 10px rgba(20, 120, 241, 0.3);
 }
 
 /* -------------------------
@@ -158,181 +166,182 @@ textarea {
 ------------------------- */
 
 .template_container {
-    max-height: 38em;
-    overflow-y: auto;
-    overflow-x: clip;
-    background: var(--color-blue);
-    border-radius: 1em;
-    position: relative;
-    margin-top: 2em;
-    margin-bottom: 2em;
+  max-height: 38em;
+  overflow-y: auto;
+  overflow-x: clip;
+  background: var(--color-blue);
+  border-radius: 1em;
+  position: relative;
+  margin-top: 2em;
+  margin-bottom: 2em;
 }
 
-.template-widget-container {
-    display: grid;
-    padding: 1em;
-    gap: 1em;
-    justify-content: space-evenly;
+.template-container {
+  display: grid;
+  padding: 1em;
+  gap: 1em;
+  justify-content: space-evenly;
 }
 
-.thin-tem-con {
-    grid-template-columns: repeat(4, 16em);
+.thin-template-container {
+  grid-template-columns: repeat(4, 16em);
 }
 
-.wide-tem-con {
-    grid-template-columns: repeat(2, 34em);
+.wide-template-container {
+  grid-template-columns: repeat(2, 34em);
 }
 
 .dashboard_background {
-    height: 68em;
-    background: var(--color-blue);
-    border-radius: 1em;
-    position: relative;
-    margin-top: 2em;
-    margin-bottom: 2em;
+  height: 68em;
+  background: var(--color-blue);
+  border-radius: 1em;
+  position: relative;
+  margin-top: 2em;
+  margin-bottom: 2em;
 }
 
 .widget_card {
-    position: absolute;
-    background: var(--color-light-orange);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-    padding: 1em;
-    cursor: grab;
-    border-radius: 1em;
+  position: absolute;
+  background: var(--color-light-orange);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  padding: 1em;
+  cursor: grab;
+  border-radius: 1em;
 }
 
 .widget_card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .widget-template {
-    background: var(--color-light-orange);
-    padding: 1em;
-    border-radius: 1em;
+  background: var(--color-light-orange);
+  padding: 1em;
+  border-radius: 1em;
 }
 
 .widget_card.is-dragging {
-    cursor: grabbing;
-    opacity: 0.8;
+  cursor: grabbing;
+  opacity: 0.8;
 }
 
 .size-1x1 {
-    width: 16em;
-    height: 16em;
+  width: 16em;
+  height: 16em;
 }
+
 .size-1x2 {
-    width: 16em;
-    height: 33em;
+  width: 16em;
+  height: 33em;
 }
 
 .size-2x1 {
-    width: 33em;
-    height: 16em;
+  width: 33em;
+  height: 16em;
 }
 
 .size-2x2 {
-    width: 33em;
-    height: 33em;
+  width: 33em;
+  height: 33em;
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
 .delete-btn-color {
-    background-color: red;
-    color: var(--color-light-orange);
+  background-color: red;
+  color: var(--color-light-orange);
 }
 
 .no-widget-message {
-    color: var(--color-light-orange);
-    text-align: center;
-    padding: 2em;
+  color: var(--color-light-orange);
+  text-align: center;
+  padding: 2em;
 }
 
 /* -------------------------
    Widget Header
 ------------------------- */
 .widget-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.75rem 1rem 0.5rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    background: linear-gradient(to bottom, rgba(20, 120, 241, 0.02), transparent);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem 0.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background: linear-gradient(to bottom, rgba(20, 120, 241, 0.02), transparent);
 }
 
 .widget-title {
-    font-size: 1.25rem;
-    color: var(--color-blue);
-    margin: 0;
-    flex: 1;
+  font-size: 1.25rem;
+  color: var(--color-blue);
+  margin: 0;
+  flex: 1;
 }
 
 /* -------------------------
    Widget Content
 ------------------------- */
 .widget-content {
-    flex: 1;
-    /*padding: var(--widget-padding);*/
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+  flex: 1;
+  /*padding: var(--widget-padding);*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 /* Placeholder visuals */
 .placeholder-content {
-    text-align: center;
-    color: #999;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  text-align: center;
+  color: #999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-    .placeholder-content i {
-        opacity: 0.3;
-    }
+.placeholder-content i {
+  opacity: 0.3;
+}
 
-    .placeholder-content p {
-        margin: 0;
-        font-size: 0.9rem;
-    }
+.placeholder-content p {
+  margin: 0;
+  font-size: 0.9rem;
+}
 
 .daily-workout {
-    width: 100%;
+  width: 100%;
 }
 
 .daily-workout h1 {
-    font-size: 1.1rem;
-    color: var(--color-blue);
+  font-size: 1.1rem;
+  color: var(--color-blue);
 }
 
 .daily-workout p {
-    font-size: .9rem;
+  font-size: .9rem;
 }
 
 .daily-workout th {
-    font-size: 1rem;
-    padding-right: .5em;
+  font-size: 1rem;
+  padding-right: .5em;
 }
 
 .daily-workout td {
-    font-size: .9rem;
+  font-size: .9rem;
 }
 
 .daily-workout-1x2 {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .daily-workout-2x1 {
-    display: flex;
-    flex-direction: row;
-    height: 100%;
-    justify-content: space-evenly;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  justify-content: space-evenly;
 }
 
 /* -------------------------
@@ -355,4 +364,42 @@ textarea {
     padding-top: 3rem;
     padding-bottom: 3rem;
   }
+}
+
+@media (max-width: 1400px) {
+    .dashboard_container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1em;
+        height: auto;
+        padding-top: 2em;
+        padding-bottom: 2em;
+    }
+    .widget_card {
+        position: relative !important;
+        left: auto !important;
+        top: auto !important;
+    }
+    .edit-responsive {
+        display: none;
+    }
+
+}
+
+@media (max-width: 1000px) {
+    .daily-workout-2x1 {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+
+    .size-2x1 {
+        width: 16em;
+        height: 33em;
+    }
+
+    .widget_card {
+        width: 90% !important;
+    }
 }
