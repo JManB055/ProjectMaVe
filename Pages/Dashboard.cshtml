@@ -26,7 +26,7 @@
 
                 <!-- Edit toggler -->
                 <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                    <button class="btn btn-blue" onclick="toggleDraggable()" id="editSaveBtn" aria-label="Toggle edit mode">
+                    <button class="btn btn-blue edit-responsive" onclick="toggleDraggble()" id="editSaveBtn">
                         <i class="fas fa-edit me-2"></i>Edit
                     </button>
                 </div>
@@ -270,6 +270,22 @@
                                 <div class="placeholder-content">
                                     <i class="fas fa-bullseye fa-2x text-blue mb-2"></i>
                                     <p class="urbanist-medium small">Widget History Goes Here</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="widget-template size-2x2">
+                            <div class="widget-header">
+                                <h3 class="widget-title urbanist-bold">Exercise Types</h3>
+                                
+                                <button onClick="addWidget(2, 2, 'Type Pie Chart')" class="add-btn btn btn-blue-no-pad">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                            </div>
+                            <div class="widget-content mt-4 pt-4">
+                                <div class="placeholder-content">
+                                    <i class="fas fa-bullseye fa-2x text-blue mb-2"></i>
+                                    <p class="urbanist-medium small">Exercise Types Go Here</p>
                                 </div>
                             </div>
                         </div>
