@@ -37,7 +37,7 @@
     <main class="container">
 
         <!-- Widget Template Tabs -->
-        <div class="template_container">
+        <div class="template_container" hidden>
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <!-- Each tab corresponds to a widget size or category -->
                 <li class="nav-item" role="presentation">
@@ -299,7 +299,12 @@
 
         <!-- User Grid Area -->
         <div class="dashboard_background dashboard_container">
-            <h1>Loading Widgets...</h1>
+            <div id="loadingState" class="text-center py-5">
+                <div class="spinner-border text-light-orange mb-3" role="status" style="width: 3rem; height: 3rem;">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <h5 class="urbanist-bold text-light-orange">Loading Widgets...</h5>
+            </div>
         </div>
 
         <!-- Edit Mode Banner -->
@@ -320,4 +325,8 @@
     <script src="https://unpkg.com/draggabilly@3/dist/draggabilly.pkgd.min.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="~/js/widgets.js" asp-append-version="true"></script>
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
 }

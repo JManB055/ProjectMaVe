@@ -37,18 +37,33 @@ window.onresize = async function () {
 *       3) Re-Render the 'widgets' array
 */
 container.addEventListener('click', (event) => {
-    if (event.target.classList.contains('delete-btn')) {
-        // Save current widget positions
+    // Check if the clicked element is a delete button or inside one (in case of icon click)
+    const btn = event.target.closest('.delete-btn');
+
+    if (btn) {
+        const index = parseInt(btn.dataset.index);
+
+        // 1. Save current widget positions
         for (let i = 0; i < draggies.length; i++) {
-            widgets[i].x = draggies[i].position.x;
-            widgets[i].y = draggies[i].position.y;
+            if (widgets[i] && draggies[i]) {
+                widgets[i].x = draggies[i].position.x;
+                widgets[i].y = draggies[i].position.y;
+            }
         }
 
-        // Delete widget from 'widgets' array
-        const index = parseInt(event.target.dataset.index);
+        // 2. (Optimistic UI)
+        const widgetCard = btn.closest('.widget');
+        if (widgetCard) {
+            widgetCard.remove();
+        }
+
+        // 3. Delete widget from 'widgets' array
         widgets.splice(index, 1);
 
-        // Re-Render the 'widgets' array
+        // 4. Save Changes to Database
+        saveWidgets();
+
+        // 5. Re-Render the 'widgets' array
         renderWidgets();
     }
 });
@@ -502,8 +517,10 @@ function toggleDraggable(forceNotDraggable = false) {
 function addWidget(width, height, widgetType) {
     // Save existing widgets locally
     for (let i = 0; i < draggies.length; i++) {
-        widgets[i].x = draggies[i].position.x;
-        widgets[i].y = draggies[i].position.y;
+        if (widgets[i] && draggies[i]) {
+            widgets[i].x = draggies[i].position.x;
+            widgets[i].y = draggies[i].position.y;
+        }
     }
 
     if (widgetType == "Weight History") {
@@ -514,7 +531,6 @@ function addWidget(width, height, widgetType) {
         widgetType += "," + metricFilter
         let muscleGroupFilter = filterMenu.value;
         widgetType = widgetType + "," + muscleGroupFilter;
-        console.log("Widget Type Added: ", widgetType);
     }
     else if (widgetType == "Weight History-2") {
         widgetType = "Weight History";
@@ -525,13 +541,40 @@ function addWidget(width, height, widgetType) {
         widgetType += "," + metricFilter
         let muscleGroupFilter = filterMenu.value;
         widgetType = widgetType + "," + muscleGroupFilter;
-        console.log("Widget Type Added: ", widgetType);
     }
 
     // Push new widget to widgets array
     widgets.push({ x: 32, y: 32, w: width, h: height, type: widgetType });
 
-    // Render widgets
+    // --- IMMEDIATE VISUAL FEEDBACK (Optimistic UI) ---
+    // Create a temporary placeholder widget and append it to the container immediately.
+    // This removes the delay while waiting for renderWidgets() to fetch data.
+    let tempDiv = document.createElement('div');
+    tempDiv.className = `widget widget_card size-${width}x${height}`;
+    // Position matches default push location
+    tempDiv.style.position = 'absolute';
+    tempDiv.style.left = '32px';
+    tempDiv.style.top = '32px';
+
+    // Simple HTML shell matching your style
+    tempDiv.innerHTML = `
+        <div class="widget-header">
+            <h3 class="widget-title urbanist-bold">Loading...</h3>
+            <button class="delete-btn delete-btn-color btn"><i class="fa-solid fa-x"></i></button>
+        </div>
+        <div class="widget-content mt-4 pt-4">
+            <div class="placeholder-content">
+                <i class="fas fa-circle-notch fa-spin fa-2x text-blue mb-2"></i>
+            </div>
+        </div>`;
+
+    container.appendChild(tempDiv);
+    // --------------------------------------------------
+
+    // Save immediately so DB is in sync
+    saveWidgets();
+
+    // Render widgets (this will overwrite the tempDiv when it finishes loading data)
     renderWidgets();
 }
 
